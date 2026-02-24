@@ -6,6 +6,7 @@ interface User {
   id: number;
   name: string;
   email: string;
+  phone?: string;
   role: string;
   avatar?: string;
   bio?: string;
@@ -15,7 +16,7 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string) => Promise<boolean>;
+  register: (name: string, email: string, password: string, phone: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -59,7 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return true;
   };
 
-  const register = async (name: string, email: string, password: string): Promise<boolean> => {
+  const register = async (name: string, email: string, password: string, phone: string): Promise<boolean> => {
     setIsLoading(true);
     
     // Simulate API call
@@ -69,6 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       id: Date.now(),
       name,
       email,
+      phone,
       role: "user",
       avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${name}`,
     };

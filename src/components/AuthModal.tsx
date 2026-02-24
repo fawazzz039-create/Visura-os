@@ -14,6 +14,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   
@@ -30,8 +31,8 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
       return;
     }
 
-    if (mode === "register" && !name) {
-      setError("يرجى إدخال اسمك");
+    if (mode === "register" && (!name || !phone)) {
+      setError("يرجى إدخال الاسم ورقم الجوال");
       return;
     }
 
@@ -42,7 +43,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
       if (mode === "login") {
         success = await login(email, password);
       } else {
-        success = await register(name, email, password);
+        success = await register(name, email, password, phone);
       }
       
       if (success) {
@@ -51,6 +52,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
         setEmail("");
         setPassword("");
         setName("");
+        setPhone("");
       } else {
         setError("حدث خطأ، يرجى المحاولة مرة أخرى");
       }
@@ -145,29 +147,56 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
         {/* Form */}
         <form onSubmit={handleSubmit}>
           {mode === "register" && (
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ display: "block", marginBottom: 8, fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
-                الاسم الكامل
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="أدخل اسمك"
-                style={{
-                  width: "100%",
-                  padding: "14px 18px",
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  borderRadius: 12,
-                  color: "white",
-                  fontSize: 15,
-                  outline: "none",
-                  boxSizing: "border-box",
-                  transition: "border-color 0.2s",
-                }}
-              />
-            </div>
+            <>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ display: "block", marginBottom: 8, fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
+                  الاسم الكامل
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="أدخل اسمك"
+                  style={{
+                    width: "100%",
+                    padding: "14px 18px",
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    borderRadius: 12,
+                    color: "white",
+                    fontSize: 15,
+                    outline: "none",
+                    boxSizing: "border-box",
+                    transition: "border-color 0.2s",
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ display: "block", marginBottom: 8, fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
+                  رقم الجوال
+                </label>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+966 55X XXX XXXX"
+                  dir="ltr"
+                  style={{
+                    width: "100%",
+                    padding: "14px 18px",
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    borderRadius: 12,
+                    color: "white",
+                    fontSize: 15,
+                    outline: "none",
+                    boxSizing: "border-box",
+                    transition: "border-color 0.2s",
+                  }}
+                />
+              </div>
+            </>
           )}
 
           <div style={{ marginBottom: 20 }}>
