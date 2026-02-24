@@ -8,27 +8,60 @@ interface Message {
   timestamp: string;
 }
 
-const aiResponses: Record<string, string> = {
-  analyze:
-    "🖼️ تحليل الصورة: جودة عالية، تكوين متوازن، إضاءة طبيعية ممتازة. التقييم الفني: 9.2/10. يُنصح بتعديل طفيف في التباين لتعزيز العمق.",
-  price:
-    "💰 التقييم السعري: بناءً على السوق الحالي، الأعمال المشابهة تُباع بين 3,500-6,000 ر.س. أنصح بتسعير هذا العمل بـ 4,800 ر.س مع خيار التفاوض.",
-  encrypt:
-    "🔐 تم تشفير المحتوى بنجاح باستخدام AES-256-GCM. البصمة الرقمية: VIS-" +
-    Math.random().toString(36).substring(2, 10).toUpperCase() +
-    ". لا يمكن نسخ هذا العمل دون إذنك.",
-  search:
-    "🔍 وجدت 7 أعمال مشابهة في قاعدة البيانات. أبرزها: 'أمواج الضوء' بـ 4,800 ر.س و'تجريدي رقمي' بـ 4,200 ر.س. هل تريد مقارنة تفصيلية؟",
-  default: [
-    "أفهم! يمكنني مساعدتك في تحليل الصور الفوتوغرافية وتقييم جودتها التقنية والفنية.",
-    "بناءً على وصفك، أقترح استخدام إضاءة جانبية لتعزيز النسيج والعمق في اللوحة.",
-    "🔐 يمكنني تشفير هذا العمل باستخدام معيار AES-256-GCM لضمان حماية حقوق الملكية الفكرية.",
-    "السعر المقترح لهذا العمل يتراوح بين 2,500-4,000 ر.س بناءً على تحليل السوق الحالي.",
-    "تم العثور على 3 أعمال مشابهة في معرض VISURA. هل تريد رؤية التفاصيل المقارنة؟",
-    "نصيحة فنية: التوازن بين الضوء والظل هو سر الصورة الاحترافية. جرب قاعدة الأثلاث.",
-    "يمكنني تحليل أسلوبك الفني وتقديم توصيات لتطوير بصمتك الإبداعية الفريدة.",
-  ][Math.floor(Math.random() * 7)],
-};
+function getAIResponse(input: string): string {
+  const text = input.toLowerCase();
+
+  if (text === "analyze" || text.includes("حلل") || text.includes("تحليل")) {
+    return "🖼️ تحليل الصورة:\n\n• الجودة التقنية: 9.2/10\n• التكوين: متوازن، يتبع قاعدة الأثلاث\n• الإضاءة: طبيعية ممتازة، درجة حرارة 5500K\n• التباين: مناسب مع إمكانية تعزيز طفيف\n• التوصية: هذا العمل مؤهل للعرض في المعرض الاستثماري بسعر 4,500-6,000 ر.س";
+  }
+
+  if (text === "price" || text.includes("سعر") || text.includes("تقييم") || text.includes("قيمة")) {
+    const price = (Math.floor(Math.random() * 30) + 25) * 100;
+    return `💰 تقييم السعر الاستثماري:\n\n• السعر المقترح: ${price.toLocaleString()} ر.س\n• نطاق السوق: ${(price * 0.8).toLocaleString()} - ${(price * 1.3).toLocaleString()} ر.س\n• الطلب الحالي: مرتفع ✓\n• توقع الارتفاع: 15-25% خلال 12 شهراً\n• التوصية: وقت مناسب للبيع أو الاحتفاظ للاستثمار`;
+  }
+
+  if (text === "encrypt" || text.includes("شفر") || text.includes("تشفير") || text.includes("حماية")) {
+    const id = Math.random().toString(36).substring(2, 10).toUpperCase();
+    return `🔐 تم تشفير المحتوى بنجاح:\n\n• المعيار: AES-256-GCM\n• البصمة الرقمية: VIS-${id}\n• الطابع الزمني: ${new Date().toLocaleString("ar")}\n• الحالة: محمي بالكامل ✓\n\nلا يمكن نسخ أو توزيع هذا العمل دون إذنك الصريح. أي محاولة سرقة ستُسجَّل تلقائياً.`;
+  }
+
+  if (text === "search" || text.includes("ابحث") || text.includes("بحث") || text.includes("مشابه")) {
+    return "🔍 نتائج البحث الذكي:\n\n• وجدت 7 أعمال مشابهة في قاعدة البيانات\n• أبرزها: 'أمواج الضوء' (4,800 ر.س) و'تجريدي رقمي' (4,200 ر.س)\n• الفنانون المشابهون: 3 فنانين في نفس الأسلوب\n• متوسط سعر الأعمال المشابهة: 4,350 ر.س\n\nهل تريد مقارنة تفصيلية أو عرض الأعمال المشابهة؟";
+  }
+
+  if (text.includes("كاميرا") || text.includes("صور") || text.includes("تصوير")) {
+    return "📷 نصائح التصوير الاحترافي:\n\n• استخدم قاعدة الأثلاث لتكوين أفضل\n• الذهاب الساعة 6-8 صباحاً للضوء الذهبي\n• ISO 100-400 للصور الخارجية\n• فتحة f/8 للمناظر الطبيعية\n• تذكر: كل صورة تلتقطها في VISURA مشفرة تلقائياً بـ AES-256";
+  }
+
+  if (text.includes("رسم") || text.includes("فن") || text.includes("لوحة")) {
+    return "🎨 تحليل الأسلوب الفني:\n\n• أسلوبك يميل نحو التعبيرية المعاصرة\n• نقاط القوة: الألوان، التكوين، الأصالة\n• اقتراح: جرب تقنية الطبقات لإضافة عمق\n• الأعمال الفنية في VISURA تحقق متوسط 8,500 ر.س\n• نصيحة: الأعمال الكبيرة (100×80 سم+) تُباع بسعر أعلى بـ 40%";
+  }
+
+  if (text.includes("استثمار") || text.includes("ربح") || text.includes("بيع")) {
+    return "📈 تقرير الاستثمار الفني:\n\n• سوق الفن السعودي نما 35% في 2024\n• الأعمال الفوتوغرافية: أعلى طلباً (+28%)\n• الفن الرقمي: أسرع نمواً (+45%)\n• أفضل وقت للبيع: مارس-مايو، سبتمبر-نوفمبر\n• VISURA يضمن حماية حقوقك وتحويل الأرباح مباشرة";
+  }
+
+  if (text.includes("حق") || text.includes("سرقة") || text.includes("احتيال") || text.includes("ملكية")) {
+    return "🛡️ نظام حماية الحقوق في VISURA:\n\n• كل عمل يحصل على بصمة رقمية فريدة\n• تشفير AES-256-GCM لا يمكن كسره\n• مراقبة 24/7 لأي محاولة نسخ غير مصرح\n• تسجيل كل معاملة في سجل غير قابل للتعديل\n• في حال الاحتيال: إشعار فوري + إجراء قانوني تلقائي";
+  }
+
+  if (text.includes("شحن") || text.includes("تتبع") || text.includes("توصيل")) {
+    return "🚚 نظام الشحن والتتبع:\n\n• الشحن المحلي: 2-3 أيام عمل\n• الشحن الدولي: 7-14 يوم\n• التغليف: احترافي مع حماية خاصة للأعمال الفنية\n• التأمين: شامل حتى 100,000 ر.س\n• التتبع: مباشر من خلال تطبيق VISURA";
+  }
+
+  // Default smart responses
+  const defaults = [
+    "أفهم! يمكنني مساعدتك في تحليل الأعمال الفنية وتقييم جودتها التقنية والفنية. هل لديك صورة أو عمل فني تريد تحليله؟",
+    "بناءً على اتجاهات السوق الحالية، الأعمال الفوتوغرافية ذات الطابع المحلي تحقق أعلى الأسعار. هل تريد تقييم عملك؟",
+    "🔐 نظام التشفير في VISURA يعمل تلقائياً على كل عمل تنشره. هل تريد معرفة المزيد عن حماية حقوقك؟",
+    "السوق الفني السعودي في نمو مستمر. الاستثمار في الفن الأصيل يحقق عوائد 15-30% سنوياً. هل تريد تقرير استثماري مفصل؟",
+    "نصيحة فنية: التوازن بين الضوء والظل هو سر الصورة الاحترافية. جرب قاعدة الأثلاث في تصويرك القادم.",
+    "يمكنني تحليل أسلوبك الفني وتقديم توصيات لتطوير بصمتك الإبداعية الفريدة. أرسل لي عملاً للتحليل.",
+    "VISURA يوفر منصة استثمارية آمنة للفنانين والمصورين. كل معاملة مشفرة ومحمية بتقنية البلوكتشين.",
+  ];
+
+  return defaults[Math.floor(Math.random() * defaults.length)];
+}
 
 interface AIModalProps {
   isOpen: boolean;
@@ -40,7 +73,7 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
     {
       role: "assistant",
       content:
-        "مرحباً! أنا مساعد VISURA الذكي. أستطيع مساعدتك في تحليل الأعمال الفنية، تقييم الأسعار، تشفير المحتوى، والبحث الذكي في المعرض. كيف يمكنني خدمتك اليوم؟",
+        "مرحباً! أنا مساعد VISURA الذكي 🧠\n\nأستطيع مساعدتك في:\n• تحليل الأعمال الفنية والفوتوغرافية\n• تقييم الأسعار الاستثمارية\n• تشفير وحماية حقوق الملكية\n• البحث الذكي في المعرض\n• نصائح التصوير والفن\n\nكيف يمكنني خدمتك اليوم؟",
       timestamp: new Date().toLocaleTimeString("ar"),
     },
   ]);
@@ -70,14 +103,9 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
     setInput("");
     setIsTyping(true);
 
+    const delay = 1500;
     setTimeout(() => {
-      const responseKey = text as keyof typeof aiResponses;
-      const response =
-        aiResponses[responseKey] ||
-        (typeof aiResponses.default === "string"
-          ? aiResponses.default
-          : "أفهم طلبك. دعني أساعدك في ذلك.");
-
+      const response = getAIResponse(message);
       const aiMsg: Message = {
         role: "assistant",
         content: response,
@@ -85,7 +113,7 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
       };
       setMessages((prev) => [...prev, aiMsg]);
       setIsTyping(false);
-    }, 1200);
+    }, delay);
   };
 
   const features = [
@@ -93,6 +121,10 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
     { key: "price", icon: "💰", label: "تقييم السعر" },
     { key: "encrypt", icon: "🔐", label: "تشفير محتوى" },
     { key: "search", icon: "🔍", label: "بحث ذكي" },
+    { key: "استثمار", icon: "📈", label: "تقرير استثماري" },
+    { key: "حماية حقوق الملكية", icon: "🛡️", label: "حماية الحقوق" },
+    { key: "نصائح التصوير", icon: "📷", label: "نصائح التصوير" },
+    { key: "شحن وتتبع", icon: "🚚", label: "الشحن والتتبع" },
   ];
 
   return (
@@ -138,43 +170,43 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
         }}
       >
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <div style={{ fontSize: 11, letterSpacing: "3px", opacity: 0.4, marginBottom: 8 }}>
-            VISURA AI ENGINE
+        <div style={{ textAlign: "center", marginBottom: 22 }}>
+          <div style={{ fontSize: 11, letterSpacing: "3px", opacity: 0.35, marginBottom: 6 }}>
+            VISURA AI ENGINE v2.0
           </div>
-          <h2 style={{ fontWeight: 200, fontSize: 26, marginBottom: 14 }}>🧠 مساعد VISURA الذكي</h2>
+          <h2 style={{ fontWeight: 200, fontSize: 24, marginBottom: 12 }}>🧠 مساعد VISURA الذكي</h2>
           <div
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 10,
-              padding: "8px 22px",
-              background: "rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.15)",
+              padding: "7px 20px",
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.12)",
               borderRadius: 25,
-              fontSize: 13,
+              fontSize: 12,
             }}
           >
             <div
               style={{
-                width: 8,
-                height: 8,
+                width: 7,
+                height: 7,
                 background: "white",
                 borderRadius: "50%",
-                animation: "blink 1s infinite",
+                animation: "blink 1.2s infinite",
               }}
             />
-            <span>النظام نشط | معالجة اللغة العربية</span>
+            <span style={{ opacity: 0.8 }}>النظام نشط | معالجة اللغة العربية | GPT-4</span>
           </div>
         </div>
 
-        {/* Quick features */}
+        {/* Quick features - 2 rows */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 12,
-            marginBottom: 20,
+            gap: 8,
+            marginBottom: 16,
           }}
         >
           {features.map((f) => (
@@ -182,27 +214,29 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
               key={f.key}
               onClick={() => sendMessage(f.key)}
               style={{
-                padding: "14px 10px",
+                padding: "10px 8px",
                 background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: 12,
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 10,
                 textAlign: "center",
                 cursor: "pointer",
                 transition: "all 0.2s",
                 color: "white",
-                fontSize: 13,
+                fontSize: 12,
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+                e.currentTarget.style.transform = "translateY(-2px)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              <div style={{ fontSize: 24, marginBottom: 6 }}>{f.icon}</div>
-              <div>{f.label}</div>
+              <div style={{ fontSize: 18, marginBottom: 4 }}>{f.icon}</div>
+              <div style={{ opacity: 0.8 }}>{f.label}</div>
             </button>
           ))}
         </div>
@@ -212,19 +246,19 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
           ref={chatRef}
           style={{
             flex: 1,
-            background: "rgba(255,255,255,0.02)",
+            background: "rgba(255,255,255,0.015)",
             borderRadius: 16,
-            border: "1px solid rgba(255,255,255,0.08)",
-            padding: "24px",
+            border: "1px solid rgba(255,255,255,0.07)",
+            padding: "20px",
             overflowY: "auto",
-            marginBottom: 16,
+            marginBottom: 14,
           }}
         >
           {messages.map((msg, i) => (
             <div
               key={i}
               style={{
-                marginBottom: 16,
+                marginBottom: 14,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: msg.role === "user" ? "flex-start" : "flex-end",
@@ -233,20 +267,21 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
             >
               <div
                 style={{
-                  maxWidth: "78%",
-                  padding: "12px 18px",
+                  maxWidth: "80%",
+                  padding: "11px 16px",
                   borderRadius: 14,
                   background:
                     msg.role === "user"
-                      ? "rgba(255,255,255,0.08)"
+                      ? "rgba(255,255,255,0.09)"
                       : "rgba(255,255,255,0.04)",
                   border: `1px solid ${
                     msg.role === "user"
-                      ? "rgba(255,255,255,0.2)"
-                      : "rgba(255,255,255,0.1)"
+                      ? "rgba(255,255,255,0.18)"
+                      : "rgba(255,255,255,0.08)"
                   }`,
-                  fontSize: 14,
-                  lineHeight: 1.7,
+                  fontSize: 13.5,
+                  lineHeight: 1.75,
+                  whiteSpace: "pre-line",
                 }}
               >
                 {msg.content}
@@ -254,8 +289,8 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
               <div
                 style={{
                   fontSize: 10,
-                  opacity: 0.35,
-                  marginTop: 4,
+                  opacity: 0.3,
+                  marginTop: 3,
                   fontFamily: "monospace",
                 }}
               >
@@ -270,17 +305,17 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
               style={{
                 display: "flex",
                 justifyContent: "flex-end",
-                marginBottom: 16,
+                marginBottom: 14,
               }}
             >
               <div
                 style={{
-                  padding: "12px 18px",
+                  padding: "11px 18px",
                   borderRadius: 14,
                   background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.08)",
                   display: "flex",
-                  gap: 6,
+                  gap: 5,
                   alignItems: "center",
                 }}
               >
@@ -288,11 +323,11 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
                   <div
                     key={i}
                     style={{
-                      width: 6,
-                      height: 6,
-                      background: "rgba(255,255,255,0.6)",
+                      width: 5,
+                      height: 5,
+                      background: "rgba(255,255,255,0.5)",
                       borderRadius: "50%",
-                      animation: `blink ${0.6 + i * 0.2}s infinite`,
+                      animation: `blink ${0.5 + i * 0.15}s infinite`,
                     }}
                   />
                 ))}
@@ -302,43 +337,45 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
         </div>
 
         {/* Input area */}
-        <div style={{ display: "flex", gap: 12 }}>
+        <div style={{ display: "flex", gap: 10 }}>
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            placeholder="اكتب رسالتك هنا... (اضغط Enter للإرسال)"
+            placeholder="اكتب رسالتك... (اضغط Enter للإرسال)"
             style={{
               flex: 1,
-              padding: "14px 22px",
+              padding: "13px 20px",
               background: "rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.15)",
-              borderRadius: 28,
+              border: "1px solid rgba(255,255,255,0.12)",
+              borderRadius: 26,
               color: "white",
-              fontSize: 15,
+              fontSize: 14,
               outline: "none",
               transition: "border-color 0.2s",
+              fontFamily: "'Segoe UI', sans-serif",
             }}
-            onFocus={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)")}
-            onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)")}
+            onFocus={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)")}
+            onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)")}
           />
           <button
             onClick={() => sendMessage()}
             style={{
-              width: 50,
-              height: 50,
+              width: 48,
+              height: 48,
               borderRadius: "50%",
               background: "white",
               border: "none",
               color: "black",
-              fontSize: 18,
+              fontSize: 16,
               cursor: "pointer",
               transition: "all 0.2s",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
+              fontWeight: "bold",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "scale(1.1)";

@@ -1,23 +1,42 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 interface CameraModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+type FilterType = "none" | "bw" | "vintage" | "cinematic" | "fade" | "sharp";
+
+const FILTERS: { id: FilterType; label: string; css: string }[] = [
+  { id: "none", label: "عادي", css: "none" },
+  { id: "bw", label: "أبيض/أسود", css: "grayscale(100%) contrast(1.1)" },
+  { id: "vintage", label: "فينتاج", css: "sepia(60%) contrast(1.1) brightness(0.95) saturate(0.8)" },
+  { id: "cinematic", label: "سينمائي", css: "contrast(1.2) brightness(0.9) saturate(1.3)" },
+  { id: "fade", label: "باهت", css: "brightness(1.1) contrast(0.85) saturate(0.7)" },
+  { id: "sharp", label: "حاد", css: "contrast(1.3) saturate(1.2) brightness(1.05)" },
+];
+
 export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [facingMode, setFacingMode] = useState<"user" | "environment">("user");
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const [captureCount, setCaptureCount] = useState(0);
   const [isHDR, setIsHDR] = useState(false);
   const [flashActive, setFlashActive] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
-  const [encryptedPhotos, setEncryptedPhotos] = useState<string[]>([]);
+  const [activeFilter, setActiveFilter] = useState<FilterType>("none");
+  const [showFilters, setShowFilters] = useState(false);
+  const [timerSeconds, setTimerSeconds] = useState(0);
+  const [timerCountdown, setTimerCountdown] = useState<number | null>(null);
+  const [savedPhotos, setSavedPhotos] = useState<{ src: string; id: string; filter: string }[]>([]);
+  const [showGallery, setShowGallery] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
     if (!isOpen) {
@@ -27,7 +46,6 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
       }
       return;
     }
-    // Start camera asynchronously without calling setState synchronously
     let cancelled = false;
     const run = async () => {
       try {
@@ -68,7 +86,7 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
     };
   }, [isOpen, facingMode]);
 
-  const capturePhoto = () => {
+  const doCapture = useCallback(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
     if (!video || !canvas) return;
@@ -78,26 +96,67 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    ctx.translate(canvas.width, 0);
-    ctx.scale(-1, 1);
+    // Apply filter
+    const filterDef = FILTERS.find((f) => f.id === activeFilter);
+    ctx.filter = filterDef?.css !== "none" ? filterDef?.css || "none" : "none";
+
+    if (facingMode === "user") {
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+    }
     ctx.drawImage(video, 0, 0);
 
     const imageData = canvas.toDataURL("image/jpeg", 0.92);
     setPreviewSrc(imageData);
     setCaptureCount((c) => c + 1);
 
-    // Simulate encryption
-    const encrypted = btoa(imageData.substring(0, 100) + Date.now());
-    setEncryptedPhotos((prev) => [...prev, encrypted]);
+    // Save with encryption simulation
+    const photoId = `VIS-CAM-${Date.now()}`;
+    const encrypted = btoa(imageData.substring(0, 80) + photoId);
+    console.log("🔐 Encrypted:", encrypted.substring(0, 40) + "...");
+
+    setSavedPhotos((prev) => [
+      { src: imageData, id: photoId, filter: filterDef?.label || "عادي" },
+      ...prev,
+    ]);
 
     // Flash effect
     setFlashActive(true);
-    setTimeout(() => setFlashActive(false), 150);
+    setTimeout(() => setFlashActive(false), 120);
+  }, [activeFilter, facingMode]);
+
+  const capturePhoto = useCallback(() => {
+    if (timerSeconds > 0) {
+      let count = timerSeconds;
+      setTimerCountdown(count);
+      const tick = () => {
+        count--;
+        if (count <= 0) {
+          setTimerCountdown(null);
+          doCapture();
+        } else {
+          setTimerCountdown(count);
+          timerRef.current = setTimeout(tick, 1000);
+        }
+      };
+      timerRef.current = setTimeout(tick, 1000);
+    } else {
+      doCapture();
+    }
+  }, [timerSeconds, doCapture]);
+
+  const downloadPhoto = (src: string, id: string) => {
+    const link = document.createElement("a");
+    link.download = `${id}.jpg`;
+    link.href = src;
+    link.click();
   };
 
   const switchCamera = () => {
     setFacingMode((prev) => (prev === "user" ? "environment" : "user"));
   };
+
+  const currentFilter = FILTERS.find((f) => f.id === activeFilter);
 
   if (!isOpen) return null;
 
@@ -106,7 +165,7 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
       style={{
         position: "fixed",
         inset: 0,
-        background: "rgba(0,0,0,0.98)",
+        background: "#000",
         zIndex: 3000,
         display: "flex",
         flexDirection: "column",
@@ -123,9 +182,37 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
             background: "white",
             zIndex: 9999,
             pointerEvents: "none",
-            opacity: 0.9,
+            opacity: 0.85,
+            transition: "opacity 0.1s",
           }}
         />
+      )}
+
+      {/* Timer countdown overlay */}
+      {timerCountdown !== null && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 9998,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            pointerEvents: "none",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 120,
+              fontWeight: 200,
+              color: "white",
+              textShadow: "0 0 40px rgba(255,255,255,0.5)",
+              animation: "scale-in 0.3s ease",
+            }}
+          >
+            {timerCountdown}
+          </div>
+        </div>
       )}
 
       {/* Close */}
@@ -136,13 +223,18 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
           top: 20,
           right: 24,
           fontSize: 28,
-          background: "none",
-          border: "none",
+          background: "rgba(0,0,0,0.5)",
+          border: "1px solid rgba(255,255,255,0.2)",
+          borderRadius: "50%",
+          width: 40,
+          height: 40,
           color: "white",
           cursor: "pointer",
-          opacity: 0.7,
           zIndex: 10,
-          lineHeight: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backdropFilter: "blur(8px)",
         }}
       >
         ×
@@ -152,13 +244,14 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
       <div
         style={{
           position: "relative",
-          width: "90%",
+          width: "92%",
           maxWidth: 1100,
-          height: "78vh",
+          height: "80vh",
           background: "#000",
           borderRadius: 20,
           overflow: "hidden",
-          border: "1px solid rgba(255,255,255,0.15)",
+          border: "1px solid rgba(255,255,255,0.12)",
+          boxShadow: "0 0 60px rgba(0,0,0,0.8)",
         }}
       >
         {cameraError ? (
@@ -171,11 +264,25 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
               justifyContent: "center",
               flexDirection: "column",
               gap: 16,
-              color: "rgba(255,255,255,0.6)",
+              color: "rgba(255,255,255,0.5)",
             }}
           >
-            <div style={{ fontSize: 48 }}>📷</div>
-            <div>{cameraError}</div>
+            <div style={{ fontSize: 56 }}>📷</div>
+            <div style={{ fontSize: 15 }}>{cameraError}</div>
+            <button
+              onClick={() => setFacingMode((f) => f)}
+              style={{
+                padding: "10px 24px",
+                background: "rgba(255,255,255,0.1)",
+                border: "1px solid rgba(255,255,255,0.3)",
+                color: "white",
+                borderRadius: 10,
+                cursor: "pointer",
+                fontSize: 14,
+              }}
+            >
+              إعادة المحاولة
+            </button>
           </div>
         ) : (
           <video
@@ -187,7 +294,9 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              transform: facingMode === "user" ? "scaleX(-1)" : "none",
+              transform: `${facingMode === "user" ? "scaleX(-1) " : ""}scale(${zoom})`,
+              filter: currentFilter?.css !== "none" ? currentFilter?.css : "none",
+              transition: "transform 0.3s ease",
             }}
           />
         )}
@@ -195,98 +304,89 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
         <canvas ref={canvasRef} style={{ display: "none" }} />
 
         {/* Camera UI Overlay */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-          }}
-        >
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
           {/* Rule of thirds grid */}
           <div
             style={{
               position: "absolute",
-              top: "10%",
-              left: "10%",
-              right: "10%",
-              bottom: "18%",
-              border: "1px solid rgba(255,255,255,0.2)",
+              top: "8%",
+              left: "8%",
+              right: "8%",
+              bottom: "16%",
+              border: "1px solid rgba(255,255,255,0.18)",
+              animation: "focus-ring 3s ease-in-out infinite",
             }}
           >
-            {/* Vertical line */}
-            <div
-              style={{
-                position: "absolute",
-                width: 1,
-                height: "100%",
-                left: "33.33%",
-                background: "rgba(255,255,255,0.15)",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                width: 1,
-                height: "100%",
-                left: "66.66%",
-                background: "rgba(255,255,255,0.15)",
-              }}
-            />
-            {/* Horizontal line */}
-            <div
-              style={{
-                position: "absolute",
-                height: 1,
-                width: "100%",
-                top: "33.33%",
-                background: "rgba(255,255,255,0.15)",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                height: 1,
-                width: "100%",
-                top: "66.66%",
-                background: "rgba(255,255,255,0.15)",
-              }}
-            />
+            {[33.33, 66.66].map((pos) => (
+              <div key={`v${pos}`}>
+                <div style={{ position: "absolute", width: 1, height: "100%", left: `${pos}%`, background: "rgba(255,255,255,0.1)" }} />
+                <div style={{ position: "absolute", height: 1, width: "100%", top: `${pos}%`, background: "rgba(255,255,255,0.1)" }} />
+              </div>
+            ))}
+            {/* Corner markers */}
+            {[
+              { top: -1, left: -1 },
+              { top: -1, right: -1 },
+              { bottom: -1, left: -1 },
+              { bottom: -1, right: -1 },
+            ].map((pos, i) => (
+              <div
+                key={i}
+                style={{
+                  position: "absolute",
+                  width: 16,
+                  height: 16,
+                  borderTop: pos.top !== undefined ? "2px solid rgba(255,255,255,0.7)" : "none",
+                  borderBottom: pos.bottom !== undefined ? "2px solid rgba(255,255,255,0.7)" : "none",
+                  borderLeft: pos.left !== undefined ? "2px solid rgba(255,255,255,0.7)" : "none",
+                  borderRight: pos.right !== undefined ? "2px solid rgba(255,255,255,0.7)" : "none",
+                  ...pos,
+                }}
+              />
+            ))}
           </div>
 
-          {/* Camera info */}
+          {/* Camera info - top left */}
           <div
             style={{
               position: "absolute",
-              top: 20,
-              left: 20,
+              top: 18,
+              left: 18,
               fontFamily: "monospace",
               fontSize: 11,
-              color: "rgba(255,255,255,0.65)",
-              lineHeight: 1.8,
+              color: "rgba(255,255,255,0.7)",
+              lineHeight: 1.9,
+              background: "rgba(0,0,0,0.4)",
+              padding: "8px 12px",
+              borderRadius: 8,
+              backdropFilter: "blur(8px)",
             }}
           >
             <div>ISO: AUTO</div>
             <div>WB: 5500K</div>
             <div>4K UHD</div>
-            {isHDR && <div style={{ color: "rgba(255,255,255,0.9)" }}>HDR: ON</div>}
+            {isHDR && <div style={{ color: "white" }}>HDR ✓</div>}
+            {zoom > 1 && <div>{zoom.toFixed(1)}×</div>}
           </div>
 
-          {/* Encryption badge */}
+          {/* Encryption badge - top right */}
           <div
             style={{
               position: "absolute",
-              top: 20,
-              right: 20,
-              background: "rgba(0,0,0,0.6)",
+              top: 18,
+              right: 18,
+              background: "rgba(0,0,0,0.55)",
               border: "1px solid rgba(255,255,255,0.2)",
               borderRadius: 8,
               padding: "6px 12px",
-              fontSize: 11,
+              fontSize: 10,
               fontFamily: "monospace",
-              color: "rgba(255,255,255,0.8)",
+              color: "rgba(255,255,255,0.85)",
+              backdropFilter: "blur(8px)",
+              letterSpacing: "0.5px",
             }}
           >
-            🔐 AES-256 ACTIVE
+            🔐 AES-256-GCM
           </div>
 
           {/* Capture count */}
@@ -294,52 +394,72 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
             <div
               style={{
                 position: "absolute",
-                bottom: 100,
-                left: 20,
-                background: "rgba(0,0,0,0.6)",
+                bottom: 110,
+                left: 18,
+                background: "rgba(0,0,0,0.55)",
                 borderRadius: 8,
-                padding: "6px 12px",
-                fontSize: 12,
+                padding: "5px 12px",
+                fontSize: 11,
                 color: "rgba(255,255,255,0.8)",
+                backdropFilter: "blur(8px)",
               }}
             >
-              📸 {captureCount} صورة مشفرة
+              📸 {captureCount} مشفرة
             </div>
           )}
         </div>
 
-        {/* Settings panel */}
+        {/* Settings panel - right side */}
         <div
           style={{
             position: "absolute",
-            top: 60,
-            right: 20,
+            top: 70,
+            right: 18,
             display: "flex",
             flexDirection: "column",
             gap: 8,
           }}
         >
           {[
-            { label: isHDR ? "HDR: ON" : "HDR", onClick: () => setIsHDR((v) => !v) },
-            { label: "🔄 تبديل", onClick: switchCamera },
-            { label: "⏱️ مؤقت", onClick: () => alert("مؤقت 3 ثواني") },
+            {
+              label: isHDR ? "HDR ✓" : "HDR",
+              onClick: () => setIsHDR((v) => !v),
+              active: isHDR,
+            },
+            {
+              label: "🔄",
+              onClick: switchCamera,
+              active: false,
+            },
+            {
+              label: timerSeconds === 0 ? "⏱" : `${timerSeconds}s`,
+              onClick: () => setTimerSeconds((t) => (t === 0 ? 3 : t === 3 ? 5 : t === 5 ? 10 : 0)),
+              active: timerSeconds > 0,
+            },
+            {
+              label: zoom === 1 ? "1×" : `${zoom}×`,
+              onClick: () => setZoom((z) => (z === 1 ? 1.5 : z === 1.5 ? 2 : z === 2 ? 3 : 1)),
+              active: zoom > 1,
+            },
           ].map((btn, i) => (
             <button
               key={i}
               onClick={btn.onClick}
               style={{
-                background: "rgba(0,0,0,0.65)",
-                padding: "8px 14px",
+                background: btn.active ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.6)",
+                padding: "8px 12px",
                 borderRadius: 10,
-                border: "1px solid rgba(255,255,255,0.2)",
+                border: `1px solid ${btn.active ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.18)"}`,
                 cursor: "pointer",
                 fontSize: 12,
                 color: "white",
                 backdropFilter: "blur(8px)",
-                transition: "background 0.2s",
+                transition: "all 0.2s",
+                minWidth: 48,
+                fontFamily: "monospace",
               }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.65)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = btn.active ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.6)")}
             >
               {btn.label}
             </button>
@@ -349,20 +469,81 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
         {/* Preview thumbnail */}
         {previewSrc && (
           <div
+            onClick={() => setShowGallery(true)}
             style={{
               position: "absolute",
               bottom: 90,
-              right: 20,
-              width: 110,
-              height: 80,
+              right: 18,
+              width: 100,
+              height: 75,
               borderRadius: 10,
               overflow: "hidden",
-              border: "2px solid rgba(255,255,255,0.4)",
-              boxShadow: "0 4px 16px rgba(0,0,0,0.5)",
+              border: "2px solid rgba(255,255,255,0.5)",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.6)",
+              cursor: "pointer",
+              transition: "transform 0.2s",
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={previewSrc} alt="Preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            {captureCount > 1 && (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 4,
+                  right: 4,
+                  background: "rgba(0,0,0,0.7)",
+                  borderRadius: 4,
+                  padding: "1px 5px",
+                  fontSize: 10,
+                  color: "white",
+                }}
+              >
+                {captureCount}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Filters panel */}
+        {showFilters && (
+          <div
+            style={{
+              position: "absolute",
+              bottom: 90,
+              left: "50%",
+              transform: "translateX(-50%)",
+              display: "flex",
+              gap: 10,
+              background: "rgba(0,0,0,0.8)",
+              padding: "12px 16px",
+              borderRadius: 16,
+              border: "1px solid rgba(255,255,255,0.15)",
+              backdropFilter: "blur(16px)",
+              animation: "fadeIn 0.2s ease",
+            }}
+          >
+            {FILTERS.map((f) => (
+              <button
+                key={f.id}
+                onClick={() => { setActiveFilter(f.id); setShowFilters(false); }}
+                style={{
+                  padding: "6px 14px",
+                  background: activeFilter === f.id ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.06)",
+                  border: `1px solid ${activeFilter === f.id ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.15)"}`,
+                  color: "white",
+                  borderRadius: 8,
+                  cursor: "pointer",
+                  fontSize: 12,
+                  transition: "all 0.2s",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {f.label}
+              </button>
+            ))}
           </div>
         )}
 
@@ -370,29 +551,31 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
         <div
           style={{
             position: "absolute",
-            bottom: 24,
+            bottom: 22,
             left: "50%",
             transform: "translateX(-50%)",
             display: "flex",
-            gap: 28,
+            gap: 24,
             alignItems: "center",
           }}
         >
+          {/* Filters button */}
           <button
-            onClick={() => alert("فلاتر: فيلمي | أبيض/أسود | فينتاج | سينمائي")}
+            onClick={() => setShowFilters((v) => !v)}
             style={{
-              width: 54,
-              height: 54,
+              width: 52,
+              height: 52,
               borderRadius: "50%",
-              background: "rgba(255,255,255,0.1)",
-              border: "2px solid rgba(255,255,255,0.4)",
+              background: showFilters ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.08)",
+              border: `2px solid ${showFilters ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.3)"}`,
               cursor: "pointer",
-              fontSize: 22,
+              fontSize: 20,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               color: "white",
               transition: "all 0.2s",
+              backdropFilter: "blur(8px)",
             }}
           >
             ✨
@@ -401,66 +584,181 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
           {/* Main capture button */}
           <button
             onClick={capturePhoto}
+            disabled={timerCountdown !== null}
             style={{
-              width: 76,
-              height: 76,
+              width: 74,
+              height: 74,
               borderRadius: "50%",
-              background: "white",
-              border: "4px solid rgba(255,255,255,0.3)",
-              cursor: "pointer",
+              background: timerCountdown !== null ? "rgba(255,255,255,0.5)" : "white",
+              border: "4px solid rgba(255,255,255,0.25)",
+              cursor: timerCountdown !== null ? "not-allowed" : "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 28,
               transition: "all 0.15s",
-              boxShadow: "0 0 20px rgba(255,255,255,0.3)",
+              boxShadow: "0 0 24px rgba(255,255,255,0.25)",
+              position: "relative",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.08)";
-              e.currentTarget.style.boxShadow = "0 0 30px rgba(255,255,255,0.5)";
+              if (timerCountdown === null) {
+                e.currentTarget.style.transform = "scale(1.08)";
+                e.currentTarget.style.boxShadow = "0 0 40px rgba(255,255,255,0.4)";
+              }
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.boxShadow = "0 0 20px rgba(255,255,255,0.3)";
+              e.currentTarget.style.boxShadow = "0 0 24px rgba(255,255,255,0.25)";
             }}
           >
-            📷
+            {/* Inner circle */}
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: "50%",
+                border: "2px solid rgba(0,0,0,0.15)",
+                background: timerCountdown !== null ? "rgba(200,200,200,0.8)" : "white",
+              }}
+            />
           </button>
 
+          {/* Gallery button */}
           <button
-            onClick={() => alert("وضع: صورة | فيديو | بورتريه | ليلي")}
+            onClick={() => setShowGallery(true)}
             style={{
-              width: 54,
-              height: 54,
+              width: 52,
+              height: 52,
               borderRadius: "50%",
-              background: "rgba(255,255,255,0.1)",
-              border: "2px solid rgba(255,255,255,0.4)",
+              background: "rgba(255,255,255,0.08)",
+              border: "2px solid rgba(255,255,255,0.3)",
               cursor: "pointer",
-              fontSize: 22,
+              fontSize: 20,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               color: "white",
               transition: "all 0.2s",
+              backdropFilter: "blur(8px)",
             }}
           >
-            🎨
+            🖼️
           </button>
         </div>
+
+        {/* Active filter label */}
+        {activeFilter !== "none" && (
+          <div
+            style={{
+              position: "absolute",
+              bottom: 100,
+              left: "50%",
+              transform: "translateX(-50%)",
+              background: "rgba(0,0,0,0.6)",
+              borderRadius: 6,
+              padding: "3px 10px",
+              fontSize: 11,
+              color: "rgba(255,255,255,0.8)",
+              fontFamily: "monospace",
+              backdropFilter: "blur(8px)",
+            }}
+          >
+            {currentFilter?.label}
+          </div>
+        )}
       </div>
 
-      {/* Encrypted photos count */}
-      {encryptedPhotos.length > 0 && (
+      {/* Encrypted count */}
+      {captureCount > 0 && (
         <div
           style={{
-            marginTop: 16,
-            fontSize: 12,
-            color: "rgba(255,255,255,0.5)",
+            marginTop: 14,
+            fontSize: 11,
+            color: "rgba(255,255,255,0.4)",
             fontFamily: "monospace",
             letterSpacing: "1px",
           }}
         >
-          🔐 {encryptedPhotos.length} صورة محفوظة ومشفرة بـ AES-256-GCM
+          🔐 {captureCount} صورة محفوظة ومشفرة بـ AES-256-GCM
+        </div>
+      )}
+
+      {/* Saved photos gallery overlay */}
+      {showGallery && savedPhotos.length > 0 && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.92)",
+            zIndex: 4000,
+            display: "flex",
+            flexDirection: "column",
+            padding: 40,
+            boxSizing: "border-box",
+            backdropFilter: "blur(12px)",
+            animation: "fadeIn 0.2s ease",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+            <div>
+              <div style={{ fontSize: 11, letterSpacing: "3px", opacity: 0.4, marginBottom: 4 }}>VISURA CAMERA</div>
+              <div style={{ fontSize: 22, fontWeight: 200 }}>📸 الصور المحفوظة ({savedPhotos.length})</div>
+            </div>
+            <button
+              onClick={() => setShowGallery(false)}
+              style={{ background: "none", border: "none", color: "white", fontSize: 28, cursor: "pointer", opacity: 0.7 }}
+            >
+              ×
+            </button>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+              gap: 16,
+              overflowY: "auto",
+            }}
+          >
+            {savedPhotos.map((photo) => (
+              <div
+                key={photo.id}
+                style={{
+                  borderRadius: 12,
+                  overflow: "hidden",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  background: "rgba(255,255,255,0.03)",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={photo.src} alt={photo.id} style={{ width: "100%", height: 150, objectFit: "cover" }} />
+                <div style={{ padding: "10px 12px" }}>
+                  <div style={{ fontSize: 10, fontFamily: "monospace", color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>
+                    {photo.id}
+                  </div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", marginBottom: 8 }}>
+                    فلتر: {photo.filter}
+                  </div>
+                  <button
+                    onClick={() => downloadPhoto(photo.src, photo.id)}
+                    style={{
+                      width: "100%",
+                      padding: "7px",
+                      background: "rgba(255,255,255,0.08)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      color: "white",
+                      borderRadius: 7,
+                      cursor: "pointer",
+                      fontSize: 12,
+                      transition: "background 0.2s",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+                  >
+                    ⬇ تحميل
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
