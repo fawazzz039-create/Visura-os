@@ -72,8 +72,31 @@ function VisuraAppContent() {
     console.log("Payment completed for:", paymentItem?.title);
   };
 
+  // Animated encryption counter
+  const [encryptCounter, setEncryptCounter] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setEncryptCounter(prev => (prev + 1) % 100);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Generate encryption hash characters
+  const hashChars = "ABCDEF0123456789";
+  const [encryptHash, setEncryptHash] = useState("8F3A2C1D9E4B7F6A");
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newHash = Array(16).fill(0).map(() => hashChars[Math.floor(Math.random() * hashChars.length)]).join("");
+      setEncryptHash(newHash);
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
   // Dynamic styles based on device
   const headerPadding = isMobile ? "20px 20px" : isTablet ? "25px 35px" : "30px 50px";
+  
   const clockSize = isMobile ? 36 : isTablet ? 44 : 52;
   const logoScale = isMobile ? 0.75 : isTablet ? 0.85 : 1;
 
@@ -135,20 +158,87 @@ function VisuraAppContent() {
           </button>
         )}
         
-        {/* Desktop: Status Info */}
+        {/* Desktop: Animated Encryption Status with Lens Connection */}
         {!isMobile && (
-          <div
-            style={{
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {/* Lens-connected encryption indicator */}
+            <div style={{ 
+              display: "flex", 
+              alignItems: "center", 
+              gap: "12px",
+              background: "rgba(0,0,0,0.4)",
+              padding: "8px 16px",
+              borderRadius: "8px",
+              border: "1px solid rgba(255,255,255,0.1)"
+            }}>
+              {/* Animated lens indicator */}
+              <div style={{ position: "relative", width: "24px", height: "24px" }}>
+                <svg viewBox="0 0 24 24" fill="none" style={{ width: "100%", height: "100%" }}>
+                  <circle cx="12" cy="12" r="10" stroke="#00d4ff" strokeWidth="1.5" />
+                  <circle cx="12" cy="12" r="6" stroke="#00d4ff" strokeWidth="1" opacity="0.6" />
+                  <circle cx="12" cy="12" r="3" fill="#00d4ff" opacity="0.8">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite" />
+                  </circle>
+                </svg>
+                {/* Pulse ring */}
+                <div style={{
+                  position: "absolute",
+                  inset: "-4px",
+                  border: "2px solid #00d4ff",
+                  borderRadius: "50%",
+                  opacity: 0.5,
+                  animation: "lensPulse 2s infinite"
+                }} />
+              </div>
+              
+              {/* Encryption text with counter */}
+              <div style={{ fontFamily: "monospace", fontSize: "12px", letterSpacing: "1px" }}>
+                <span style={{ color: "#00d4ff" }}>ENCRYPTION:</span>{" "}
+                <span style={{ color: "#fff", fontWeight: 600 }}>AES-256-GCM</span>
+              </div>
+              
+              {/* Animated counter bar */}
+              <div style={{ 
+                width: "80px", 
+                height: "4px", 
+                background: "rgba(255,255,255,0.1)", 
+                borderRadius: "2px",
+                overflow: "hidden"
+              }}>
+                <div style={{
+                  width: `${encryptCounter}%`,
+                  height: "100%",
+                  background: "linear-gradient(90deg, #00d4ff, #00ff88)",
+                  transition: "width 0.05s linear"
+                }} />
+              </div>
+              
+              {/* Hash counter */}
+              <div style={{ 
+                fontFamily: "monospace", 
+                fontSize: "10px", 
+                color: "rgba(255,255,255,0.4)",
+                direction: "ltr"
+              }}>
+                #{encryptHash.substring(0, 8)}
+              </div>
+            </div>
+            
+            {/* Second row - Protocol status */}
+            <div style={{ 
+              display: "flex", 
+              alignItems: "center", 
+              gap: "8px",
               fontFamily: "monospace",
-              fontSize: "11px",
+              fontSize: "10px",
               opacity: 0.5,
               letterSpacing: "1px",
-              lineHeight: "1.8",
-            }}
-          >
-            <div>SECURE_PROTOCOL: ACTIVE</div>
-            <div>ENCRYPTION: AES-256-GCM</div>
-            <div style={{ color: "rgba(255,255,255,0.3)" }}>VISURA OS v2.0</div>
+              paddingLeft: "36px"
+            }}>
+              <span style={{ color: "#00ff88" }}>●</span> SECURE_PROTOCOL: ACTIVE
+              <span style={{ marginLeft: "12px", color: "rgba(255,255,255,0.3)" }}>|</span>
+              VISURA OS v2.0
+            </div>
           </div>
         )}
         
