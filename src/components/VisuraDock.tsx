@@ -15,20 +15,21 @@ interface VisuraDockProps {
   activeModal: ModalType;
   onOpenModal: (modal: ModalType) => void;
   onHome: () => void;
+  isMobile?: boolean;
 }
 
-function HomeIcon() {
+function HomeIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
       <polyline points="9 22 9 12 15 12 15 22" />
     </svg>
   );
 }
 
-function PhotoGalleryIcon() {
+function PhotoGalleryIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
       <circle cx="8.5" cy="8.5" r="1.5" />
       <polyline points="21 15 16 10 5 21" />
@@ -36,18 +37,18 @@ function PhotoGalleryIcon() {
   );
 }
 
-function CameraIcon() {
+function CameraIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
       <circle cx="12" cy="13" r="4" />
     </svg>
   );
 }
 
-function AIIcon() {
+function AIIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
       <line x1="9" y1="10" x2="9" y2="10" strokeWidth="2.5" />
       <line x1="12" y1="10" x2="12" y2="10" strokeWidth="2.5" />
@@ -56,9 +57,9 @@ function AIIcon() {
   );
 }
 
-function ArtGalleryIcon() {
+function ArtGalleryIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 19l7-7 3 3-7 7-3-3z" />
       <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
       <path d="M2 2l7.586 7.586" />
@@ -67,9 +68,9 @@ function ArtGalleryIcon() {
   );
 }
 
-function CanvasIcon() {
+function CanvasIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2 13.5V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.5" />
       <path d="M12 3v12" />
       <path d="M8 7l4-4 4 4" />
@@ -78,9 +79,9 @@ function CanvasIcon() {
   );
 }
 
-function TrackingIcon() {
+function TrackingIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <rect x="1" y="3" width="15" height="13" rx="1" />
       <path d="M16 8h4l3 3v5h-7V8z" />
       <circle cx="5.5" cy="18.5" r="2.5" />
@@ -89,39 +90,39 @@ function TrackingIcon() {
   );
 }
 
-function SecurityIcon() {
+function UserIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <polyline points="9 12 11 14 15 10" />
-    </svg>
-  );
-}
-
-function UserIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
       <circle cx="12" cy="7" r="4" />
     </svg>
   );
 }
 
-function LogoutIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-      <polyline points="16 17 21 12 16 7" />
-      <line x1="21" y1="12" x2="9" y2="12" />
-    </svg>
-  );
-}
-
-export default function VisuraDock({ activeModal, onOpenModal, onHome }: VisuraDockProps) {
+export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile = false }: VisuraDockProps) {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
   const { user, logout } = useAuth();
 
-  const items: DockItem[] = user
+  // Simplified items for mobile - only most important ones
+  const mobileItems: DockItem[] = user
+    ? [
+        { id: "home", label: "Home", labelAr: "🏠", icon: <HomeIcon size={18} /> },
+        { id: "photoGallery", label: "Photos", labelAr: "📷", icon: <PhotoGalleryIcon size={18} /> },
+        { id: "artGallery", label: "Art", labelAr: "🎨", icon: <ArtGalleryIcon size={18} /> },
+        { id: "camera", label: "Camera", labelAr: "📸", icon: <CameraIcon size={18} /> },
+        { id: "ai", label: "AI", labelAr: "🤖", icon: <AIIcon size={18} /> },
+        { id: "auth", label: "Profile", labelAr: "👤", icon: <UserIcon size={18} /> },
+      ]
+    : [
+        { id: "home", label: "Home", labelAr: "🏠", icon: <HomeIcon size={18} /> },
+        { id: "photoGallery", label: "Photos", labelAr: "📷", icon: <PhotoGalleryIcon size={18} /> },
+        { id: "artGallery", label: "Art", labelAr: "🎨", icon: <ArtGalleryIcon size={18} /> },
+        { id: "camera", label: "Camera", labelAr: "📸", icon: <CameraIcon size={18} /> },
+        { id: "ai", label: "AI", labelAr: "🤖", icon: <AIIcon size={18} /> },
+        { id: "auth", label: "Login", labelAr: "👤", icon: <UserIcon size={18} /> },
+      ];
+
+  const desktopItems: DockItem[] = user
     ? [
         { id: "home", label: "Home", labelAr: "الرئيسية", icon: <HomeIcon /> },
         { id: "photoGallery", label: "Photography", labelAr: "معرض التصوير", icon: <PhotoGalleryIcon /> },
@@ -143,6 +144,8 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome }: VisuraD
         { id: "auth", label: "Login", labelAr: "دخول", icon: <UserIcon /> },
       ];
 
+  const items = isMobile ? mobileItems : desktopItems;
+
   const handleClick = (item: DockItem) => {
     if (item.id === "home") {
       onHome();
@@ -151,30 +154,41 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome }: VisuraD
     }
   };
 
+  // Mobile-specific styles
+  const iconSize = isMobile ? 38 : 48;
+  const iconInnerSize = isMobile ? 16 : 20;
+  const dockPadding = isMobile ? "8px 10px" : "10px 14px";
+  const dockGap = isMobile ? 4 : 6;
+  const dockBottom = isMobile ? 16 : 32;
+  const dockBorderRadius = isMobile ? 20 : 26;
+
   return (
     <div
       style={{
         position: "fixed",
-        bottom: 32,
+        bottom: dockBottom,
         left: "50%",
         transform: "translateX(-50%)",
         zIndex: 1000,
+        width: isMobile ? "auto" : undefined,
+        maxWidth: isMobile ? "calc(100% - 32px)" : undefined,
       }}
     >
       {/* Dock container */}
       <div
         style={{
           display: "flex",
-          gap: 6,
-          padding: "10px 14px",
+          gap: dockGap,
+          padding: dockPadding,
           background: "rgba(255, 255, 255, 0.04)",
-          borderRadius: 26,
+          borderRadius: dockBorderRadius,
           border: "1px solid rgba(255, 255, 255, 0.1)",
           backdropFilter: "blur(32px) saturate(200%)",
           WebkitBackdropFilter: "blur(32px) saturate(200%)",
           boxShadow:
             "0 8px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.08) inset, 0 -1px 0 rgba(0,0,0,0.3) inset",
           position: "relative",
+          justifyContent: "center",
         }}
       >
         {/* Top highlight line */}
@@ -182,142 +196,105 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome }: VisuraD
           style={{
             position: "absolute",
             top: 0,
-            left: "15%",
-            right: "15%",
-            height: 1,
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
-            borderRadius: 1,
-            pointerEvents: "none",
+            left: 20,
+            right: 20,
+            height: "1px",
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
           }}
         />
 
-        {items.map((item, index) => {
-          const isActive = item.id !== "home" && item.id !== null && activeModal === item.id;
-          const isHovered = hoveredItem === index;
-          const neighborDist = hoveredItem !== null ? Math.abs(hoveredItem - index) : 99;
-          const scale = isHovered ? 1.22 : neighborDist === 1 ? 1.08 : 1;
-          const translateY = isHovered ? -12 : neighborDist === 1 ? -4 : 0;
-
-          return (
+        {items.map((item, index) => (
+          <div
+            key={item.id}
+            onClick={() => handleClick(item)}
+            onMouseEnter={() => setHoveredItem(index)}
+            onMouseLeave={() => setHoveredItem(null)}
+            style={{
+              width: iconSize,
+              height: iconSize,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: isMobile ? 10 : 12,
+              cursor: "pointer",
+              transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              background:
+                activeModal === item.id
+                  ? "rgba(255,255,255,0.12)"
+                  : hoveredItem === index
+                  ? "rgba(255,255,255,0.08)"
+                  : "transparent",
+              transform:
+                hoveredItem === index
+                  ? `translateY(${isMobile ? -4 : -6}px) scale(${isMobile ? 1.1 : 1.15})`
+                  : activeModal === item.id
+                  ? `translateY(${isMobile ? -2 : -3}px)`
+                  : "translateY(0)",
+              boxShadow:
+                hoveredItem === index
+                  ? "0 8px 24px rgba(0,0,0,0.4)"
+                  : "none",
+              border:
+                activeModal === item.id
+                  ? "1px solid rgba(255,255,255,0.25)"
+                  : "1px solid transparent",
+              position: "relative",
+            }}
+          >
+            {/* Icon color */}
             <div
-              key={index}
-              title={item.labelAr}
-              onClick={() => handleClick(item)}
-              onMouseEnter={() => setHoveredItem(index)}
-              onMouseLeave={() => setHoveredItem(null)}
               style={{
-                width: 46,
-                height: 46,
+                color:
+                  activeModal === item.id
+                    ? "rgba(255,255,255,0.95)"
+                    : "rgba(255,255,255,0.65)",
+                transition: "color 0.3s",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                cursor: "pointer",
-                borderRadius: 13,
-                position: "relative",
-                transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-                transform: `translateY(${translateY}px) scale(${scale})`,
-                background: isActive
-                  ? "rgba(255, 255, 255, 0.14)"
-                  : isHovered
-                  ? "rgba(255, 255, 255, 0.1)"
-                  : "rgba(255, 255, 255, 0.04)",
-                border: isActive
-                  ? "1px solid rgba(255, 255, 255, 0.35)"
-                  : isHovered
-                  ? "1px solid rgba(255, 255, 255, 0.2)"
-                  : "1px solid rgba(255, 255, 255, 0.07)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-                boxShadow: isActive
-                  ? "0 0 16px rgba(255,255,255,0.12), inset 0 1px 0 rgba(255,255,255,0.2)"
-                  : isHovered
-                  ? "0 6px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12)"
-                  : "inset 0 1px 0 rgba(255,255,255,0.05)",
-                color: isActive
-                  ? "rgba(255,255,255,1)"
-                  : isHovered
-                  ? "rgba(255,255,255,0.95)"
-                  : "rgba(255,255,255,0.55)",
               }}
             >
               {item.icon}
-
-              {/* Active indicator dot */}
-              {isActive && (
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: -8,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    width: 4,
-                    height: 4,
-                    background: "white",
-                    borderRadius: "50%",
-                    boxShadow: "0 0 6px rgba(255,255,255,0.8)",
-                  }}
-                />
-              )}
-
-              {/* AI pulse indicator */}
-              {item.id === "ai" && isActive && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: -3,
-                    right: -3,
-                    width: 8,
-                    height: 8,
-                    background: "white",
-                    borderRadius: "50%",
-                    animation: "pulse-dot 1.5s infinite",
-                    boxShadow: "0 0 8px rgba(255,255,255,0.9)",
-                  }}
-                />
-              )}
-
-              {/* Tooltip */}
-              {isHovered && (
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: "calc(100% + 14px)",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    background: "rgba(8, 12, 20, 0.92)",
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    borderRadius: 8,
-                    padding: "5px 11px",
-                    fontSize: 11,
-                    whiteSpace: "nowrap",
-                    color: "rgba(255,255,255,0.9)",
-                    backdropFilter: "blur(12px)",
-                    pointerEvents: "none",
-                    letterSpacing: "0.5px",
-                    boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
-                    animation: "fadeIn 0.15s ease",
-                  }}
-                >
-                  {item.labelAr}
-                  {/* Tooltip arrow */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "100%",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: 0,
-                      height: 0,
-                      borderLeft: "5px solid transparent",
-                      borderRight: "5px solid transparent",
-                      borderTop: "5px solid rgba(255,255,255,0.12)",
-                    }}
-                  />
-                </div>
-              )}
             </div>
-          );
-        })}
+
+            {/* AI Pulse indicator */}
+            {item.id === "ai" && activeModal === "ai" && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: isMobile ? -2 : -3,
+                  right: isMobile ? -2 : -3,
+                  width: isMobile ? 8 : 10,
+                  height: isMobile ? 8 : 10,
+                  background: "rgba(255,255,255,0.9)",
+                  borderRadius: "50%",
+                  animation: "pulse-dot 1.2s infinite",
+                }}
+              />
+            )}
+
+            {/* Hover tooltip - hidden on mobile */}
+            {hoveredItem === index && !isMobile && (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "calc(100% + 12px)",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  background: "rgba(0,0,0,0.85)",
+                  padding: "6px 12px",
+                  borderRadius: 8,
+                  fontSize: 12,
+                  whiteSpace: "nowrap",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  backdropFilter: "blur(10px)",
+                }}
+              >
+                {item.labelAr}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

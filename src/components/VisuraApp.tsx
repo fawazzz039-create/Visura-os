@@ -31,6 +31,8 @@ function VisuraAppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
   const [paymentItem, setPaymentItem] = useState<PaymentItem | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
     const updateTime = () => {
@@ -44,6 +46,18 @@ function VisuraAppContent() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 640);
+      setIsTablet(width >= 640 && width < 1024);
+    };
+    
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const openModal = (modal: ModalType) => setActiveModal(modal);
   const closeModal = () => setActiveModal(null);
 
@@ -53,9 +67,13 @@ function VisuraAppContent() {
   };
 
   const handlePaymentComplete = () => {
-    // Refresh gallery or show success
     console.log("Payment completed for:", paymentItem?.title);
   };
+
+  // Dynamic styles based on device
+  const headerPadding = isMobile ? "20px 20px" : isTablet ? "25px 35px" : "30px 50px";
+  const clockSize = isMobile ? 36 : isTablet ? 44 : 52;
+  const logoScale = isMobile ? 0.75 : isTablet ? 0.85 : 1;
 
   return (
     <div
@@ -78,7 +96,7 @@ function VisuraAppContent() {
         }}
       />
 
-      {/* Top Header */}
+      {/* Top Header - Responsive */}
       <div
         style={{
           position: "absolute",
@@ -87,7 +105,7 @@ function VisuraAppContent() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-start",
-          padding: "30px 50px",
+          padding: headerPadding,
           boxSizing: "border-box",
           zIndex: 1500,
         }}
@@ -95,7 +113,7 @@ function VisuraAppContent() {
         <div
           style={{
             fontFamily: "monospace",
-            fontSize: "11px",
+            fontSize: isMobile ? "9px" : "11px",
             opacity: 0.5,
             letterSpacing: "1px",
             lineHeight: "1.8",
@@ -103,11 +121,11 @@ function VisuraAppContent() {
         >
           <div>SECURE_PROTOCOL: ACTIVE</div>
           <div>ENCRYPTION: AES-256-GCM</div>
-          <div style={{ color: "rgba(255,255,255,0.3)" }}>VISURA OS v2.0</div>
+          {!isMobile && <div style={{ color: "rgba(255,255,255,0.3)" }}>VISURA OS v2.0</div>}
         </div>
         <div
           style={{
-            fontSize: "52px",
+            fontSize: clockSize,
             fontWeight: 200,
             letterSpacing: "-2px",
             lineHeight: 1,
@@ -121,7 +139,7 @@ function VisuraAppContent() {
       {/* Sidebar */}
       <VisuraSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Center Logo */}
+      {/* Center Logo - Responsive */}
       <div
         style={{
           width: "100%",
@@ -131,12 +149,15 @@ function VisuraAppContent() {
           justifyContent: "center",
           position: "relative",
           zIndex: 100,
+          padding: isMobile ? "0 20px" : "0",
         }}
       >
-        <VisuraLogo onClick={() => setSidebarOpen(true)} />
+        <div style={{ transform: `scale(${logoScale})`, transformOrigin: "center" }}>
+          <VisuraLogo onClick={() => setSidebarOpen(true)} />
+        </div>
       </div>
 
-      {/* Dock */}
+      {/* Dock - Mobile optimized */}
       <VisuraDock
         activeModal={activeModal}
         onOpenModal={openModal}
@@ -144,12 +165,13 @@ function VisuraAppContent() {
           closeModal();
           setSidebarOpen(false);
         }}
+        isMobile={isMobile}
       />
 
-      {/* Music Player */}
-      <MusicPlayer />
+      {/* Music Player - Hide on mobile to save space */}
+      {!isMobile && <MusicPlayer />}
 
-      {/* Modals */}
+      {/* Modals - All responsive */}
       <CameraModal isOpen={activeModal === "camera"} onClose={closeModal} />
       <PhotoGalleryModal 
         isOpen={activeModal === "photoGallery"} 
