@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useAuth } from "@/lib/auth-context";
 
 interface Artwork {
   id: string;
@@ -116,9 +117,11 @@ type ArtFilter = "all" | "abstract" | "portrait" | "landscape" | "digital" | "ur
 interface ArtGalleryModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onBuy?: (item: { id: string; title: string; artist: string; price: number; image: string; type: "photo" | "art" }) => void;
 }
 
-export default function ArtGalleryModal({ isOpen, onClose }: ArtGalleryModalProps) {
+export default function ArtGalleryModal({ isOpen, onClose, onBuy }: ArtGalleryModalProps) {
+  const { user } = useAuth();
   const [filter, setFilter] = useState<ArtFilter>("all");
   const [selectedArt, setSelectedArt] = useState<Artwork | null>(null);
   const [cart, setCart] = useState<string[]>([]);
@@ -137,12 +140,16 @@ export default function ArtGalleryModal({ isOpen, onClose }: ArtGalleryModalProp
   })();
 
   const handleBuy = (art: Artwork) => {
-    if (!cart.includes(art.id)) {
-      setCart((prev) => [...prev, art.id]);
+    if (onBuy) {
+      onBuy({
+        id: art.id,
+        title: art.title,
+        artist: art.artist,
+        price: art.price,
+        image: art.image,
+        type: "art",
+      });
     }
-    alert(
-      `✅ تم إضافة "${art.title}" إلى سلة المشتريات\n🔐 حقوق الملكية محمية بالبلوكتشين\n💰 السعر: ${art.price.toLocaleString()} ر.س\n📈 توقع النمو: +${art.priceGrowth}% خلال 12 شهراً\n\n📋 رقم المعاملة: TXN-DEF456UVW`
-    );
   };
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

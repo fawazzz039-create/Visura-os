@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { ModalType } from "./VisuraApp";
+import { useAuth } from "@/lib/auth-context";
 
 interface DockItem {
   id: ModalType | "home";
@@ -97,19 +98,50 @@ function SecurityIcon() {
   );
 }
 
+function UserIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
+
+function LogoutIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  );
+}
+
 export default function VisuraDock({ activeModal, onOpenModal, onHome }: VisuraDockProps) {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const { user, logout } = useAuth();
 
-  const items: DockItem[] = [
-    { id: "home", label: "Home", labelAr: "الرئيسية", icon: <HomeIcon /> },
-    { id: "photoGallery", label: "Photography", labelAr: "معرض التصوير", icon: <PhotoGalleryIcon /> },
-    { id: "camera", label: "Camera", labelAr: "الكاميرا", icon: <CameraIcon /> },
-    { id: "ai", label: "AI Assistant", labelAr: "مساعد الذكاء", icon: <AIIcon /> },
-    { id: "artGallery", label: "Fine Art", labelAr: "معرض الفن", icon: <ArtGalleryIcon /> },
-    { id: "canvas", label: "Canvas", labelAr: "لوحة الرسم", icon: <CanvasIcon /> },
-    { id: "tracking", label: "Tracking", labelAr: "التتبع", icon: <TrackingIcon /> },
-    { id: null, label: "Security", labelAr: "الأمان", icon: <SecurityIcon /> },
-  ];
+  const items: DockItem[] = user
+    ? [
+        { id: "home", label: "Home", labelAr: "الرئيسية", icon: <HomeIcon /> },
+        { id: "photoGallery", label: "Photography", labelAr: "معرض التصوير", icon: <PhotoGalleryIcon /> },
+        { id: "camera", label: "Camera", labelAr: "الكاميرا", icon: <CameraIcon /> },
+        { id: "ai", label: "AI Assistant", labelAr: "مساعد الذكاء", icon: <AIIcon /> },
+        { id: "artGallery", label: "Fine Art", labelAr: "معرض الفن", icon: <ArtGalleryIcon /> },
+        { id: "canvas", label: "Canvas", labelAr: "لوحة الرسم", icon: <CanvasIcon /> },
+        { id: "tracking", label: "Tracking", labelAr: "التتبع", icon: <TrackingIcon /> },
+        { id: "auth", label: "Profile", labelAr: user.name, icon: <UserIcon /> },
+      ]
+    : [
+        { id: "home", label: "Home", labelAr: "الرئيسية", icon: <HomeIcon /> },
+        { id: "photoGallery", label: "Photography", labelAr: "معرض التصوير", icon: <PhotoGalleryIcon /> },
+        { id: "camera", label: "Camera", labelAr: "الكاميرا", icon: <CameraIcon /> },
+        { id: "ai", label: "AI Assistant", labelAr: "مساعد الذكاء", icon: <AIIcon /> },
+        { id: "artGallery", label: "Fine Art", labelAr: "معرض الفن", icon: <ArtGalleryIcon /> },
+        { id: "canvas", label: "Canvas", labelAr: "لوحة الرسم", icon: <CanvasIcon /> },
+        { id: "tracking", label: "Tracking", labelAr: "التتبع", icon: <TrackingIcon /> },
+        { id: "auth", label: "Login", labelAr: "دخول", icon: <UserIcon /> },
+      ];
 
   const handleClick = (item: DockItem) => {
     if (item.id === "home") {

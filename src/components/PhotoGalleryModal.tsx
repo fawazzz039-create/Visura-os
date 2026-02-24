@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useAuth } from "@/lib/auth-context";
 
 interface Photo {
   id: string;
@@ -128,9 +129,11 @@ type FilterType = "all" | "encrypted" | "landscape" | "portrait" | "abstract";
 interface PhotoGalleryModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onBuy?: (item: { id: string; title: string; artist: string; price: number; image: string; type: "photo" | "art" }) => void;
 }
 
-export default function PhotoGalleryModal({ isOpen, onClose }: PhotoGalleryModalProps) {
+export default function PhotoGalleryModal({ isOpen, onClose, onBuy }: PhotoGalleryModalProps) {
+  const { user } = useAuth();
   const [filter, setFilter] = useState<FilterType>("all");
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [cart, setCart] = useState<string[]>([]);
@@ -157,12 +160,16 @@ export default function PhotoGalleryModal({ isOpen, onClose }: PhotoGalleryModal
   })();
 
   const handleBuy = (photo: Photo) => {
-    if (!cart.includes(photo.id)) {
-      setCart((prev) => [...prev, photo.id]);
+    if (onBuy) {
+      onBuy({
+        id: photo.id,
+        title: photo.title,
+        artist: photo.artist,
+        price: photo.price,
+        image: photo.image,
+        type: "photo",
+      });
     }
-    alert(
-      `✅ تم إضافة "${photo.title}" إلى سلة المشتريات\n🔐 المعاملة مشفرة بتقنية البلوكتشين\n💰 السعر: ${photo.price.toLocaleString()} ر.س\n\n📋 رقم المعاملة: TXN-ABC123XYZ`
-    );
   };
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

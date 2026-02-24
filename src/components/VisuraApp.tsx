@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { AuthProvider } from "@/lib/auth-context";
 import VisuraLogo from "./VisuraLogo";
 import VisuraDock from "./VisuraDock";
 import VisuraSidebar from "./VisuraSidebar";
@@ -11,13 +12,25 @@ import AIModal from "./AIModal";
 import CanvasModal from "./CanvasModal";
 import TrackingModal from "./TrackingModal";
 import MusicPlayer from "./MusicPlayer";
+import AuthModal from "./AuthModal";
+import PaymentModal from "./PaymentModal";
 
-export type ModalType = "camera" | "photoGallery" | "artGallery" | "ai" | "canvas" | "tracking" | null;
+export type ModalType = "camera" | "photoGallery" | "artGallery" | "ai" | "canvas" | "tracking" | "auth" | null;
 
-export default function VisuraApp() {
+export interface PaymentItem {
+  id: string;
+  title: string;
+  artist: string;
+  price: number;
+  image: string;
+  type: "photo" | "art";
+}
+
+function VisuraAppContent() {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
+  const [paymentItem, setPaymentItem] = useState<PaymentItem | null>(null);
 
   useEffect(() => {
     const updateTime = () => {
@@ -33,6 +46,16 @@ export default function VisuraApp() {
 
   const openModal = (modal: ModalType) => setActiveModal(modal);
   const closeModal = () => setActiveModal(null);
+
+  const handleBuy = (item: PaymentItem) => {
+    setPaymentItem(item);
+    setActiveModal("auth");
+  };
+
+  const handlePaymentComplete = () => {
+    // Refresh gallery or show success
+    console.log("Payment completed for:", paymentItem?.title);
+  };
 
   return (
     <div
@@ -128,11 +151,34 @@ export default function VisuraApp() {
 
       {/* Modals */}
       <CameraModal isOpen={activeModal === "camera"} onClose={closeModal} />
-      <PhotoGalleryModal isOpen={activeModal === "photoGallery"} onClose={closeModal} />
-      <ArtGalleryModal isOpen={activeModal === "artGallery"} onClose={closeModal} />
+      <PhotoGalleryModal 
+        isOpen={activeModal === "photoGallery"} 
+        onClose={closeModal}
+        onBuy={handleBuy}
+      />
+      <ArtGalleryModal 
+        isOpen={activeModal === "artGallery"} 
+        onClose={closeModal}
+        onBuy={handleBuy}
+      />
       <AIModal isOpen={activeModal === "ai"} onClose={closeModal} />
       <CanvasModal isOpen={activeModal === "canvas"} onClose={closeModal} />
       <TrackingModal isOpen={activeModal === "tracking"} onClose={closeModal} />
+      <AuthModal isOpen={activeModal === "auth"} onClose={closeModal} />
+      <PaymentModal 
+        isOpen={!!paymentItem && activeModal !== "auth"} 
+        onClose={() => setPaymentItem(null)}
+        item={paymentItem}
+        onPaymentComplete={handlePaymentComplete}
+      />
     </div>
+  );
+}
+
+export default function VisuraApp() {
+  return (
+    <AuthProvider>
+      <VisuraAppContent />
+    </AuthProvider>
   );
 }
