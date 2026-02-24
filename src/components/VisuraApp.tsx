@@ -72,25 +72,25 @@ function VisuraAppContent() {
     console.log("Payment completed for:", paymentItem?.title);
   };
 
-  // Animated encryption counter
+  // Animated encryption counter - More visible and faster
   const [encryptCounter, setEncryptCounter] = useState(0);
   
   useEffect(() => {
     const interval = setInterval(() => {
       setEncryptCounter(prev => (prev + 1) % 100);
-    }, 50);
+    }, 30); // Faster for more visible animation
     return () => clearInterval(interval);
   }, []);
 
-  // Generate encryption hash characters
+  // Generate encryption hash characters - updates faster
   const hashChars = "ABCDEF0123456789";
-  const [encryptHash, setEncryptHash] = useState("8F3A2C1D9E4B7F6A");
+  const [encryptHash, setEncryptHash] = useState("8F3A2C1D");
   
   useEffect(() => {
     const interval = setInterval(() => {
-      const newHash = Array(16).fill(0).map(() => hashChars[Math.floor(Math.random() * hashChars.length)]).join("");
+      const newHash = Array(8).fill(0).map(() => hashChars[Math.floor(Math.random() * hashChars.length)]).join("");
       setEncryptHash(newHash);
-    }, 100);
+    }, 80); // Faster updates
     return () => clearInterval(interval);
   }, []);
 
@@ -200,20 +200,34 @@ function VisuraAppContent() {
                 <span style={{ color: "#fff", fontWeight: 600 }}>AES-256-GCM</span>
               </div>
               
-              {/* Animated counter bar */}
+              {/* Animated counter bar - LARGER AND MORE VISIBLE */}
               <div style={{ 
-                width: "80px", 
-                height: "4px", 
-                background: "rgba(255,255,255,0.1)", 
-                borderRadius: "2px",
-                overflow: "hidden"
+                width: "120px", 
+                height: "8px", 
+                background: "rgba(255,255,255,0.15)", 
+                borderRadius: "4px",
+                overflow: "hidden",
+                border: "1px solid rgba(0,212,255,0.3)"
               }}>
                 <div style={{
                   width: `${encryptCounter}%`,
                   height: "100%",
-                  background: "linear-gradient(90deg, #00d4ff, #00ff88)",
-                  transition: "width 0.05s linear"
+                  background: "linear-gradient(90deg, #00d4ff, #00ff88, #00d4ff)",
+                  backgroundSize: "200% 100%",
+                  animation: "encrypt-shimmer 1s linear infinite",
+                  transition: "width 0.03s linear"
                 }} />
+              </div>
+              
+              {/* Percentage text */}
+              <div style={{ 
+                fontFamily: "monospace", 
+                fontSize: "12px", 
+                color: "#00ff88",
+                fontWeight: "bold",
+                minWidth: "35px"
+              }}>
+                {encryptCounter}%
               </div>
               
               {/* Hash counter */}
