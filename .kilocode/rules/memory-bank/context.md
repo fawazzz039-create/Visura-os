@@ -14,6 +14,8 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] ESLint configuration
 - [x] Memory bank documentation
 - [x] Recipe system for common features
+- [x] Database setup with Drizzle ORM + SQLite
+- [x] User system schema (users, photos, arts, transactions, favorites)
 
 ## Current Structure
 
@@ -90,3 +92,5 @@ export async function GET() {
 | Date | Changes |
 |------|---------|
 | Initial | Template created with base setup |
+| 2026-02-24 | Complete VISURA app with all features |
+| 2026-02-24 | Database setup with user system (users, photos, arts, transactions, favorites tables) |
