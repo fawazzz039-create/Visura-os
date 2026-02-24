@@ -33,6 +33,7 @@ function VisuraAppContent() {
   const [paymentItem, setPaymentItem] = useState<PaymentItem | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(1200);
 
   useEffect(() => {
     const updateTime = () => {
@@ -49,6 +50,7 @@ function VisuraAppContent() {
   useEffect(() => {
     const checkMobile = () => {
       const width = window.innerWidth;
+      setWindowWidth(width);
       setIsMobile(width < 640);
       setIsTablet(width >= 640 && width < 1024);
     };
@@ -110,19 +112,53 @@ function VisuraAppContent() {
           zIndex: 1500,
         }}
       >
-        <div
-          style={{
-            fontFamily: "monospace",
-            fontSize: isMobile ? "9px" : "11px",
-            opacity: 0.5,
-            letterSpacing: "1px",
-            lineHeight: "1.8",
-          }}
-        >
-          <div>SECURE_PROTOCOL: ACTIVE</div>
-          <div>ENCRYPTION: AES-256-GCM</div>
-          {!isMobile && <div style={{ color: "rgba(255,255,255,0.3)" }}>VISURA OS v2.0</div>}
-        </div>
+        {/* Mobile Menu Button (Hamburger) */}
+        {isMobile && (
+          <button
+            onClick={() => setSidebarOpen(true)}
+            style={{
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.15)",
+              borderRadius: "10px",
+              padding: "8px 12px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+        )}
+        
+        {/* Desktop: Status Info */}
+        {!isMobile && (
+          <div
+            style={{
+              fontFamily: "monospace",
+              fontSize: "11px",
+              opacity: 0.5,
+              letterSpacing: "1px",
+              lineHeight: "1.8",
+            }}
+          >
+            <div>SECURE_PROTOCOL: ACTIVE</div>
+            <div>ENCRYPTION: AES-256-GCM</div>
+            <div style={{ color: "rgba(255,255,255,0.3)" }}>VISURA OS v2.0</div>
+          </div>
+        )}
+        
+        {/* Mobile: Simple status */}
+        {isMobile && (
+          <div style={{ fontFamily: "monospace", fontSize: "9px", opacity: 0.4, letterSpacing: "1px" }}>
+            <div>🔒 AES-256</div>
+          </div>
+        )}
+        
         <div
           style={{
             fontSize: clockSize,
@@ -136,8 +172,8 @@ function VisuraAppContent() {
         </div>
       </div>
 
-      {/* Sidebar */}
-      <VisuraSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      {/* Sidebar - Pass windowWidth for responsive width */}
+      <VisuraSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} windowWidth={windowWidth} isMobile={isMobile} />
 
       {/* Center Logo - Responsive */}
       <div

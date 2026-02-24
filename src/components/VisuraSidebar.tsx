@@ -6,16 +6,36 @@ import { useAuth } from "@/lib/auth-context";
 interface VisuraSidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  windowWidth?: number;
+  isMobile?: boolean;
 }
 
-export default function VisuraSidebar({ isOpen, onClose }: VisuraSidebarProps) {
+export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isMobile = false }: VisuraSidebarProps) {
   const { user } = useAuth();
   const [activeSection, setActiveSection] = useState<"main" | "profile" | "wallet" | "settings">("main");
 
+  // Calculate responsive width
+  const sidebarWidth = isMobile ? Math.min(320, windowWidth - 20) : Math.min(360, windowWidth - 40);
+
   return (
     <>
-      {/* Overlay */}
-      {isOpen && (
+      {/* Mobile Full-Screen Overlay */}
+      {isMobile && isOpen && (
+        <div
+          onClick={onClose}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.7)",
+            zIndex: 1999,
+            backdropFilter: "blur(5px)",
+            animation: "fadeIn 0.2s ease",
+          }}
+        />
+      )}
+
+      {/* Desktop Overlay */}
+      {!isMobile && isOpen && (
         <div
           onClick={onClose}
           style={{
@@ -33,25 +53,49 @@ export default function VisuraSidebar({ isOpen, onClose }: VisuraSidebarProps) {
         style={{
           position: "fixed",
           top: 0,
-          right: isOpen ? 0 : -380,
-          width: Math.min(360, window.innerWidth - 40),
-          height: "100%",
-          background: "rgba(6, 10, 18, 0.97)",
-          borderRight: "1px solid rgba(255,255,255,0.08)",
-          transition: "right 0.4s cubic-bezier(0.19, 1, 0.22, 1)",
+          right: isOpen ? 0 : -sidebarWidth - 20,
+          width: sidebarWidth,
+          height: isMobile ? "100%" : "100%",
+          maxWidth: isMobile ? "85%" : undefined,
+          background: isMobile 
+            ? "rgba(6, 10, 18, 0.98)" 
+            : "rgba(6, 10, 18, 0.97)",
+          borderRight: isMobile ? "none" : "1px solid rgba(255,255,255,0.08)",
+          borderLeft: isMobile ? "1px solid rgba(255,255,255,0.1)" : "none",
+          transition: "right 0.35s cubic-bezier(0.19, 1, 0.22, 1)",
           zIndex: 2000,
-          padding: "60px 24px 30px",
+          padding: isMobile ? "50px 20px 30px" : "60px 24px 30px",
           boxSizing: "border-box",
           overflowY: "auto",
           backdropFilter: "blur(20px)",
         }}
       >
+        {/* Mobile Close Button */}
+        {isMobile && (
+          <button
+            onClick={onClose}
+            style={{
+              position: "absolute",
+              top: "12px",
+              left: "12px",
+              background: "rgba(255,255,255,0.1)",
+              border: "none",
+              borderRadius: "8px",
+              padding: "8px",
+              cursor: "pointer",
+              color: "white",
+              fontSize: "18px",
+            }}
+          >
+            ✕
+          </button>
+        )}
         {/* Header */}
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 10, letterSpacing: "3px", opacity: 0.4, marginBottom: 6 }}>
+        <div style={{ marginBottom: isMobile ? 16 : 24 }}>
+          <div style={{ fontSize: isMobile ? 9 : 10, letterSpacing: "3px", opacity: 0.4, marginBottom: 6 }}>
             VISURA OS
           </div>
-          <h2 style={{ fontWeight: 200, fontSize: 22, letterSpacing: "2px" }}>
+          <h2 style={{ fontWeight: 200, fontSize: isMobile ? 18 : 22, letterSpacing: "2px" }}>
             {activeSection === "main" && "لوحة التحكم"}
             {activeSection === "profile" && "الملف الشخصي"}
             {activeSection === "wallet" && "المحفظة"}
@@ -63,35 +107,35 @@ export default function VisuraSidebar({ isOpen, onClose }: VisuraSidebarProps) {
         <div
           style={{
             background: "rgba(255,255,255,0.04)",
-            borderRadius: 14,
-            padding: 16,
-            marginBottom: 20,
+            borderRadius: isMobile ? 12 : 14,
+            padding: isMobile ? 12 : 16,
+            marginBottom: isMobile ? 14 : 20,
             border: "1px solid rgba(255,255,255,0.08)",
             cursor: "pointer",
           }}
           onClick={() => setActiveSection("profile")}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
               style={{
-                width: 50,
-                height: 50,
+                width: isMobile ? 42 : 50,
+                height: isMobile ? 42 : 50,
                 borderRadius: "50%",
                 background: "rgba(255,255,255,0.1)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 20,
+                fontSize: isMobile ? 16 : 20,
                 border: "2px solid rgba(255,255,255,0.2)",
               }}
             >
               {user?.avatar || "👤"}
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 500, fontSize: 15, marginBottom: 2 }}>
+              <div style={{ fontWeight: 500, fontSize: isMobile ? 13 : 15, marginBottom: 2 }}>
                 {user?.name || "زائر"}
               </div>
-              <div style={{ fontSize: 12, opacity: 0.5 }}>
+              <div style={{ fontSize: isMobile ? 10 : 12, opacity: 0.5 }}>
                 {user?.email || "سجل دخولك للمتابعة"}
               </div>
             </div>
@@ -100,11 +144,11 @@ export default function VisuraSidebar({ isOpen, onClose }: VisuraSidebarProps) {
         </div>
 
         {/* Quick Stats Row */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 24 }}>
-          <MiniStatBox icon="📷" label="أعمالي" value="12" />
-          <MiniStatBox icon="👁️" label="المشاهدات" value="1.2K" />
-          <MiniStatBox icon="💰" label="المبيعات" value="8" />
-          <MiniStatBox icon="⭐" label="التقييم" value="4.8" />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: isMobile ? 6 : 10, marginBottom: isMobile ? 16 : 24 }}>
+          <MiniStatBox icon="📷" label="أعمالي" value="12" isMobile={isMobile} />
+          <MiniStatBox icon="👁️" label="المشاهدات" value="1.2K" isMobile={isMobile} />
+          <MiniStatBox icon="💰" label="المبيعات" value="8" isMobile={isMobile} />
+          <MiniStatBox icon="⭐" label="التقييم" value="4.8" isMobile={isMobile} />
         </div>
 
         {/* Main Navigation */}
@@ -352,20 +396,20 @@ export default function VisuraSidebar({ isOpen, onClose }: VisuraSidebarProps) {
   );
 }
 
-function MiniStatBox({ icon, label, value }: { icon: string; label: string; value: string }) {
+function MiniStatBox({ icon, label, value, isMobile = false }: { icon: string; label: string; value: string; isMobile?: boolean }) {
   return (
     <div
       style={{
         background: "rgba(255,255,255,0.03)",
-        padding: "12px",
-        borderRadius: 10,
+        padding: isMobile ? "10px" : "12px",
+        borderRadius: isMobile ? 8 : 10,
         border: "1px solid rgba(255,255,255,0.05)",
         textAlign: "center",
       }}
     >
-      <div style={{ fontSize: 16, marginBottom: 4 }}>{icon}</div>
-      <div style={{ fontSize: 16, fontWeight: 500 }}>{value}</div>
-      <div style={{ fontSize: 10, opacity: 0.4 }}>{label}</div>
+      <div style={{ fontSize: isMobile ? 14 : 16, marginBottom: 4 }}>{icon}</div>
+      <div style={{ fontSize: isMobile ? 14 : 16, fontWeight: 500 }}>{value}</div>
+      <div style={{ fontSize: isMobile ? 9 : 10, opacity: 0.4 }}>{label}</div>
     </div>
   );
 }
