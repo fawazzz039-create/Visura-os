@@ -158,8 +158,8 @@ function VisuraAppContent() {
           </button>
         )}
         
-        {/* Desktop: Animated Encryption Status with Lens Connection */}
-        {!isMobile && (
+        {/* ALL DEVICES: Animated Encryption Status with Lens Connection */}
+        {true && (
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             {/* Lens-connected encryption indicator */}
             <div style={{ 
@@ -180,10 +180,13 @@ function VisuraAppContent() {
                     <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite" />
                   </circle>
                 </svg>
-                {/* Pulse ring */}
+                {/* Pulse ring - fixed CSS */}
                 <div style={{
                   position: "absolute",
-                  inset: "-4px",
+                  top: "-4px",
+                  left: "-4px",
+                  right: "-4px",
+                  bottom: "-4px",
                   border: "2px solid #00d4ff",
                   borderRadius: "50%",
                   opacity: 0.5,
@@ -242,13 +245,7 @@ function VisuraAppContent() {
           </div>
         )}
         
-        {/* Mobile: Simple status */}
-        {isMobile && (
-          <div style={{ fontFamily: "monospace", fontSize: "9px", opacity: 0.4, letterSpacing: "1px" }}>
-            <div>🔒 AES-256</div>
-          </div>
-        )}
-        
+        {/* Clock */}
         <div
           style={{
             fontSize: clockSize,
