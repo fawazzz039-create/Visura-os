@@ -81,123 +81,33 @@ export default function VisuraLogo({ onClick }: VisuraLogoProps) {
           }}
         />
 
-        {/* Premium Feather SVG */}
-        <div
-          style={{
-            animation: "feather-float 4s ease-in-out infinite",
-            marginBottom: 10,
-            filter: hovered
-              ? "drop-shadow(0 0 12px rgba(255,255,255,0.6))"
-              : "drop-shadow(0 0 6px rgba(255,255,255,0.3))",
-            transition: "filter 0.4s ease",
-          }}
-        >
-          <svg
-            width="72"
-            height="72"
-            viewBox="0 0 80 80"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {/* Main quill shaft */}
-            <path
-              d="M62 10 C58 18, 50 30, 40 44 C32 55, 22 64, 14 72"
-              stroke="white"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              fill="none"
-              opacity="0.95"
-            />
-            {/* Left vane - upper */}
-            <path
-              d="M62 10 C54 12, 46 18, 38 28 C32 36, 26 44, 20 52"
-              stroke="white"
-              strokeWidth="1.4"
-              strokeLinecap="round"
-              fill="none"
-              opacity="0.75"
-            />
-            {/* Right vane - upper */}
-            <path
-              d="M62 10 C64 18, 62 28, 56 38 C50 46, 42 56, 30 66"
-              stroke="white"
-              strokeWidth="1.4"
-              strokeLinecap="round"
-              fill="none"
-              opacity="0.75"
-            />
-            {/* Left vane - lower */}
-            <path
-              d="M40 44 C34 48, 26 54, 18 62"
-              stroke="white"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              fill="none"
-              opacity="0.6"
-            />
-            {/* Right vane - lower */}
-            <path
-              d="M40 44 C44 50, 44 58, 36 68"
-              stroke="white"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              fill="none"
-              opacity="0.6"
-            />
-            {/* Barbs left side */}
-            <path d="M56 18 C50 20, 44 24, 38 30" stroke="white" strokeWidth="0.9" opacity="0.45" strokeLinecap="round" />
-            <path d="M52 24 C46 26, 40 30, 34 36" stroke="white" strokeWidth="0.9" opacity="0.45" strokeLinecap="round" />
-            <path d="M48 30 C42 32, 36 36, 30 42" stroke="white" strokeWidth="0.9" opacity="0.45" strokeLinecap="round" />
-            <path d="M44 36 C38 38, 32 42, 26 48" stroke="white" strokeWidth="0.9" opacity="0.45" strokeLinecap="round" />
-            <path d="M40 42 C34 44, 28 48, 22 54" stroke="white" strokeWidth="0.9" opacity="0.4" strokeLinecap="round" />
-            {/* Barbs right side */}
-            <path d="M60 20 C58 26, 54 32, 48 38" stroke="white" strokeWidth="0.9" opacity="0.45" strokeLinecap="round" />
-            <path d="M58 28 C56 34, 52 40, 44 46" stroke="white" strokeWidth="0.9" opacity="0.45" strokeLinecap="round" />
-            <path d="M54 36 C52 42, 48 48, 40 54" stroke="white" strokeWidth="0.9" opacity="0.4" strokeLinecap="round" />
-            <path d="M50 44 C48 50, 44 56, 36 62" stroke="white" strokeWidth="0.9" opacity="0.35" strokeLinecap="round" />
-            {/* Ink drop at tip */}
-            <circle cx="14" cy="72" r="2.5" fill="white" opacity="0.85" />
-            <circle cx="14" cy="72" r="4.5" fill="none" stroke="white" strokeWidth="0.8" opacity="0.3" />
-          </svg>
-        </div>
-
         {/* VISURA text */}
         <div
           style={{
-            fontSize: 36,
-            fontWeight: 300,
-            letterSpacing: "12px",
+            fontSize: 42,
+            fontWeight: 200,
+            letterSpacing: "14px",
             color: "white",
             textTransform: "uppercase",
             lineHeight: 1,
-            marginBottom: 5,
+            marginBottom: 8,
             fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
             textShadow: hovered
-              ? "0 0 20px rgba(255,255,255,0.5)"
-              : "0 0 10px rgba(255,255,255,0.2)",
+              ? "0 0 30px rgba(255,255,255,0.6)"
+              : "0 0 15px rgba(255,255,255,0.3)",
             transition: "text-shadow 0.4s ease",
           }}
         >
           VISURA
         </div>
 
-        {/* Divider line */}
-        <div
-          style={{
-            width: 120,
-            height: 1,
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)",
-            marginBottom: 6,
-          }}
-        />
-
         {/* Tagline */}
         <div
           style={{
-            fontSize: 10,
+            fontSize: 11,
             fontWeight: 300,
-            letterSpacing: "4px",
-            color: "rgba(255,255,255,0.65)",
+            letterSpacing: "5px",
+            color: "rgba(255,255,255,0.7)",
             textTransform: "uppercase",
             textAlign: "center",
             lineHeight: 1.4,
