@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { transactions } from "@/db/schema";
 
 // GET /api/transactions - Get all transactions
 export async function GET() {
   try {
+    const db = getDb();
     const allTransactions = await db.select().from(transactions);
     return NextResponse.json({ success: true, data: allTransactions });
   } catch (error) {
@@ -22,6 +23,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { userId, itemId, itemType, amount, paymentMethod, status } = body;
 
+    const db = getDb();
     const newTransaction = await db.insert(transactions).values({
       userId,
       itemId,

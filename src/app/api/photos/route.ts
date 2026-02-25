@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { photos } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 // GET /api/photos - Get all photos
 export async function GET() {
   try {
+    const db = getDb();
     const allPhotos = await db.select().from(photos);
     return NextResponse.json({ success: true, data: allPhotos });
   } catch (error) {
@@ -23,6 +24,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { title, description, price, imageUrl, category, isEncrypted, artistId, artistName } = body;
 
+    const db = getDb();
     const newPhoto = await db.insert(photos).values({
       title,
       description,

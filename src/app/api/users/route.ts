@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { users } from "@/db/schema";
 
 // GET /api/users - Get all users
 export async function GET() {
   try {
+    const db = getDb();
     const allUsers = await db.select().from(users);
     return NextResponse.json({ success: true, data: allUsers });
   } catch (error) {
@@ -22,6 +23,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, email, role, password } = body;
 
+    const db = getDb();
     const newUser = await db.insert(users).values({
       name,
       email,

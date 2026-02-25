@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { arts } from "@/db/schema";
 
 // GET /api/arts - Get all artworks
 export async function GET() {
   try {
+    const db = getDb();
     const allArts = await db.select().from(arts);
     return NextResponse.json({ success: true, data: allArts });
   } catch (error) {
@@ -22,6 +23,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { title, description, price, imageUrl, medium, dimensions, isEncrypted, artistId, artistName } = body;
 
+    const db = getDb();
     const newArt = await db.insert(arts).values({
       title,
       description,
