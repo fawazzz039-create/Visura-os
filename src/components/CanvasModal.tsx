@@ -124,7 +124,7 @@ export default function CanvasModal({ isOpen, onClose }: CanvasModalProps) {
     >
       {/* Close */}
       <button
-        className="close-button-fixed"
+        className="global-visura-close"
         onClick={onClose}
         aria-label="Close"
       >

@@ -137,7 +137,7 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
       >
         {/* Close button */}
         <button
-          className="close-button-fixed"
+          className="global-visura-close"
           onClick={onClose}
           aria-label="Close"
         >

@@ -74,7 +74,7 @@ export default function TrackingModal({ isOpen, onClose }: TrackingModalProps) {
     >
       {/* Close */}
       <button
-        className="close-button-fixed"
+        className="global-visura-close"
         onClick={onClose}
         aria-label="Close"
       >

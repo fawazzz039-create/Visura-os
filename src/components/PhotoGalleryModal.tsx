@@ -232,7 +232,7 @@ export default function PhotoGalleryModal({ isOpen, onClose, onBuy }: PhotoGalle
 
       {/* Close Button - Fixed in top-left */}
       <button
-        className="close-button-fixed"
+        className="global-visura-close"
         onClick={onClose}
         aria-label="Close"
       >
@@ -663,7 +663,7 @@ function PhotoDetailModal({
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="close-button-fixed"
+          className="global-visura-close"
           onClick={onClose}
           aria-label="Close"
         >

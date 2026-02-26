@@ -215,7 +215,7 @@ export default function ArtGalleryModal({ isOpen, onClose, onBuy }: ArtGalleryMo
 
       {/* Close Button - Fixed in top-left */}
       <button
-        className="close-button-fixed"
+        className="global-visura-close"
         onClick={onClose}
         aria-label="Close"
       >
@@ -670,7 +670,7 @@ function ArtDetailModal({
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="close-button-fixed"
+          className="global-visura-close"
           onClick={onClose}
           aria-label="Close"
         >

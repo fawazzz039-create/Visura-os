@@ -142,7 +142,7 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
     >
       {/* Close */}
       <button
-        className="close-button-fixed"
+        className="global-visura-close"
         onClick={onClose}
         aria-label="Close"
       >

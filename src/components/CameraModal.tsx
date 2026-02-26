@@ -217,7 +217,7 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
 
       {/* Close */}
       <button
-        className="close-button-fixed"
+        className="global-visura-close"
         onClick={onClose}
         aria-label="Close"
       >
