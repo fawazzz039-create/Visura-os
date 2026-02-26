@@ -193,6 +193,7 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
                 marginBottom: 24,
               }}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.image}
                 alt={item.title}
