@@ -302,8 +302,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 4500;
-  backdrop-filter: blur(20px);
+  z-index: 9999;
+  backdrop-filter: blur(12px);
 }
 
 .payment-modal .modal-inner {
