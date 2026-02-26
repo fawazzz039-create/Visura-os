@@ -109,6 +109,32 @@ html, body {
   }
 }
 
+/* ===== SPARKLINE ANIMATIONS ===== */
+
+/* Slide down for sparkline container */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sparkline bar growth animation */
+@keyframes sparklineGrow {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
 /* ===== GALLERY ANIMATIONS ===== */
 
 /* Encrypt shimmer */

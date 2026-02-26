@@ -367,6 +367,7 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
               label="المحفظة"
               onClick={() => setActiveSection("wallet")}
               badge="12,500 ر.س"
+              showSparkline={true}
             />
             <SidebarItem
               icon="📊"
@@ -718,13 +719,21 @@ function SidebarItem({
   onClick,
   badge,
   value,
+  showSparkline,
 }: {
   icon: string;
   label: string;
   onClick: () => void;
   badge?: string;
   value?: string;
+  showSparkline?: boolean;
 }) {
+  // Dummy data for sparkline - gentle upward trend
+  const sparklineData = [20, 35, 25, 45, 30, 55, 40, 60, 50, 70, 65, 80];
+  const maxVal = Math.max(...sparklineData);
+  const minVal = Math.min(...sparklineData);
+  const range = maxVal - minVal || 1;
+
   return (
     <div
       onClick={onClick}
@@ -746,13 +755,42 @@ function SidebarItem({
         <span
           style={{
             fontSize: 11,
-            padding: "4px 8px",
+            padding: showSparkline ? "6px 8px" : "4px 8px",
             background: "rgba(255,255,255,0.1)",
             borderRadius: 8,
             opacity: 0.7,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            gap: 4,
           }}
         >
-          {badge}
+          <span>{badge}</span>
+          {showSparkline && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                gap: "1.5px",
+                height: 16,
+                animation: "slideDown 0.4s ease-out",
+              }}
+            >
+              {sparklineData.map((val, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    width: 3,
+                    height: `${((val - minVal) / range) * 100}%`,
+                    minHeight: 2,
+                    background: "rgba(34, 197, 94, 0.7)",
+                    borderRadius: 1,
+                    animation: `sparklineGrow 0.6s ease-out ${idx * 0.03}s both`,
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </span>
       )}
       {value && (
