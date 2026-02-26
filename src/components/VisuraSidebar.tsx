@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
 
 interface VisuraSidebarProps {
@@ -12,7 +12,27 @@ interface VisuraSidebarProps {
 
 export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isMobile = false }: VisuraSidebarProps) {
   const { user } = useAuth();
-  const [activeSection, setActiveSection] = useState<"main" | "profile" | "wallet" | "settings">("main");
+  const [activeSection, setActiveSection] = useState<"main" | "profile" | "wallet" | "settings" | "activity">("main");
+  
+  // Animated encryption counter
+  const [encryptProgress, setEncryptProgress] = useState(72);
+  const [encryptHash, setEncryptHash] = useState("8F3A2C1D");
+  const [randomHash, setRandomHash] = useState("");
+  
+  useEffect(() => {
+    const updateHash = () => {
+      setEncryptProgress(prev => (prev + 1) % 100);
+      const hashChars = "ABCDEF0123456789";
+      const newHash = Array(8).fill(0).map(() => hashChars[Math.floor(Math.random() * hashChars.length)]).join("");
+      setEncryptHash(newHash);
+      // Generate random string for encryption display
+      setRandomHash(Array(100).fill(0).map(() => Math.random().toString(16).charAt(0)).join(''));
+    };
+    
+    updateHash();
+    const interval = setInterval(updateHash, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Calculate responsive width
   const sidebarWidth = isMobile ? Math.min(320, windowWidth - 20) : Math.min(360, windowWidth - 40);
@@ -90,6 +110,7 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
             ✕
           </button>
         )}
+        
         {/* Header */}
         <div style={{ marginBottom: isMobile ? 16 : 24 }}>
           <div style={{ fontSize: isMobile ? 9 : 10, letterSpacing: "3px", opacity: 0.4, marginBottom: 6 }}>
@@ -100,6 +121,7 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
             {activeSection === "profile" && "الملف الشخصي"}
             {activeSection === "wallet" && "المحفظة"}
             {activeSection === "settings" && "الإعدادات"}
+            {activeSection === "activity" && "النشاط والإحصائيات"}
           </h2>
         </div>
 
@@ -143,13 +165,112 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
           </div>
         </div>
 
-        {/* Quick Stats Row */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: isMobile ? 6 : 10, marginBottom: isMobile ? 16 : 24 }}>
-          <MiniStatBox icon="📷" label="أعمالي" value="12" isMobile={isMobile} />
-          <MiniStatBox icon="👁️" label="المشاهدات" value="1.2K" isMobile={isMobile} />
-          <MiniStatBox icon="💰" label="المبيعات" value="8" isMobile={isMobile} />
-          <MiniStatBox icon="⭐" label="التقييم" value="4.8" isMobile={isMobile} />
+        {/* --- Professional Development Section --- */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: isMobile ? 16 : 24, padding: "0 4px" }}>
+          
+          {/* 1. Dynamic Encryption Counter (AES-256) */}
+          <div style={{ 
+            background: "rgba(34, 197, 94, 0.05)", 
+            border: "1px solid rgba(34, 197, 94, 0.2)", 
+            borderRadius: 12, 
+            padding: 12 
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+              <span style={{ fontSize: 10, color: "#4ade80", fontFamily: "monospace", letterSpacing: "1px" }}>
+                ENCRYPTION: AES-256-GCM
+              </span>
+              <span style={{ color: "#4ade80", fontFamily: "monospace", fontSize: 12 }}>
+                ACTIVE {encryptProgress}%
+              </span>
+            </div>
+            {/* Fast numbers effect */}
+            <div style={{ 
+              height: 24, 
+              overflow: "hidden", 
+              fontSize: 8, 
+              fontFamily: "monospace", 
+              color: "rgba(74, 222, 128, 0.6)", 
+              wordBreak: "break-all",
+              opacity: 0.8,
+              lineHeight: 1
+            }}>
+              {randomHash}
+            </div>
+          </div>
+
+          {/* 2. Statistics (Elegant boxes in one row) */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
+            {[
+              { label: 'مشاهدة', val: '1.2K', color: '#a78bfa' },
+              { label: 'أعمالي', val: '12', color: '#60a5fa' },
+              { label: 'تقييم', val: '4.8', color: '#facc15' },
+              { label: 'مبيعات', val: '8', color: '#4ade80' }
+            ].map((item, idx) => (
+              <div key={idx} style={{ 
+                background: "rgba(255,255,255,0.05)", 
+                border: "1px solid rgba(255,255,255,0.1)", 
+                borderRadius: 8, 
+                padding: 8, 
+                display: "flex", 
+                flexDirection: "column", 
+                alignItems: "center", 
+                justifyContent: "center" 
+              }}>
+                <span style={{ fontSize: 12, fontWeight: "bold", color: item.color }}>{item.val}</span>
+                <span style={{ fontSize: 8, color: "rgba(255,255,255,0.5)", marginTop: 4, whiteSpace: "nowrap" }}>{item.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* 3. Music Button (Full Merge) */}
+          <div style={{ 
+            position: "relative", 
+            width: "100%", 
+            height: 48, 
+            background: "linear-gradient(to right, rgba(37, 99, 235, 0.2), transparent)", 
+            border: "1px solid rgba(59, 130, 246, 0.3)", 
+            borderRadius: 999, 
+            display: "flex", 
+            alignItems: "center", 
+            padding: "0 16px", 
+            overflow: "hidden",
+            cursor: "pointer",
+            transition: "all 0.3s"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, zIndex: 10 }}>
+              <div style={{ 
+                width: 28, 
+                height: 28, 
+                background: "#3b82f6", 
+                borderRadius: "50%", 
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "center",
+                boxShadow: "0 0 20px rgba(59, 130, 246, 0.3)"
+              }}>
+                <span style={{ fontSize: 12 }}>🎵</span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ fontSize: 10, fontWeight: "bold", color: "#bfdbfe", textTransform: "uppercase", letterSpacing: "0.5px" }}>Calm Creativity</span>
+                <span style={{ fontSize: 8, color: "rgba(147, 197, 253, 0.8)", fontStyle: "italic" }}>Ambient Focus Mode</span>
+              </div>
+            </div>
+            {/* Interactive Sound Wave */}
+            <div style={{ position: "absolute", right: 24, display: "flex", gap: 2, height: 16, alignItems: "flex-end" }}>
+              {[0.4, 0.8, 0.5, 0.9, 0.3].map((h, i) => (
+                <div key={i} style={{ 
+                  width: 2, 
+                  background: "#60a5fa", 
+                  animation: "bounce 1s infinite",
+                  height: `${h * 100}%`,
+                  animationDelay: `${i * 0.1}s`
+                }} />
+              ))}
+            </div>
+          </div>
+
         </div>
+        {/* --- End Section --- */}
 
         {/* Main Navigation */}
         {activeSection === "main" && (
@@ -167,8 +288,8 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
             />
             <SidebarItem
               icon="📊"
-              label="إحصائيات"
-              onClick={() => {}}
+              label="النشاط والإحصائيات"
+              onClick={() => setActiveSection("activity")}
             />
             <SidebarItem
               icon="🔔"
@@ -212,9 +333,122 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
           </>
         )}
 
+        {/* Activity/Stats Section */}
+        {activeSection === "activity" && (
+          <>
+            <div
+              style={{
+                background: "linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
+                borderRadius: 14,
+                padding: 20,
+                marginBottom: 20,
+                border: "1px solid rgba(255,255,255,0.1)",
+              }}
+            >
+              <div style={{ fontSize: 12, opacity: 0.5, marginBottom: 16 }}>إحصائيات الفترة الحالية</div>
+              
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+                <StatCard icon="👁️" label="المشاهدات" value="1,234" change="+12%" isPositive={true} />
+                <StatCard icon="❤️" label="الإعجابات" value="567" change="+8%" isPositive={true} />
+                <StatCard icon="💬" label="التعليقات" value="89" change="+5%" isPositive={true} />
+                <StatCard icon="📤" label="المشاركات" value="234" change="-2%" isPositive={false} />
+              </div>
+
+              <div style={{ fontSize: 11, opacity: 0.4, marginBottom: 8 }}>أفضل أداء هذا الأسبوع</div>
+              <div style={{ 
+                padding: "12px 16px", 
+                background: "rgba(0,212,255,0.1)", 
+                borderRadius: 10,
+                border: "1px solid rgba(0,212,255,0.2)"
+              }}>
+                <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 4 }}>غروب في الصحراء</div>
+                <div style={{ fontSize: 12, opacity: 0.6 }}>📷 تصوير فوتوغرافي • 456 مشاهدات</div>
+              </div>
+            </div>
+
+            <SidebarItem
+              icon="📈"
+              label="تقرير شامل"
+              onClick={() => {}}
+            />
+            <SidebarItem
+              icon="🏆"
+              label="الإنجازات"
+              onClick={() => {}}
+            />
+            <SidebarItem
+              icon="📅"
+              label="الجدول الزمني"
+              onClick={() => {}}
+            />
+            
+            <button
+              onClick={() => setActiveSection("main")}
+              style={{
+                width: "100%",
+                marginTop: 20,
+                padding: 12,
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.15)",
+                color: "white",
+                cursor: "pointer",
+                borderRadius: 10,
+                fontSize: 14,
+              }}
+            >
+              ← العودة
+            </button>
+          </>
+        )}
+
         {/* Profile Section */}
         {activeSection === "profile" && (
           <>
+            <div
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                borderRadius: 14,
+                padding: 16,
+                marginBottom: 20,
+                border: "1px solid rgba(255,255,255,0.08)",
+                textAlign: "center",
+              }}
+            >
+              <div
+                style={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: "50%",
+                  background: "rgba(255,255,255,0.1)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 32,
+                  margin: "0 auto 12px",
+                  border: "2px solid rgba(255,255,255,0.2)",
+                }}
+              >
+                {user?.avatar || "👤"}
+              </div>
+              <div style={{ fontSize: 18, fontWeight: 500, marginBottom: 4 }}>
+                {user?.name || "زائر"}
+              </div>
+              <div style={{ fontSize: 12, opacity: 0.5 }}>
+                {user?.email || "user@visura.com"}
+              </div>
+              <div style={{ 
+                marginTop: 12, 
+                padding: "6px 16px", 
+                background: "rgba(0,212,255,0.1)", 
+                borderRadius: 20,
+                display: "inline-block",
+                fontSize: 11,
+                color: "#00d4ff"
+              }}>
+                🎨 مصور فوتوغرافي
+              </div>
+            </div>
+
             <SidebarItem
               icon="✏️"
               label="تعديل الملف"
@@ -396,24 +630,6 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
   );
 }
 
-function MiniStatBox({ icon, label, value, isMobile = false }: { icon: string; label: string; value: string; isMobile?: boolean }) {
-  return (
-    <div
-      style={{
-        background: "rgba(255,255,255,0.03)",
-        padding: isMobile ? "10px" : "12px",
-        borderRadius: isMobile ? 8 : 10,
-        border: "1px solid rgba(255,255,255,0.05)",
-        textAlign: "center",
-      }}
-    >
-      <div style={{ fontSize: isMobile ? 14 : 16, marginBottom: 4 }}>{icon}</div>
-      <div style={{ fontSize: isMobile ? 14 : 16, fontWeight: 500 }}>{value}</div>
-      <div style={{ fontSize: isMobile ? 9 : 10, opacity: 0.4 }}>{label}</div>
-    </div>
-  );
-}
-
 function SidebarItem({
   icon,
   label,
@@ -483,6 +699,37 @@ function SystemStatus() {
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <span>📷 الكاميرا</span>
         <span style={{ color: "rgba(255,255,255,0.7)" }}>جاهزة</span>
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ icon, label, value, change, isPositive }: { 
+  icon: string; 
+  label: string; 
+  value: string; 
+  change: string;
+  isPositive: boolean;
+}) {
+  return (
+    <div
+      style={{
+        background: "rgba(255,255,255,0.03)",
+        padding: 14,
+        borderRadius: 10,
+        border: "1px solid rgba(255,255,255,0.05)",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+        <span style={{ fontSize: 14 }}>{icon}</span>
+        <span style={{ fontSize: 10, opacity: 0.4 }}>{label}</span>
+      </div>
+      <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 4 }}>{value}</div>
+      <div style={{ 
+        fontSize: 10, 
+        color: isPositive ? "#00ff88" : "#ff6b6b"
+      }}>
+        {change}
       </div>
     </div>
   );
