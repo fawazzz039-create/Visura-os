@@ -16,6 +16,8 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Recipe system for common features
 - [x] Database setup with Drizzle ORM + SQLite
 - [x] User system schema (users, photos, arts, transactions, favorites)
+- [x] Fixed close button (X) position - now uses position: fixed with z-index: 99999
+- [x] Created visura-core.css with centralized close button styles
 
 ## Current Structure
 
