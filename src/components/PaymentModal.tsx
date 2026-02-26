@@ -137,10 +137,11 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
       >
         {/* Close button */}
         <button
-          className="global-os-close"
+          className="close-button-fixed"
           onClick={onClose}
+          aria-label="Close"
         >
-          ✕
+          <span className="close-icon">✕</span>
         </button>
 
         {step === "select" && (

@@ -124,10 +124,11 @@ export default function CanvasModal({ isOpen, onClose }: CanvasModalProps) {
     >
       {/* Close */}
       <button
-        className="global-os-close"
+        className="close-button-fixed"
         onClick={onClose}
+        aria-label="Close"
       >
-        ×
+        <span className="close-icon">✕</span>
       </button>
 
       {/* Header */}

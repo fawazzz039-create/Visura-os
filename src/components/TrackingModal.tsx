@@ -74,10 +74,11 @@ export default function TrackingModal({ isOpen, onClose }: TrackingModalProps) {
     >
       {/* Close */}
       <button
-        className="global-os-close"
+        className="close-button-fixed"
         onClick={onClose}
+        aria-label="Close"
       >
-        ×
+        <span className="close-icon">✕</span>
       </button>
 
       <div style={{ maxWidth: 700, width: "100%" }}>

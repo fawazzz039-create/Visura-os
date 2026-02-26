@@ -92,10 +92,11 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
       >
         {/* Close button */}
         <button
-          className="global-os-close"
+          className="close-button-fixed"
           onClick={onClose}
+          aria-label="Close"
         >
-          ✕
+          <span className="close-icon">✕</span>
         </button>
 
         {/* Header */}

@@ -142,10 +142,11 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
     >
       {/* Close */}
       <button
-        className="global-os-close"
+        className="close-button-fixed"
         onClick={onClose}
+        aria-label="Close"
       >
-        ×
+        <span className="close-icon">✕</span>
       </button>
 
       <div

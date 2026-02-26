@@ -215,10 +215,11 @@ export default function ArtGalleryModal({ isOpen, onClose, onBuy }: ArtGalleryMo
 
       {/* Close Button - Fixed in top-left */}
       <button
-        className="global-os-close"
+        className="close-button-fixed"
         onClick={onClose}
+        aria-label="Close"
       >
-        ×
+        <span className="close-icon">✕</span>
       </button>
 
       {/* Header */}
@@ -669,10 +670,11 @@ function ArtDetailModal({
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="global-os-close"
+          className="close-button-fixed"
           onClick={onClose}
+          aria-label="Close"
         >
-          ×
+          <span className="close-icon">✕</span>
         </button>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
