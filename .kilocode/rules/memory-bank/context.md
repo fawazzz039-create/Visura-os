@@ -19,6 +19,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Fixed close button (X) position - now uses position: fixed with z-index: 99999
 - [x] Created visura-core.css with centralized close button styles
 - [x] Structural cleanup: CSS variables for colors, shared components folder, cleaned duplicate CSS
+- [x] Fixed GalleryCard: replaced img with next/image for better LCP
 
 ## Current Structure
 
