@@ -1,19 +1,33 @@
-/* VISURA OS - Core Close Button System */
-/* Fixed position close button (X) for all modals */
-
-.global-os-close {
+/* كود التثبيت السيادي - VISURA OS */
+.close-button-fixed {
     position: fixed !important;
-    top: 25px !important;
-    right: 25px !important;
-    z-index: 999999 !important;
-    background: rgba(0,0,0,0.8) !important;
-    border: 1px solid #D4AF37 !important;
-    cursor: pointer !important;
+    top: 30px !important;
+    right: 30px !important;
+    width: 60px !important;
+    height: 60px !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    border: 2px solid #D4AF37 !important; /* لون الذهب السيادي */
+    border-radius: 50% !important;
     display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 999999 !important; /* فوق الكل */
+    cursor: pointer !important;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5) !important;
+    transition: all 0.3s ease !important;
 }
 
-.global-os-close:hover {
-    transform: scale(1.1) rotate(90deg) !important;
-    background: #D4AF37 !important;
-    color: black !important;
+.close-button-fixed:hover {
+    transform: scale(1.1);
+    background-color: #D4AF37 !important;
+}
+
+.close-icon {
+    color: #D4AF37 !important;
+    font-size: 28px !important;
+    font-weight: bold !important;
+}
+
+.close-button-fixed:hover .close-icon {
+    color: #000 !important;
 }
