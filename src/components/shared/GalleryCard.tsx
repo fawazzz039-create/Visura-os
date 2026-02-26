@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import type { Photo, Artwork } from "./types";
 
 interface GalleryCardProps {
@@ -45,15 +46,12 @@ export default function GalleryCard({ item, onBuy, type }: GalleryCardProps) {
     >
       {/* Image Container */}
       <div style={{ position: "relative", paddingTop: "75%", overflow: "hidden" }}>
-        <img
+        <Image
           src={item.image}
           alt={item.title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
             objectFit: "cover",
             transition: "transform 0.5s ease",
             transform: isHovered ? "scale(1.05)" : "scale(1)",
