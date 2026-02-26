@@ -101,6 +101,7 @@ function UserIcon({ size = 20 }: { size?: number }) {
 
 export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile = false }: VisuraDockProps) {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const [clickedItem, setClickedItem] = useState<number | null>(null);
   const { user, logout } = useAuth();
 
   // Simplified items for mobile - only most important ones
@@ -146,7 +147,11 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
 
   const items = isMobile ? mobileItems : desktopItems;
 
-  const handleClick = (item: DockItem) => {
+  const handleClick = (item: DockItem, index: number) => {
+    // Trigger bounce animation
+    setClickedItem(index);
+    setTimeout(() => setClickedItem(null), 400);
+    
     if (item.id === "home") {
       onHome();
     } else if (item.id !== null) {
@@ -154,13 +159,13 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
     }
   };
 
-  // Mobile-specific styles
-  const iconSize = isMobile ? 38 : 48;
+  // Mobile-specific styles - lifted more for floating effect
+  const iconSize = isMobile ? 40 : 52;
   const iconInnerSize = isMobile ? 16 : 20;
-  const dockPadding = isMobile ? "8px 10px" : "10px 14px";
-  const dockGap = isMobile ? 4 : 6;
-  const dockBottom = isMobile ? 16 : 32;
-  const dockBorderRadius = isMobile ? 20 : 26;
+  const dockPadding = isMobile ? "10px 12px" : "12px 16px";
+  const dockGap = isMobile ? 6 : 8;
+  const dockBottom = isMobile ? 20 : 40; // More floating from bottom
+  const dockBorderRadius = isMobile ? 22 : 28;
 
   return (
     <div
@@ -180,13 +185,13 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
           display: "flex",
           gap: dockGap,
           padding: dockPadding,
-          background: "rgba(255, 255, 255, 0.04)",
+          background: "rgba(255, 255, 255, 0.06)",
           borderRadius: dockBorderRadius,
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          backdropFilter: "blur(32px) saturate(200%)",
-          WebkitBackdropFilter: "blur(32px) saturate(200%)",
+          border: "1px solid rgba(255, 255, 255, 0.12)",
+          backdropFilter: "blur(40px) saturate(220%)",
+          WebkitBackdropFilter: "blur(40px) saturate(220%)",
           boxShadow:
-            "0 8px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.08) inset, 0 -1px 0 rgba(0,0,0,0.3) inset",
+            "0 20px 60px rgba(0,0,0,0.6), 0 4px 0 rgba(255,255,255,0.06) inset, 0 -2px 0 rgba(0,0,0,0.4) inset",
           position: "relative",
           justifyContent: "center",
         }}
@@ -206,7 +211,7 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
         {items.map((item, index) => (
           <div
             key={item.id}
-            onClick={() => handleClick(item)}
+            onClick={() => handleClick(item, index)}
             onMouseEnter={() => setHoveredItem(index)}
             onMouseLeave={() => setHoveredItem(null)}
             style={{
@@ -215,30 +220,35 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: isMobile ? 10 : 12,
+              borderRadius: isMobile ? 12 : 14,
               cursor: "pointer",
-              transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              transition: "all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)",
               background:
                 activeModal === item.id
-                  ? "rgba(255,255,255,0.12)"
+                  ? "rgba(255,255,255,0.15)"
                   : hoveredItem === index
-                  ? "rgba(255,255,255,0.08)"
+                  ? "rgba(255,255,255,0.1)"
                   : "transparent",
+              // Magnification effect - scale up prominently on hover
               transform:
-                hoveredItem === index
-                  ? `translateY(${isMobile ? -4 : -6}px) scale(${isMobile ? 1.1 : 1.15})`
+                clickedItem === index
+                  ? `translateY(-4px) scale(0.95)`
+                  : hoveredItem === index
+                  ? `translateY(${isMobile ? -6 : -8}px) scale(${isMobile ? 1.18 : 1.22})`
                   : activeModal === item.id
-                  ? `translateY(${isMobile ? -2 : -3}px)`
-                  : "translateY(0)",
+                  ? `translateY(${isMobile ? -2 : -3}px) scale(1.05)`
+                  : "translateY(0) scale(1)",
               boxShadow:
                 hoveredItem === index
-                  ? "0 8px 24px rgba(0,0,0,0.4)"
+                  ? "0 12px 32px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.08)"
                   : "none",
               border:
                 activeModal === item.id
-                  ? "1px solid rgba(255,255,255,0.25)"
+                  ? "1px solid rgba(255,255,255,0.3)"
                   : "1px solid transparent",
               position: "relative",
+              // Bounce animation on click
+              animation: clickedItem === index ? "dock-bounce 0.4s ease-out" : "none",
             }}
           >
             {/* Icon color */}
@@ -262,13 +272,14 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
               <div
                 style={{
                   position: "absolute",
-                  top: isMobile ? -2 : -3,
-                  right: isMobile ? -2 : -3,
-                  width: isMobile ? 8 : 10,
-                  height: isMobile ? 8 : 10,
-                  background: "rgba(255,255,255,0.9)",
+                  top: isMobile ? -3 : -4,
+                  right: isMobile ? -3 : -4,
+                  width: isMobile ? 10 : 12,
+                  height: isMobile ? 10 : 12,
+                  background: "rgba(255,255,255,0.95)",
                   borderRadius: "50%",
                   animation: "pulse-dot 1.2s infinite",
+                  boxShadow: "0 0 10px rgba(255,255,255,0.5)",
                 }}
               />
             )}
