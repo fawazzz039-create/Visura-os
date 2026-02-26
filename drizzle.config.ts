@@ -8,3 +8,5 @@ export default defineConfig({
     url: process.env.DATABASE_URL || "./visura.db",
   },
 });
+
+// Note: For Vercel deployment, set DATABASE_URL environment variable in Vercel project settings.
