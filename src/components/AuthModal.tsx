@@ -94,23 +94,6 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
         <button
           className="global-os-close"
           onClick={onClose}
-          style={{
-            position: "absolute",
-            top: 16,
-            right: 16,
-            background: "rgba(255,255,255,0.05)",
-            border: "none",
-            color: "rgba(255,255,255,0.6)",
-            width: 36,
-            height: 36,
-            borderRadius: "50%",
-            cursor: "pointer",
-            fontSize: 20,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            transition: "all 0.2s",
-          }}
         >
           ✕
         </button>

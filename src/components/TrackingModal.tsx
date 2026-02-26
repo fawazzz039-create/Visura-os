@@ -76,18 +76,6 @@ export default function TrackingModal({ isOpen, onClose }: TrackingModalProps) {
       <button
         className="global-os-close"
         onClick={onClose}
-        style={{
-          position: "fixed",
-          top: 20,
-          right: 24,
-          fontSize: 28,
-          background: "none",
-          border: "none",
-          color: "white",
-          cursor: "pointer",
-          opacity: 0.7,
-          zIndex: 10,
-        }}
       >
         ×
       </button>

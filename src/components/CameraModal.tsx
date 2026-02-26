@@ -219,24 +219,6 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
       <button
         className="global-os-close"
         onClick={onClose}
-        style={{
-          position: "absolute",
-          top: 20,
-          right: 24,
-          fontSize: 28,
-          background: "rgba(0,0,0,0.5)",
-          border: "1px solid rgba(255,255,255,0.2)",
-          borderRadius: "50%",
-          width: 40,
-          height: 40,
-          color: "white",
-          cursor: "pointer",
-          zIndex: 10,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backdropFilter: "blur(8px)",
-        }}
       >
         ×
       </button>

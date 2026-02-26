@@ -234,18 +234,6 @@ export default function PhotoGalleryModal({ isOpen, onClose, onBuy }: PhotoGalle
       <button
         className="global-os-close"
         onClick={onClose}
-        style={{
-          position: "fixed",
-          top: 20,
-          right: 24,
-          fontSize: 28,
-          background: "none",
-          border: "none",
-          color: "white",
-          cursor: "pointer",
-          opacity: 0.7,
-          zIndex: 10,
-        }}
       >
         ×
       </button>
@@ -676,17 +664,6 @@ function PhotoDetailModal({
         <button
           className="global-os-close"
           onClick={onClose}
-          style={{
-            position: "absolute",
-            top: 16,
-            right: 16,
-            background: "none",
-            border: "none",
-            color: "white",
-            fontSize: 22,
-            cursor: "pointer",
-            opacity: 0.5,
-          }}
         >
           ×
         </button>

@@ -144,18 +144,6 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
       <button
         className="global-os-close"
         onClick={onClose}
-        style={{
-          position: "absolute",
-          top: 20,
-          right: 24,
-          fontSize: 28,
-          background: "none",
-          border: "none",
-          color: "white",
-          cursor: "pointer",
-          opacity: 0.7,
-          zIndex: 10,
-        }}
       >
         ×
       </button>
