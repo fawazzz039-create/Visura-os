@@ -1,11 +1,11 @@
 // Mock database for production builds without DATABASE_URL
 // This allows the app to build and run even without a database connection
 type MockQuery = {
-  from: () => Promise<any[]>;
+  from: (table: any) => Promise<any[]>;
 };
 
 type MockInsert = {
-  values: () => { returning: () => Promise<any[]> };
+  values: (obj: any) => { returning: () => Promise<any[]> };
 };
 
 type MockUpdate = {
@@ -50,7 +50,7 @@ export function getDb(): MockDb {
         return createMockDb();
       }
     }
-    return realDb;
+    return realDb!;
   }
   
   // No DATABASE_URL - return mock database
