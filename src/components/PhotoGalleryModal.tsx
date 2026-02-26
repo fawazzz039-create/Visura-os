@@ -232,11 +232,8 @@ export default function PhotoGalleryModal({ isOpen, onClose, onBuy }: PhotoGalle
 
       {/* Close Button - Fixed in top-left */}
       <button
-        className="global-visura-close"
-        onClick={onClose}
-        aria-label="Close"
-      >
-        <span className="close-icon">✕</span>
+        className="global-visura-close" onClick={onClose}>
+        <span>✕</span>
       </button>
 
       {/* Header */}
@@ -662,12 +659,8 @@ function PhotoDetailModal({
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          className="global-visura-close"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          <span className="close-icon">✕</span>
+        <button className="global-visura-close" onClick={onClose}>
+          <span>✕</span>
         </button>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

@@ -73,12 +73,8 @@ export default function TrackingModal({ isOpen, onClose }: TrackingModalProps) {
       }}
     >
       {/* Close */}
-      <button
-        className="global-visura-close"
-        onClick={onClose}
-        aria-label="Close"
-      >
-        <span className="close-icon">✕</span>
+      <button className="global-visura-close" onClick={onClose}>
+        <span>✕</span>
       </button>
 
       <div style={{ maxWidth: 700, width: "100%" }}>

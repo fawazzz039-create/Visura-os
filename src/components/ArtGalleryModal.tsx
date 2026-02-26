@@ -215,11 +215,8 @@ export default function ArtGalleryModal({ isOpen, onClose, onBuy }: ArtGalleryMo
 
       {/* Close Button - Fixed in top-left */}
       <button
-        className="global-visura-close"
-        onClick={onClose}
-        aria-label="Close"
-      >
-        <span className="close-icon">✕</span>
+        className="global-visura-close" onClick={onClose}>
+        <span>✕</span>
       </button>
 
       {/* Header */}
@@ -669,12 +666,8 @@ function ArtDetailModal({
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          className="global-visura-close"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          <span className="close-icon">✕</span>
+        <button className="global-visura-close" onClick={onClose}>
+          <span>✕</span>
         </button>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

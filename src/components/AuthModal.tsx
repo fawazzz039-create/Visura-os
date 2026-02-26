@@ -91,12 +91,8 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
-        <button
-          className="global-visura-close"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          <span className="close-icon">✕</span>
+        <button className="global-visura-close" onClick={onClose}>
+          <span>✕</span>
         </button>
 
         {/* Header */}
