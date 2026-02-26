@@ -125,6 +125,7 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
 
   return (
     <div
+      className="payment-modal"
       style={{
         position: "fixed",
         inset: 0,
@@ -152,6 +153,7 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
       >
         {/* Close button */}
         <button
+          className="close-btn"
           onClick={onClose}
           style={{
             position: "absolute",
