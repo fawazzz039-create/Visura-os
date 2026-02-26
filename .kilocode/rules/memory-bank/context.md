@@ -18,6 +18,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] User system schema (users, photos, arts, transactions, favorites)
 - [x] Fixed close button (X) position - now uses position: fixed with z-index: 99999
 - [x] Created visura-core.css with centralized close button styles
+- [x] Structural cleanup: CSS variables for colors, shared components folder, cleaned duplicate CSS
 
 ## Current Structure
 
@@ -26,6 +27,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 | `src/app/page.tsx` | Home page | ✅ Ready |
 | `src/app/layout.tsx` | Root layout | ✅ Ready |
 | `src/app/globals.css` | Global styles | ✅ Ready |
+| `src/components/shared/` | Shared components (types, FilterDropdown, GalleryCard) | ✅ Ready |
 | `.kilocode/` | AI context & recipes | ✅ Ready |
 
 ## Current Focus
@@ -99,3 +101,4 @@ export async function GET() {
 | 2026-02-26 | Add animated encryption counter, activity stats, and music player to sidebar |
 | 2026-02-26 | Clean & Optimize: Remove duplicate CSS (encrypt-shimmer), fix modal positioning, clean lint warnings |
 | 2026-02-26 | Fix: add graceful fallback for missing DATABASE_URL in production build |
+| 2026-02-26 | Structural cleanup: CSS variables, shared components, path aliases, fixed syntax errors |
