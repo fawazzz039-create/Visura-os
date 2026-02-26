@@ -230,7 +230,7 @@ export default function PhotoGalleryModal({ isOpen, onClose, onBuy }: PhotoGalle
         onChange={handleUpload}
       />
 
-      {/* Close */}
+      {/* Close Button - Fixed in top-left */}
       <button
         className="global-os-close"
         onClick={onClose}
@@ -746,6 +746,7 @@ function PhotoDetailModal({
             شراء الآن
           </button>
         </div>
+      </div>
       </div>
     </div>
   );

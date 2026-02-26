@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./visura-core.css";
 
 export const metadata: Metadata = {
   title: "VISURA — The Creative Vault",

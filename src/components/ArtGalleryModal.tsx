@@ -213,7 +213,7 @@ export default function ArtGalleryModal({ isOpen, onClose, onBuy }: ArtGalleryMo
         onChange={handleUpload}
       />
 
-      {/* Close */}
+      {/* Close Button - Fixed in top-left */}
       <button
         className="global-os-close"
         onClick={onClose}
@@ -783,6 +783,7 @@ function ArtDetailModal({
             اقتناء الآن
           </button>
         </div>
+      </div>
       </div>
     </div>
   );
