@@ -126,28 +126,12 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
   return (
     <div
       className="payment-modal"
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0, 0, 0, 0.92)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 4500,
-        backdropFilter: "blur(20px)",
-      }}
       onClick={onClose}
     >
       <div
+        className="modal-inner"
         style={{
-          width: "100%",
-          maxWidth: 480,
-          background: "rgba(20, 25, 35, 0.98)",
-          borderRadius: 24,
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          padding: 32,
           position: "relative",
-          boxShadow: "0 25px 60px rgba(0,0,0,0.6)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -155,19 +139,6 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
         <button
           className="close-btn"
           onClick={onClose}
-          style={{
-            position: "absolute",
-            top: 16,
-            right: 16,
-            background: "rgba(255,255,255,0.05)",
-            border: "none",
-            color: "rgba(255,255,255,0.6)",
-            width: 36,
-            height: 36,
-            borderRadius: "50%",
-            cursor: "pointer",
-            fontSize: 20,
-          }}
         >
           ✕
         </button>
@@ -225,6 +196,7 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
               {paymentMethods.map((method) => (
                 <button
                   key={method.id}
+                  className="payment-btn"
                   onClick={() => setSelectedMethod(method.id)}
                   style={{
                     display: "flex",
@@ -277,6 +249,7 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
                   {cryptoOptions.map((crypto) => (
                     <button
                       key={crypto.id}
+                      className="payment-btn"
                       onClick={() => setCryptoType(crypto.id)}
                       style={{
                         flex: 1,
@@ -299,6 +272,7 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
 
             {/* Pay button */}
             <button
+              className="payment-btn"
               onClick={handlePayment}
               disabled={!selectedMethod}
               style={{
