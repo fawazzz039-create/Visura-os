@@ -250,20 +250,25 @@ html, body {
 /* ===== MODAL COMPONENTS ===== */
 
 .close-btn {
-  position: absolute;
-  top: 25px !important;
-  right: 25px;
-  z-index: 9999;
+  position: fixed !important;
+  top: 40px !important;
+  right: 30px !important;
+  z-index: 99999 !important;
+  display: block !important;
+  background: rgba(0, 163, 255, 0.2);
+  padding: 10px;
+  border-radius: 50%;
 }
 
 .filters-container {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 10px;
+  display: flex !important;
+  gap: 25px !important;
+  overflow-x: scroll !important;
+  padding: 20px !important;
+  min-height: 100px;
 }
 
 .filter-item {
-  flex-shrink: 0;
-  white-space: nowrap;
+  flex-shrink: 0 !important;
+  width: auto !important;
 }
