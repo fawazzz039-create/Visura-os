@@ -246,3 +246,24 @@ html, body {
   from { transform: scale(0.92); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* ===== MODAL COMPONENTS ===== */
+
+.close-btn {
+  position: absolute;
+  top: 25px !important;
+  right: 25px;
+  z-index: 9999;
+}
+
+.filters-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.filter-item {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
