@@ -11,7 +11,6 @@ import ArtGalleryModal from "./ArtGalleryModal";
 import AIModal from "./AIModal";
 import CanvasModal from "./CanvasModal";
 import TrackingModal from "./TrackingModal";
-import MusicPlayer from "./MusicPlayer";
 import AuthModal from "./AuthModal";
 import PaymentModal from "./PaymentModal";
 
@@ -71,28 +70,6 @@ function VisuraAppContent() {
   const handlePaymentComplete = () => {
     console.log("Payment completed for:", paymentItem?.title);
   };
-
-  // Animated encryption counter - More visible and faster
-  const [encryptCounter, setEncryptCounter] = useState(0);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setEncryptCounter(prev => (prev + 1) % 100);
-    }, 30); // Faster for more visible animation
-    return () => clearInterval(interval);
-  }, []);
-
-  // Generate encryption hash characters - updates faster
-  const hashChars = "ABCDEF0123456789";
-  const [encryptHash, setEncryptHash] = useState("8F3A2C1D");
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newHash = Array(8).fill(0).map(() => hashChars[Math.floor(Math.random() * hashChars.length)]).join("");
-      setEncryptHash(newHash);
-    }, 80); // Faster updates
-    return () => clearInterval(interval);
-  }, []);
 
   // Dynamic styles based on device
   const headerPadding = isMobile ? "20px 20px" : isTablet ? "25px 35px" : "30px 50px";
@@ -158,107 +135,6 @@ function VisuraAppContent() {
           </button>
         )}
         
-        {/* ALL DEVICES: Animated Encryption Status with Lens Connection */}
-        {true && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            {/* Lens-connected encryption indicator */}
-            <div style={{ 
-              display: "flex", 
-              alignItems: "center", 
-              gap: "12px",
-              background: "rgba(0,0,0,0.4)",
-              padding: "8px 16px",
-              borderRadius: "8px",
-              border: "1px solid rgba(255,255,255,0.1)"
-            }}>
-              {/* Animated lens indicator */}
-              <div style={{ position: "relative", width: "24px", height: "24px" }}>
-                <svg viewBox="0 0 24 24" fill="none" style={{ width: "100%", height: "100%" }}>
-                  <circle cx="12" cy="12" r="10" stroke="#00d4ff" strokeWidth="1.5" />
-                  <circle cx="12" cy="12" r="6" stroke="#00d4ff" strokeWidth="1" opacity="0.6" />
-                  <circle cx="12" cy="12" r="3" fill="#00d4ff" opacity="0.8">
-                    <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite" />
-                  </circle>
-                </svg>
-                {/* Pulse ring - fixed CSS */}
-                <div style={{
-                  position: "absolute",
-                  top: "-4px",
-                  left: "-4px",
-                  right: "-4px",
-                  bottom: "-4px",
-                  border: "2px solid #00d4ff",
-                  borderRadius: "50%",
-                  opacity: 0.5,
-                  animation: "lensPulse 2s infinite"
-                }} />
-              </div>
-              
-              {/* Encryption text with counter */}
-              <div style={{ fontFamily: "monospace", fontSize: "12px", letterSpacing: "1px" }}>
-                <span style={{ color: "#00d4ff" }}>ENCRYPTION:</span>{" "}
-                <span style={{ color: "#fff", fontWeight: 600 }}>AES-256-GCM</span>
-              </div>
-              
-              {/* Animated counter bar - LARGER AND MORE VISIBLE */}
-              <div style={{ 
-                width: "120px", 
-                height: "8px", 
-                background: "rgba(255,255,255,0.15)", 
-                borderRadius: "4px",
-                overflow: "hidden",
-                border: "1px solid rgba(0,212,255,0.3)"
-              }}>
-                <div style={{
-                  width: `${encryptCounter}%`,
-                  height: "100%",
-                  background: "linear-gradient(90deg, #00d4ff, #00ff88, #00d4ff)",
-                  backgroundSize: "200% 100%",
-                  animation: "encrypt-shimmer 1s linear infinite",
-                  transition: "width 0.03s linear"
-                }} />
-              </div>
-              
-              {/* Percentage text */}
-              <div style={{ 
-                fontFamily: "monospace", 
-                fontSize: "12px", 
-                color: "#00ff88",
-                fontWeight: "bold",
-                minWidth: "35px"
-              }}>
-                {encryptCounter}%
-              </div>
-              
-              {/* Hash counter */}
-              <div style={{ 
-                fontFamily: "monospace", 
-                fontSize: "10px", 
-                color: "rgba(255,255,255,0.4)",
-                direction: "ltr"
-              }}>
-                #{encryptHash.substring(0, 8)}
-              </div>
-            </div>
-            
-            {/* Second row - Protocol status */}
-            <div style={{ 
-              display: "flex", 
-              alignItems: "center", 
-              gap: "8px",
-              fontFamily: "monospace",
-              fontSize: "10px",
-              opacity: 0.5,
-              letterSpacing: "1px",
-              paddingLeft: "36px"
-            }}>
-              <span style={{ color: "#00ff88" }}>●</span> SECURE_PROTOCOL: ACTIVE
-              <span style={{ marginLeft: "12px", color: "rgba(255,255,255,0.3)" }}>|</span>
-              VISURA OS v2.0
-            </div>
-          </div>
-        )}
-        
         {/* Clock */}
         <div
           style={{
@@ -305,8 +181,6 @@ function VisuraAppContent() {
         isMobile={isMobile}
       />
 
-      {/* Music Player - Hide on mobile to save space */}
-      {!isMobile && <MusicPlayer />}
 
       {/* Modals - All responsive */}
       <CameraModal isOpen={activeModal === "camera"} onClose={closeModal} />
