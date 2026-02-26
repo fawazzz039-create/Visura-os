@@ -784,7 +784,6 @@ function ArtDetailModal({
           </button>
         </div>
       </div>
-      </div>
     </div>
   );
 }

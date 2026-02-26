@@ -747,7 +747,6 @@ function PhotoDetailModal({
           </button>
         </div>
       </div>
-      </div>
     </div>
   );
 }
