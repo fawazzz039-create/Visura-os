@@ -142,6 +142,7 @@ export default function AIModal({ isOpen, onClose }: AIModalProps) {
     >
       {/* Close */}
       <button
+        className="visura-global-close-btn"
         onClick={onClose}
         style={{
           position: "absolute",

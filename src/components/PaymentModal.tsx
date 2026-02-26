@@ -137,7 +137,7 @@ export default function PaymentModal({ isOpen, onClose, item, onPaymentComplete 
       >
         {/* Close button */}
         <button
-          className="close-btn payment-modal-close-icon"
+          className="visura-global-close-btn"
           onClick={onClose}
         >
           ✕

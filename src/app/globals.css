@@ -294,17 +294,20 @@ html, body {
   transform: scale(1.05);
 }
 
-/* --- تثبيت علامة X في مكانها للأبد --- */
-.payment-modal-close-icon {
-    position: fixed !important; /* ثابت في الشاشة مهما نزلت تحت */
-    top: 20px !important;       /* مسافة ثابتة من الحافة العليا */
-    right: 20px !important;     /* مسافة ثابتة من اليمين */
-    z-index: 99999 !important;  /* أعلى من كل شيء في الصفحة */
-    color: #D4AF37 !important;  /* ذهبي */
-    background: rgba(0, 0, 0, 0.5) !important; /* خلفية سوداء شفافة عشان يبرز الذهب */
-    padding: 10px !important;
-    border-radius: 50% !important;
-    line-height: 0 !important;
+/* --- تثبيت علامة X في كل المودالات --- */
+.visura-global-close-btn,
+[class*="close-icon"],
+[aria-label="Close modal"] {
+    position: fixed !important;
+    top: 25px !important;
+    right: 25px !important;
+    z-index: 100000 !important;
+    color: #D4AF37 !important;
+    cursor: pointer !important;
+}
+
+body.visura-global-modal-open {
+    overflow-y: scroll;
 }
 
 /* Payment modal specific */
