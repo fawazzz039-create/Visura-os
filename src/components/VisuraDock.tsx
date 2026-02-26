@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import type { ModalType } from "./VisuraApp";
 import { useAuth } from "@/lib/auth-context";
 
@@ -102,6 +102,7 @@ function UserIcon({ size = 20 }: { size?: number }) {
 export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile = false }: VisuraDockProps) {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
   const [clickedItem, setClickedItem] = useState<number | null>(null);
+  const dockRef = useRef<HTMLDivElement>(null);
   const { user, logout } = useAuth();
 
   // Simplified items for mobile - only most important ones
@@ -147,6 +148,8 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
 
   const items = isMobile ? mobileItems : desktopItems;
 
+  // Calculate indicator position directly (derived state)
+
   const handleClick = (item: DockItem, index: number) => {
     // Trigger bounce animation
     setClickedItem(index);
@@ -181,6 +184,7 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
     >
       {/* Dock container */}
       <div
+        ref={dockRef}
         style={{
           display: "flex",
           gap: dockGap,
@@ -207,6 +211,31 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
             background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
           }}
         />
+
+        {/* Sliding Active Indicator - Smooth LED dot */}
+        {(() => {
+          const activeIndex = items.findIndex(item => item.id === activeModal);
+          if (activeIndex === -1) return null;
+          return (
+            <div
+              style={{
+                position: "absolute",
+                bottom: isMobile ? -6 : -8,
+                left: "50%",
+                width: isMobile ? 6 : 8,
+                height: isMobile ? 6 : 8,
+                borderRadius: "50%",
+                background: "rgba(255,255,255,0.95)",
+                transform: `translateX(calc(-50% + (${activeIndex} - ${Math.floor(items.length / 2)}) * ${isMobile ? 52 : 68}px))`,
+                transition: "transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                animation: "slow-pulse-dot 2.5s ease-in-out infinite",
+                boxShadow: "0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.2)",
+                zIndex: 10,
+                pointerEvents: "none",
+              }}
+            />
+          );
+        })()}
 
         {items.map((item, index) => (
           <div
@@ -266,23 +295,6 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
             >
               {item.icon}
             </div>
-
-            {/* AI Pulse indicator */}
-            {item.id === "ai" && activeModal === "ai" && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: isMobile ? -3 : -4,
-                  right: isMobile ? -3 : -4,
-                  width: isMobile ? 10 : 12,
-                  height: isMobile ? 10 : 12,
-                  background: "rgba(255,255,255,0.95)",
-                  borderRadius: "50%",
-                  animation: "pulse-dot 1.2s infinite",
-                  boxShadow: "0 0 10px rgba(255,255,255,0.5)",
-                }}
-              />
-            )}
 
             {/* Hover tooltip - hidden on mobile */}
             {hoveredItem === index && !isMobile && (

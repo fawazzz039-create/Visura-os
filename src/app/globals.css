@@ -63,10 +63,24 @@ html, body {
 
 /* ===== DOCK ANIMATIONS ===== */
 
-/* Pulse dot */
+/* Pulse dot - fast version */
 @keyframes pulse-dot {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.6); opacity: 0.4; }
+}
+
+/* Slow pulse dot - calm LED breathing */
+@keyframes slow-pulse-dot {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 0.6; 
+    box-shadow: 0 0 8px rgba(255,255,255,0.6), 0 0 16px rgba(255,255,255,0.3);
+  }
+  50% { 
+    transform: scale(1.2); 
+    opacity: 1; 
+    box-shadow: 0 0 12px rgba(255,255,255,0.9), 0 0 24px rgba(255,255,255,0.5), 0 0 36px rgba(255,255,255,0.2);
+  }
 }
 
 /* Dock icon bounce on click */
