@@ -217,7 +217,7 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
 
       {/* Close */}
       <button
-        className="visura-global-close-btn"
+        className="global-os-close"
         onClick={onClose}
         style={{
           position: "absolute",

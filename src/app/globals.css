@@ -294,16 +294,25 @@ html, body {
   transform: scale(1.05);
 }
 
-/* --- تثبيت علامة X في كل المودالات --- */
-.visura-global-close-btn,
-[class*="close-icon"],
-[aria-label="Close modal"] {
+/* --- تثبيت علامة X في كل المودالات - FIXED GLOBAL HEADER STYLE --- */
+.close-action-button,
+[data-ux="modal-close"],
+.global-os-close {
     position: fixed !important;
-    top: 25px !important;
-    right: 25px !important;
-    z-index: 100000 !important;
+    top: 30px !important;
+    right: 30px !important;
+    z-index: 999999 !important;
     color: #D4AF37 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    border-radius: 50% !important;
+    padding: 8px !important;
+    backdrop-filter: blur(5px) !important;
     cursor: pointer !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 body.visura-global-modal-open {

@@ -232,7 +232,7 @@ export default function PhotoGalleryModal({ isOpen, onClose, onBuy }: PhotoGalle
 
       {/* Close */}
       <button
-        className="visura-global-close-btn"
+        className="global-os-close"
         onClick={onClose}
         style={{
           position: "fixed",
@@ -674,7 +674,7 @@ function PhotoDetailModal({
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="visura-global-close-btn"
+          className="global-os-close"
           onClick={onClose}
           style={{
             position: "absolute",

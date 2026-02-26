@@ -215,7 +215,7 @@ export default function ArtGalleryModal({ isOpen, onClose, onBuy }: ArtGalleryMo
 
       {/* Close */}
       <button
-        className="visura-global-close-btn"
+        className="global-os-close"
         onClick={onClose}
         style={{
           position: "fixed",
@@ -681,7 +681,7 @@ function ArtDetailModal({
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="visura-global-close-btn"
+          className="global-os-close"
           onClick={onClose}
           style={{
             position: "absolute",

@@ -74,7 +74,7 @@ export default function TrackingModal({ isOpen, onClose }: TrackingModalProps) {
     >
       {/* Close */}
       <button
-        className="visura-global-close-btn"
+        className="global-os-close"
         onClick={onClose}
         style={{
           position: "fixed",

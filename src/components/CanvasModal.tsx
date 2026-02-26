@@ -124,7 +124,7 @@ export default function CanvasModal({ isOpen, onClose }: CanvasModalProps) {
     >
       {/* Close */}
       <button
-        className="visura-global-close-btn"
+        className="global-os-close"
         onClick={onClose}
         style={{
           position: "fixed",

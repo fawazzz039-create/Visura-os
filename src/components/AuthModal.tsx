@@ -92,7 +92,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
       >
         {/* Close button */}
         <button
-          className="visura-global-close-btn"
+          className="global-os-close"
           onClick={onClose}
           style={{
             position: "absolute",
