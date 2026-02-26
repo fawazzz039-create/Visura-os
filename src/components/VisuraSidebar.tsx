@@ -174,6 +174,7 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
               style={{
+                position: "relative",
                 width: isMobile ? 42 : 50,
                 height: isMobile ? 42 : 50,
                 borderRadius: "50%",
@@ -186,13 +187,27 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
               }}
             >
               {user?.avatar || "👤"}
+              {/* Pulsing Green Dot - System Heartbeat */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 2,
+                  right: 2,
+                  width: 10,
+                  height: 10,
+                  borderRadius: "50%",
+                  background: "#22c55e",
+                  boxShadow: "0 0 8px #22c55e, 0 0 12px #22c55e",
+                  animation: "pulse 2s ease-in-out infinite",
+                }}
+              />
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 500, fontSize: isMobile ? 13 : 15, marginBottom: 2 }}>
                 {user?.name || "زائر"}
               </div>
-              <div style={{ fontSize: isMobile ? 10 : 12, opacity: 0.5 }}>
-                {user?.email || "سجل دخولك للمتابعة"}
+              <div style={{ fontSize: isMobile ? 9 : 10, opacity: 0.5, display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ color: "#22c55e", fontSize: 8, fontWeight: 600, letterSpacing: "0.5px" }}>STATUS: SECURE</span>
               </div>
             </div>
             <div style={{ opacity: 0.4, fontSize: 12 }}>›</div>
@@ -202,22 +217,24 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
         {/* --- Professional Development Section --- */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: isMobile ? 16 : 24, padding: "0 4px" }}>
           
-          {/* 1. Dynamic Encryption Counter (AES-256) */}
+          {/* 1. Dynamic Encryption Counter (AES-256) - Music Reactive */}
           <div style={{ 
             background: "rgba(34, 197, 94, 0.05)", 
             border: "1px solid rgba(34, 197, 94, 0.2)", 
             borderRadius: 12, 
-            padding: 12 
+            padding: 12,
+            transition: "opacity 0.5s ease",
+            opacity: isPlaying ? 1 : 0.6
           }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
               <span style={{ fontSize: 10, color: "#4ade80", fontFamily: "monospace", letterSpacing: "1px" }}>
                 ENCRYPTION: AES-256-GCM
               </span>
               <span style={{ color: "#4ade80", fontFamily: "monospace", fontSize: 12 }}>
-                ACTIVE {encryptProgress}%
+                {isPlaying ? "▶ LIVE" : "⏸ STANDBY"} {encryptProgress}%
               </span>
             </div>
-            {/* Fast numbers effect */}
+            {/* Fast numbers effect - speed depends on music state */}
             <div style={{ 
               height: 24, 
               overflow: "hidden", 
@@ -225,20 +242,21 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
               fontFamily: "monospace", 
               color: "rgba(74, 222, 128, 0.6)", 
               wordBreak: "break-all",
-              opacity: 0.8,
-              lineHeight: 1
+              opacity: isPlaying ? 0.9 : 0.5,
+              lineHeight: 1,
+              transition: "opacity 0.5s ease"
             }}>
               {randomHash}
             </div>
           </div>
 
-          {/* 2. Statistics (Elegant boxes in one row) */}
+          {/* 2. Statistics (Elegant boxes in one row with Mini Progress Bars) */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
             {[
-              { label: 'مشاهدة', val: stats.views >= 1000 ? `${(stats.views / 1000).toFixed(1)}K` : stats.views.toString(), color: '#a78bfa' },
-              { label: 'أعمالي', val: stats.artworks.toString(), color: '#60a5fa' },
-              { label: 'تقييم', val: stats.rating.toString(), color: '#facc15' },
-              { label: 'مبيعات', val: stats.sales.toString(), color: '#4ade80' }
+              { label: 'مشاهدة', val: stats.views >= 1000 ? `${(stats.views / 1000).toFixed(1)}K` : stats.views.toString(), color: '#a78bfa', progress: Math.min(100, (stats.views / 5000) * 100) },
+              { label: 'أعمالي', val: stats.artworks.toString(), color: '#60a5fa', progress: Math.min(100, (stats.artworks / 100) * 100) },
+              { label: 'تقييم', val: stats.rating.toString(), color: '#facc15', progress: Math.min(100, (stats.rating / 5) * 100) },
+              { label: 'مبيعات', val: stats.sales.toString(), color: '#4ade80', progress: Math.min(100, (stats.sales / 50) * 100) }
             ].map((item, idx) => (
               <div key={idx} style={{ 
                 background: "rgba(255,255,255,0.05)", 
@@ -252,6 +270,25 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
               }}>
                 <span style={{ fontSize: 12, fontWeight: "bold", color: item.color }}>{item.val}</span>
                 <span style={{ fontSize: 8, color: "rgba(255,255,255,0.5)", marginTop: 4, whiteSpace: "nowrap" }}>{item.label}</span>
+                {/* Mini Progress Bar */}
+                <div style={{ 
+                  width: "100%", 
+                  height: 2, 
+                  background: "rgba(255,255,255,0.1)", 
+                  borderRadius: 1, 
+                  marginTop: 6,
+                  overflow: "hidden"
+                }}>
+                  <div style={{ 
+                    width: `${item.progress}%`, 
+                    height: "100%", 
+                    background: item.color,
+                    borderRadius: 1,
+                    animation: isPlaying ? "progressMove 1.5s ease-in-out infinite" : "progressMove 4s ease-in-out infinite",
+                    transition: "width 0.5s ease, opacity 0.5s ease",
+                    opacity: isPlaying ? 1 : 0.5
+                  }} />
+                </div>
               </div>
             ))}
           </div>
@@ -291,7 +328,7 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
                 <span style={{ fontSize: 8, color: "rgba(147, 197, 253, 0.8)", fontStyle: "italic" }}>Ambient Focus Mode</span>
               </div>
             </div>
-            {/* Interactive Sound Wave */}
+            {/* Interactive Sound Wave - Music Reactive */}
             <div style={{ position: "absolute", right: 24, display: "flex", gap: 2, height: 16, alignItems: "flex-end" }}>
               {isPlaying ? (
                 <>
@@ -302,7 +339,14 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
                   <div style={{ width: 2, background: "#60a5fa", animation: "bounce 0.5s infinite", height: "50%", animationDelay: "0.4s" }} />
                 </>
               ) : (
-                <div style={{ width: 16, height: 2, background: "rgba(96, 165, 250, 0.3)", borderRadius: 1 }} />
+                <div style={{ 
+                  width: 16, 
+                  height: 2, 
+                  background: "rgba(96, 165, 250, 0.2)", 
+                  borderRadius: 1,
+                  animation: "idlePulse 3s ease-in-out infinite",
+                  opacity: 0.4
+                }} />
               )}
             </div>
           </div>
