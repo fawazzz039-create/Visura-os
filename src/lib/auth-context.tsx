@@ -12,12 +12,21 @@ interface User {
   bio?: string;
 }
 
+interface UserStats {
+  views: number;
+  artworks: number;
+  rating: number;
+  sales: number;
+}
+
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   register: (name: string, email: string, password: string, phone: string) => Promise<boolean>;
   logout: () => void;
+  stats: UserStats;
+  updateStats: (newStats: Partial<UserStats>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,6 +47,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return null;
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  
+  // User statistics
+  const [stats, setStats] = useState<UserStats>(() => {
+    if (typeof window !== "undefined") {
+      const storedStats = localStorage.getItem("visura_stats");
+      if (storedStats) {
+        try {
+          return JSON.parse(storedStats) as UserStats;
+        } catch (e) {
+          localStorage.removeItem("visura_stats");
+        }
+      }
+    }
+    return { views: 1200, artworks: 12, rating: 4.8, sales: 8 };
+  });
+
+  const updateStats = (newStats: Partial<UserStats>) => {
+    setStats(prev => {
+      const updated = { ...prev, ...newStats };
+      if (typeof window !== "undefined") {
+        localStorage.setItem("visura_stats", JSON.stringify(updated));
+      }
+      return updated;
+    });
+  };
 
   const login = async (email: string, password: string): Promise<boolean> => {
     // Simulate API call - in production, this would call your backend
@@ -87,7 +121,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, register, logout, stats, updateStats }}>
       {children}
     </AuthContext.Provider>
   );

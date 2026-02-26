@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/lib/auth-context";
+import { hashContent } from "@/lib/encryption";
 
 interface VisuraSidebarProps {
   isOpen: boolean;
@@ -11,26 +12,59 @@ interface VisuraSidebarProps {
 }
 
 export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isMobile = false }: VisuraSidebarProps) {
-  const { user } = useAuth();
+  const { user, stats } = useAuth();
   const [activeSection, setActiveSection] = useState<"main" | "profile" | "wallet" | "settings" | "activity">("main");
   
-  // Animated encryption counter
-  const [encryptProgress, setEncryptProgress] = useState(72);
-  const [encryptHash, setEncryptHash] = useState("8F3A2C1D");
+  // Real encryption state using hashContent
+  const [encryptProgress, setEncryptProgress] = useState(0);
+  const [encryptHash, setEncryptHash] = useState("");
   const [randomHash, setRandomHash] = useState("");
   
+  // Audio player state
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  
+  // Initialize audio on mount
   useEffect(() => {
-    const updateHash = () => {
+    if (typeof window !== "undefined" && !audioRef.current) {
+      audioRef.current = new Audio("https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3");
+      audioRef.current.loop = true;
+    }
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+  
+  // Toggle music player
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+  
+  // Real encryption using hashContent from encryption.ts
+  useEffect(() => {
+    const updateEncryption = async () => {
       setEncryptProgress(prev => (prev + 1) % 100);
-      const hashChars = "ABCDEF0123456789";
-      const newHash = Array(8).fill(0).map(() => hashChars[Math.floor(Math.random() * hashChars.length)]).join("");
-      setEncryptHash(newHash);
-      // Generate random string for encryption display
-      setRandomHash(Array(100).fill(0).map(() => Math.random().toString(16).charAt(0)).join(''));
+      
+      // Use real hash content from encryption module
+      const timestamp = Date.now().toString();
+      const content = `VISURA-${timestamp}-SECURE`;
+      const hash = await hashContent(content);
+      setEncryptHash(hash.substring(0, 8).toUpperCase());
+      setRandomHash(hash.substring(0, 64));
     };
     
-    updateHash();
-    const interval = setInterval(updateHash, 2000);
+    updateEncryption();
+    const interval = setInterval(updateEncryption, 2000);
     return () => clearInterval(interval);
   }, []);
 
@@ -201,10 +235,10 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
           {/* 2. Statistics (Elegant boxes in one row) */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
             {[
-              { label: 'مشاهدة', val: '1.2K', color: '#a78bfa' },
-              { label: 'أعمالي', val: '12', color: '#60a5fa' },
-              { label: 'تقييم', val: '4.8', color: '#facc15' },
-              { label: 'مبيعات', val: '8', color: '#4ade80' }
+              { label: 'مشاهدة', val: stats.views >= 1000 ? `${(stats.views / 1000).toFixed(1)}K` : stats.views.toString(), color: '#a78bfa' },
+              { label: 'أعمالي', val: stats.artworks.toString(), color: '#60a5fa' },
+              { label: 'تقييم', val: stats.rating.toString(), color: '#facc15' },
+              { label: 'مبيعات', val: stats.sales.toString(), color: '#4ade80' }
             ].map((item, idx) => (
               <div key={idx} style={{ 
                 background: "rgba(255,255,255,0.05)", 
@@ -223,19 +257,21 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
           </div>
 
           {/* 3. Music Button (Full Merge) */}
-          <div style={{ 
-            position: "relative", 
-            width: "100%", 
-            height: 48, 
-            background: "linear-gradient(to right, rgba(37, 99, 235, 0.2), transparent)", 
-            border: "1px solid rgba(59, 130, 246, 0.3)", 
-            borderRadius: 999, 
-            display: "flex", 
-            alignItems: "center", 
-            padding: "0 16px", 
-            overflow: "hidden",
-            cursor: "pointer",
-            transition: "all 0.3s"
+          <div 
+            onClick={toggleMusic}
+            style={{ 
+              position: "relative", 
+              width: "100%", 
+              height: 48, 
+              background: "linear-gradient(to right, rgba(37, 99, 235, 0.2), transparent)", 
+              border: "1px solid rgba(59, 130, 246, 0.3)", 
+              borderRadius: 999, 
+              display: "flex", 
+              alignItems: "center", 
+              padding: "0 16px", 
+              overflow: "hidden",
+              cursor: "pointer",
+              transition: "all 0.3s"
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12, zIndex: 10 }}>
               <div style={{ 
@@ -257,15 +293,17 @@ export default function VisuraSidebar({ isOpen, onClose, windowWidth = 1200, isM
             </div>
             {/* Interactive Sound Wave */}
             <div style={{ position: "absolute", right: 24, display: "flex", gap: 2, height: 16, alignItems: "flex-end" }}>
-              {[0.4, 0.8, 0.5, 0.9, 0.3].map((h, i) => (
-                <div key={i} style={{ 
-                  width: 2, 
-                  background: "#60a5fa", 
-                  animation: "bounce 1s infinite",
-                  height: `${h * 100}%`,
-                  animationDelay: `${i * 0.1}s`
-                }} />
-              ))}
+              {isPlaying ? (
+                <>
+                  <div style={{ width: 2, background: "#60a5fa", animation: "bounce 0.5s infinite", height: "60%", animationDelay: "0s" }} />
+                  <div style={{ width: 2, background: "#60a5fa", animation: "bounce 0.5s infinite", height: "100%", animationDelay: "0.1s" }} />
+                  <div style={{ width: 2, background: "#60a5fa", animation: "bounce 0.5s infinite", height: "40%", animationDelay: "0.2s" }} />
+                  <div style={{ width: 2, background: "#60a5fa", animation: "bounce 0.5s infinite", height: "80%", animationDelay: "0.3s" }} />
+                  <div style={{ width: 2, background: "#60a5fa", animation: "bounce 0.5s infinite", height: "50%", animationDelay: "0.4s" }} />
+                </>
+              ) : (
+                <div style={{ width: 16, height: 2, background: "rgba(96, 165, 250, 0.3)", borderRadius: 1 }} />
+              )}
             </div>
           </div>
 
