@@ -25,6 +25,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] v2.3 Professional Dock: Glassmorphism navigation with gold active icons, camera prominence, macro badge
 - [x] v2.4 Mobile Filter Fix: Horizontal scroll + 10px font for mobile + force display
 - [x] v2.5 Camera Resume: visibility change handler + golden reconnect button
+- [x] v2.6 Golden Velvet Dock: 5 icons, geometric spacing, pulse on touch
 
 ## Current Structure
 
@@ -41,7 +42,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 VISURA app is fully built and deployed. The platform is a professional photography & art investment app with:
 - Black/white monochrome theme matching the VISURA logo palette
 - Animated feather SVG logo inside white circle with "VISURA" + "The Creative Vault"
-- Glass/transparent dock with 8 icons below the logo
+- Animated Golden Velvet Dock with 5 icons (Home, Explorer/Compass, Camera, Gallery, Profile)
 - Two independent galleries: Photography (معرض التصوير) and Art (معرض الرسم الفني)
 - Advanced camera with AES-256 encryption simulation
 - AI assistant with Arabic chat interface
@@ -111,3 +112,4 @@ export async function GET() {
 | 2026-02-27 | Add haptic feel to close button (scale + rotate on press) |
 | 2026-02-27 | Add mobile safe area for sovereign counter (home indicator) |
 | 2026-02-27 | Add professional camera interface CSS (metadata, focus brackets, glass effects) |
+| 2026-02-27 | v2.6 Golden Velvet Dock: 5 icons, geometric spacing, pulse on touch |
