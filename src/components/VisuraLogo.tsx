@@ -71,36 +71,6 @@ export default function VisuraLogo({ onClick }: VisuraLogoProps) {
         />
       )}
 
-      {/* Static Triangle (Prism) - Frozen like a mountain */}
-      <div
-        style={{
-          position: "absolute",
-          width: 0,
-          height: 0,
-          borderLeft: "55px solid transparent",
-          borderRight: "55px solid transparent",
-          borderBottom: "95px solid rgba(255, 255, 255, 0.95)",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, calc(-50% - 15px))",
-          filter: "drop-shadow(0 0 20px rgba(255,255,255,0.4))",
-          zIndex: 2,
-          pointerEvents: "none",
-        }}
-      >
-        {/* Inner prism highlight */}
-        <div
-          style={{
-            position: "absolute",
-            top: "35px",
-            left: "-25px",
-            width: "50px",
-            height: "50px",
-            background: "linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%)",
-            clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
-          }}
-        />
-      </div>
 
       {/* Outer glow ring */}
       <div
