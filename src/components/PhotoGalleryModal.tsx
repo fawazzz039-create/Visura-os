@@ -477,28 +477,7 @@ function PhotoCard({
           }}
         />
 
-        {/* Encryption badge */}
-        {photo.encrypted && (
-          <div
-            style={{
-              position: "absolute",
-              top: 10,
-              right: 10,
-              background: "rgba(0,0,0,0.65)",
-              borderRadius: "50%",
-              width: 32,
-              height: 32,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 14,
-              backdropFilter: "blur(4px)",
-              border: "1px solid rgba(255,255,255,0.15)",
-            }}
-          >
-            🔒
-          </div>
-        )}
+
 
         {/* Resolution badge */}
         <div
