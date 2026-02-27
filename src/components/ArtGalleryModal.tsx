@@ -669,6 +669,12 @@ function ArtDetailModal({
         <button className="global-visura-close" onClick={onClose}>
           <span>✕</span>
         </button>
+        
+        {/* Counter - Current Position */}
+        <div className="global-visura-counter">
+          1 / 6
+        </div>
+        
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={art.image}
