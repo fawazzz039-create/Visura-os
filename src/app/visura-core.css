@@ -77,3 +77,196 @@
         backdrop-filter: blur(5px) !important;
     }
 }
+
+/* ============================================
+PROFESSIONAL CAMERA INTERFACE
+============================================ */
+
+/* 1. الحاوية الرئيسية - ضبط أمان الجوال */
+.modal-visual-root {
+    position: relative;
+    background: #000;
+    overflow: hidden;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 2. Sovereign Close - Professional Position */
+.global-visura-close {
+    position: absolute !important;
+    top: calc(env(safe-area-inset-top) + 15px) !important;
+    right: 20px !important;
+    width: 45px !important;
+    height: 45px !important;
+    background: rgba(0, 0, 0, 0.7) !important;
+    border: 1px solid rgba(212, 175, 55, 0.6) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 100 !important;
+    cursor: pointer !important;
+    backdrop-filter: blur(10px) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.global-visura-close span {
+    color: #D4AF37 !important;
+    font-size: 20px !important;
+    font-weight: 300 !important;
+    filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.5));
+}
+
+.global-visura-close:hover {
+    transform: scale(1.1) rotate(90deg);
+    background: rgba(212, 175, 55, 0.3) !important;
+}
+
+.global-visura-close:hover span {
+    color: #fff !important;
+}
+
+.global-visura-close:active {
+    transform: scale(0.8) rotate(90deg) !important;
+    transition: 0.15s ease-in-out !important;
+}
+
+/* 3. عداد الذهب الزجاجي (The Sovereign Counter) */
+.sovereign-status-bar {
+    position: absolute;
+    bottom: calc(env(safe-area-inset-bottom) + 15px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    z-index: 100;
+}
+
+.counter-glass-box {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 0.5px solid rgba(212, 175, 55, 0.4);
+    padding: 6px 25px;
+    border-radius: 50px;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 300;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Counter container for modal - replaces old .global-visura-counter */
+.global-visura-counter {
+    position: absolute !important;
+    bottom: calc(env(safe-area-inset-bottom) + 20px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 0.5px solid rgba(212, 175, 55, 0.4) !important;
+    color: #D4AF37 !important;
+    padding: 8px 25px !important;
+    border-radius: 50px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Mono', 'Roboto Mono', monospace !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    letter-spacing: 2px !important;
+    z-index: 100 !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+    pointer-events: none !important;
+}
+
+/* 4. بيانات الكاميرا الاحترافية (Metadata) */
+.camera-metadata {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Mono', 'Roboto Mono', monospace;
+    font-size: 9px;
+    color: #D4AF37;
+    text-transform: uppercase;
+    opacity: 0.8;
+    letter-spacing: 1px;
+}
+
+/* 5. زوايا التركيز (Focus Brackets) */
+.camera-focus-ui {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    height: 140px;
+    border: 0.5px solid rgba(255,255,255,0.15);
+    pointer-events: none;
+}
+
+.camera-focus-ui::before,
+.camera-focus-ui::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: rgba(212, 175, 55, 0.6);
+    border-style: solid;
+}
+
+.camera-focus-ui::before {
+    top: 0;
+    left: 0;
+    border-width: 2px 0 0 2px;
+}
+
+.camera-focus-ui::after {
+    bottom: 0;
+    right: 0;
+    border-width: 0 2px 2px 0;
+}
+
+/* 6. وضع الماكرو (Macro Indicator) */
+.macro-active-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #D4AF37;
+    border-radius: 50%;
+    margin-right: 5px;
+    box-shadow: 0 0 8px #D4AF37;
+    animation: pulse-gold 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-gold {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px #D4AF37; }
+    50% { opacity: 0.6; box-shadow: 0 0 4px #D4AF37; }
+}
+
+/* Mobile adjustments for camera interface */
+@media (max-width: 768px) {
+    .global-visura-close {
+        top: calc(env(safe-area-inset-top) + 10px) !important;
+        right: 15px !important;
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    .global-visura-close span {
+        font-size: 18px !important;
+    }
+    
+    .global-visura-counter {
+        bottom: calc(env(safe-area-inset-bottom, 15px) + 15px) !important;
+        padding: 6px 20px !important;
+        font-size: 12px !important;
+    }
+    
+    .counter-glass-box {
+        padding: 5px 18px;
+        font-size: 12px;
+    }
+    
+    .camera-focus-ui {
+        width: 100px;
+        height: 100px;
+    }
+}
