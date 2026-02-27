@@ -49,6 +49,15 @@ BIOMETRIC STEALTH PULSE - SILENT TOUCH AUTH
     user-select: none;
 }
 
+/* ============================================
+LOCK ICON - COMPLETELY HIDDEN
+Royal Stealth: Encryption is background logic only
+============================================ */
+
+.lock-icon {
+    display: none !important;
+}
+
 .vault-unlocked {
     filter: none;
     pointer-events: auto;

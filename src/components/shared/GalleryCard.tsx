@@ -58,31 +58,6 @@ export default function GalleryCard({ item, onBuy, type }: GalleryCardProps) {
           }}
         />
         
-        {/* Encrypted Badge */}
-        {item.encrypted && (
-          <div
-            style={{
-              opacity: 0,
-              position: "absolute",
-              top: "12px",
-              left: "12px",
-              background: "rgba(0,0,0,0.7)",
-              backdropFilter: "blur(8px)",
-              padding: "6px 12px",
-              borderRadius: "20px",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              border: "1px solid var(--gold-royal)",
-            }}
-          >
-            <span style={{ color: "var(--gold-royal)", fontSize: "12px" }}>🔒</span>
-            <span style={{ color: "var(--gold-royal)", fontSize: "11px", fontWeight: 600 }}>
-              AES-256
-            </span>
-          </div>
-        )}
-
         {/* Price Tag */}
         <div
           style={{
