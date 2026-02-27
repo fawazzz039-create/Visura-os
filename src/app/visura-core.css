@@ -1,3 +1,95 @@
+/* VISURA OS v2.7 - VAULT SECURITY & ROYAL GRID */
+/* ============================================================ */
+
+/* ============================================
+SECURITY PULSE - BIOMETRIC UNLOCK EFFECT
+=========================================== */
+
+@keyframes security-pulse {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+/* Royal Grid - Vertical Timeline Layout */
+.royal-grid-container {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 20px 0;
+}
+
+/* Royal Grid Item - Wide Comfort Spacing */
+.royal-grid-item {
+    background: rgba(255, 255, 255, 0.025);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(217, 166, 11, 0.15);
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(217, 166, 11, 0.05) inset;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.royal-grid-item:hover {
+    transform: translateX(8px);
+    border-color: rgba(217, 166, 11, 0.35);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(217, 166, 11, 0.1),
+        0 0 0 1px rgba(217, 166, 11, 0.1) inset;
+}
+
+/* Vertical Timeline Line */
+.royal-timeline {
+    position: absolute;
+    left: 40px;
+    top: 60px;
+    bottom: 60px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(217, 166, 11, 0.3) 20%, rgba(217, 166, 11, 0.3) 80%, transparent);
+}
+
+/* Timeline Dot */
+.royal-timeline-dot {
+    position: absolute;
+    left: 36px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #D9A60B;
+    box-shadow: 0 0 15px rgba(217, 166, 11, 0.6), 0 0 30px rgba(217, 166, 11, 0.3);
+}
+
+/* Brushed Gold Border Effect */
+.royal-brushed-border {
+    position: relative;
+}
+
+.royal-brushed-border::before {
+    content: \;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(217, 166, 11, 0.4) 0%, rgba(217, 166, 11, 0.1) 25%, rgba(217, 166, 11, 0.3) 50%, rgba(217, 166, 11, 0.1) 75%, rgba(217, 166, 11, 0.4) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
 /* VISURA OS v2.3 - GOLDEN VELVET DOCK */
 /* ============================================================ */
 

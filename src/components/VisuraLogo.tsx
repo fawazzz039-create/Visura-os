@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface VisuraLogoProps {
   onClick: () => void;
@@ -8,10 +8,22 @@ interface VisuraLogoProps {
 
 export default function VisuraLogo({ onClick }: VisuraLogoProps) {
   const [hovered, setHovered] = useState(false);
+  const [pulseTriggered, setPulseTriggered] = useState(false);
+
+  const handleClick = () => {
+    // Trigger biometric security pulse
+    setPulseTriggered(true);
+    onClick();
+    
+    // Hide pulse after 1 second (biometric authentication complete)
+    setTimeout(() => {
+      setPulseTriggered(false);
+    }, 1000);
+  };
 
   return (
     <div
-      onClick={onClick}
+      onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -24,6 +36,24 @@ export default function VisuraLogo({ onClick }: VisuraLogoProps) {
         gap: 0,
       }}
     >
+      {/* Golden Security Pulse - Triggered on Open */}
+      {pulseTriggered && (
+        <div
+          style={{
+            position: "absolute",
+            width: 400,
+            height: 400,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(217, 166, 11, 0.4) 0%, transparent 70%)",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            animation: "security-pulse 1s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+            pointerEvents: "none",
+            zIndex: 10,
+          }}
+        />
+      )}
       {/* Outer glow ring */}
       <div
         style={{

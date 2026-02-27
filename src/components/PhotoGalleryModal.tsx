@@ -370,12 +370,13 @@ export default function PhotoGalleryModal({ isOpen, onClose, onBuy }: PhotoGalle
         </div>
       )}
 
-      {/* Grid */}
+      {/* Royal Grid - Vertical Timeline */}
       <div
+        className="royal-grid-container"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-          gap: 22,
+          gap: 28,
         }}
       >
         {filtered.map((photo) => (
@@ -420,20 +421,36 @@ function PhotoCard({
 
   return (
     <div
+      className="royal-grid-item royal-brushed-border"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         background: "rgba(255,255,255,0.025)",
-        borderRadius: 16,
+        borderRadius: 20,
         overflow: "hidden",
-        border: `1px solid ${hovered ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.07)"}`,
-        transition: "all 0.35s ease",
-        transform: hovered ? "translateY(-8px)" : "translateY(0)",
-        boxShadow: hovered ? "0 24px 48px rgba(0,0,0,0.5)" : "none",
+        border: `1px solid ${hovered ? "rgba(217, 166, 11, 0.35)" : "rgba(217, 166, 11, 0.15)"}`,
+        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+        transform: hovered ? "translateX(8px)" : "translateX(0)",
+        boxShadow: hovered ? "0 12px 40px rgba(0,0,0,0.5), 0 0 30px rgba(217, 166, 11, 0.1)" : "0 4px 20px rgba(0,0,0,0.3)",
         cursor: "pointer",
         position: "relative",
       }}
     >
+      {/* Timeline Dot */}
+      <div
+        style={{
+          position: "absolute",
+          left: -6,
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: 12,
+          height: 12,
+          borderRadius: "50%",
+          background: "#D9A60B",
+          boxShadow: "0 0 15px rgba(217, 166, 11, 0.6), 0 0 30px rgba(217, 166, 11, 0.3)",
+          zIndex: 5,
+        }}
+      />
       {/* Image */}
       <div style={{ position: "relative", overflow: "hidden", height: 220 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
