@@ -104,3 +104,6 @@ export async function GET() {
 | 2026-02-26 | Clean & Optimize: Remove duplicate CSS (encrypt-shimmer), fix modal positioning, clean lint warnings |
 | 2026-02-26 | Fix: add graceful fallback for missing DATABASE_URL in production build |
 | 2026-02-26 | Structural cleanup: CSS variables, shared components, path aliases, fixed syntax errors |
+| 2026-02-27 | Add haptic feel to close button (scale + rotate on press) |
+| 2026-02-27 | Add mobile safe area for sovereign counter (home indicator) |
+| 2026-02-27 | Add professional camera interface CSS (metadata, focus brackets, glass effects) |
