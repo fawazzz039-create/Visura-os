@@ -35,6 +35,72 @@ SPECTRAL PULSE - BEHIND TRIANGLE (Z-INDEX 0)
 }
 
 /* ============================================
+VISURA FINAL LOGO: THE STATIC PRISM & SPECTRAL SPIRIT
+==================================================== */
+
+/* 1. Logo container */
+.visura-logo-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0;
+    z-index: 100;
+}
+
+/* 2. The Static Prism (Triangle) - Frozen like a mountain */
+.prism-shield {
+    position: relative;
+    width: 100px;
+    height: auto;
+    animation: none !important;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+    z-index: 2;
+}
+
+/* 3. Spectral Spirit (Pulsing background) */
+.spectral-spirit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle,
+        rgba(0, 255, 255, 0.15) 0%,
+        rgba(255, 215, 0, 0.1) 40%,
+        transparent 70%);
+    border-radius: 50%;
+    filter: blur(25px);
+    animation: spirit-pulse 6s ease-in-out infinite;
+    z-index: 1;
+}
+
+/* 4. Brand Name */
+.visura-brand-name {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    color: #FFFFFF;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    margin: 15px 0 0 0;
+    text-shadow: 2px 2px 20px rgba(0,0,0,0.8);
+    z-index: 3;
+}
+
+/* Spectral Spirit pulse animation */
+@keyframes spirit-pulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+/* ============================================
 BIOMETRIC STEALTH PULSE - SILENT TOUCH AUTH
 ============================================ */
 
