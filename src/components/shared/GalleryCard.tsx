@@ -141,6 +141,7 @@ export default function GalleryCard({ item, onBuy, type }: GalleryCardProps) {
           </div>
           
           <button
+            data-premium="true"
             onClick={() => onBuy(item)}
             style={{
               background: "transparent",

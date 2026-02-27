@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { AuthProvider } from "@/lib/auth-context";
+import { useState, useEffect, useRef } from "react";
+import { AuthProvider, useAuth } from "@/lib/auth-context";
 import VisuraLogo from "./VisuraLogo";
 import VisuraDock from "./VisuraDock";
 import VisuraSidebar from "./VisuraSidebar";
@@ -76,34 +76,42 @@ function VisuraAppContent() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const { user } = useAuth();
+  const hasShownPulse = useRef(false);
+
   // VISURA BIOMETRIC STEALTH SYSTEM
-  // Silent biometric verification on screen touch
+  // Golden pulse only on unauthorized access attempt
   useEffect(() => {
-    const handleBiometricTouch = () => {
-      // Silent biometric scan (simulated - always succeeds)
-      const authStatus = "SUCCESS";
-      
-      if (authStatus === "SUCCESS") {
-        // Trigger golden pulse for 1 second
-        setBiometricPulse(true);
-        setTimeout(() => setBiometricPulse(false), 1000);
-        // Reveal vault content
-        setIsUnlocked(true);
-      } else {
-        // Keep content encrypted
-        setIsUnlocked(false);
+    const handleUnauthorizedAccess = (e: MouseEvent | TouchEvent) => {
+      // Only show golden pulse if user is NOT logged in
+      // AND they're trying to interact with premium content
+      if (!user && !hasShownPulse.current) {
+        // Check if the click is on a buy button, locked content, or premium area
+        const target = e.target as HTMLElement;
+        const isPremiumInteraction = 
+          target.closest('button') || 
+          target.closest('[data-premium="true"]') ||
+          target.closest('.premium-content');
+        
+        if (isPremiumInteraction) {
+          // Trigger golden pulse for unauthorized access attempt
+          setBiometricPulse(true);
+          hasShownPulse.current = true;
+          setTimeout(() => {
+            setBiometricPulse(false);
+            hasShownPulse.current = false;
+          }, 800);
+        }
       }
     };
 
-    // Add silent touch listener to entire app
-    document.addEventListener("touchstart", handleBiometricTouch, { passive: true });
-    document.addEventListener("click", handleBiometricTouch, { passive: true });
+    // Listen for interactions on premium content only
+    document.addEventListener("click", handleUnauthorizedAccess, { passive: true });
     
     return () => {
-      document.removeEventListener("touchstart", handleBiometricTouch);
-      document.removeEventListener("click", handleBiometricTouch);
+      document.removeEventListener("click", handleUnauthorizedAccess);
     };
-  }, []);
+  }, [user]);
 
   const openModal = (modal: ModalType) => setActiveModal(modal);
   const closeModal = () => setActiveModal(null);
