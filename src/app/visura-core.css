@@ -88,6 +88,27 @@ VISURA FINAL LOGO: THE STATIC PRISM & SPECTRAL SPIRIT
     z-index: 3;
 }
 
+/* Royal Stealth: Hide white pyramid (explicit prism) */
+.prism-shield {
+    display: none !important;
+}
+
+/* Royal Stealth: Hide brand name */
+.visura-brand-name {
+    display: none !important;
+}
+
+/* Royal Stealth: Make logo container transparent */
+.visura-logo-container {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Hide spectral spirit for pure stealth */
+.spectral-spirit {
+    display: none !important;
+}
+
 /* Spectral Spirit pulse animation */
 @keyframes spirit-pulse {
     0%, 100% {
