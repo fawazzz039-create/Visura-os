@@ -633,6 +633,7 @@ function PhotoDetailModal({
 }) {
   return (
     <div
+      className="modal-visual-root"
       style={{
         position: "fixed",
         inset: 0,
@@ -647,6 +648,7 @@ function PhotoDetailModal({
       onClick={onClose}
     >
       <div
+        className="counter-glass-box"
         style={{
           background: "rgba(6,10,18,0.98)",
           border: "1px solid rgba(255,255,255,0.12)",
@@ -663,8 +665,13 @@ function PhotoDetailModal({
           <span>✕</span>
         </button>
         
-        {/* Counter - Current Position */}
-        <div className="global-visura-counter">
+        {/* Counter - Glass Box v2.2 */}
+        <div className="counter-glass-box" style={{
+          position: 'absolute',
+          top: 15,
+          left: '50%',
+          transform: 'translateX(-50%)',
+        }}>
           1 / 7
         </div>
         

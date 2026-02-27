@@ -1,88 +1,7 @@
-/* VISURA OS - SOVEREIGN CLOSE BUTTON (CLEAN VERSION) */
-.global-visura-close {
-    position: fixed !important;
-    top: clamp(20px, 5vw, 40px) !important; /* يتكيف مع حجم الجوال */
-    right: clamp(20px, 5vw, 40px) !important;
-    width: 55px !important;
-    height: 55px !important;
-    background: rgba(0, 0, 0, 0.85) !important;
-    border: 2px solid #D4AF37 !important; /* الذهب الملكي */
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    z-index: 9999999 !important; /* فوق الخيال */
-    cursor: pointer !important;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4) !important;
-    backdrop-filter: blur(5px) !important; /* لمسة زجاجية فخمة */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
+/* VISURA OS v2.2 - PROFESSIONAL CAMERA INTERFACE */
+/* =============================================== */
 
-.global-visura-close:hover {
-    transform: scale(1.1) rotate(90deg); /* حركة احترافية عند اللمس */
-    background: #D4AF37 !important;
-}
-
-.global-visura-close:active {
-    transform: scale(0.8) rotate(90deg) !important;
-    transition: 0.2s ease-in-out !important;
-}
-
-.global-visura-close span {
-    color: #D4AF37 !important;
-    font-size: 26px !important;
-    font-weight: 300 !important; /* خط نحيف وفخم */
-}
-
-.global-visura-close:hover span {
-    color: #000 !important;
-}
-
-/* Mobile - Notch/Camera Safe Area */
-@media (max-width: 768px) {
-    .global-visura-close {
-        top: env(safe-area-inset-top, 50px) !important;
-        right: 20px !important;
-        transform: scale(0.9);
-    }
-}
-
-/* VISURA OS - SOVEREIGN COUNTER */
-.global-visura-counter {
-    position: fixed !important;
-    bottom: 30px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    background: rgba(0, 0, 0, 0.7) !important;
-    color: #D4AF37 !important; /* الذهب الملكي */
-    padding: 8px 20px !important;
-    border-radius: 20px !important;
-    border: 1px solid rgba(212, 175, 55, 0.5) !important;
-    font-family: 'Courier New', Courier, monospace !important;
-    font-size: 18px !important;
-    letter-spacing: 2px !important;
-    z-index: 9999998 !important; /* تحت الـ X بشوي بس فوق كل شي ثاني */
-    backdrop-filter: blur(10px) !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
-    pointer-events: none !important; /* عشان ما يضايق اللمس */
-}
-
-/* Mobile - Home Indicator Safe Area */
-@media (max-width: 768px) {
-    .global-visura-counter {
-        bottom: calc(env(safe-area-inset-bottom, 20px) + 15px) !important;
-        font-size: 14px !important;
-        letter-spacing: 2px;
-        background: rgba(212, 175, 55, 0.1) !important;
-        backdrop-filter: blur(5px) !important;
-    }
-}
-
-/* ============================================
-PROFESSIONAL CAMERA INTERFACE
-============================================ */
-
-/* 1. الحاوية الرئيسية - ضبط أمان الجوال */
+/* 1. Modal Root Container - Safe Area for Mobile */
 .modal-visual-root {
     position: relative;
     background: #000;
@@ -91,7 +10,7 @@ PROFESSIONAL CAMERA INTERFACE
     padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* 2. Sovereign Close - Professional Position */
+/* 2. Sovereign Close Button - Professional Position */
 .global-visura-close {
     position: absolute !important;
     top: calc(env(safe-area-inset-top) + 15px) !important;
@@ -131,7 +50,7 @@ PROFESSIONAL CAMERA INTERFACE
     transition: 0.15s ease-in-out !important;
 }
 
-/* 3. عداد الذهب الزجاجي (The Sovereign Counter) */
+/* 3. Sovereign Status Bar - Container for Counter */
 .sovereign-status-bar {
     position: absolute;
     bottom: calc(env(safe-area-inset-bottom) + 15px);
@@ -144,43 +63,24 @@ PROFESSIONAL CAMERA INTERFACE
     z-index: 100;
 }
 
-.counter-glass-box {
-    background: rgba(255, 255, 255, 0.07);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 0.5px solid rgba(212, 175, 55, 0.4);
-    padding: 6px 25px;
-    border-radius: 50px;
-    color: #fff;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-weight: 300;
-    letter-spacing: 2px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-/* Counter container for modal - replaces old .global-visura-counter */
+/* 4. Glass Counter Box - The Gold Counter (v2.2) */
+.counter-glass-box,
 .global-visura-counter {
-    position: absolute !important;
-    bottom: calc(env(safe-area-inset-bottom) + 20px) !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
     background: rgba(255, 255, 255, 0.07) !important;
     backdrop-filter: blur(15px) !important;
     -webkit-backdrop-filter: blur(15px) !important;
     border: 0.5px solid rgba(212, 175, 55, 0.4) !important;
-    color: #D4AF37 !important;
-    padding: 8px 25px !important;
+    padding: 6px 25px !important;
     border-radius: 50px !important;
+    color: #D4AF37 !important;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Mono', 'Roboto Mono', monospace !important;
     font-size: 14px !important;
     font-weight: 400 !important;
     letter-spacing: 2px !important;
-    z-index: 100 !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
-    pointer-events: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
 }
 
-/* 4. بيانات الكاميرا الاحترافية (Metadata) */
+/* 5. Camera Metadata Display */
 .camera-metadata {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Mono', 'Roboto Mono', monospace;
     font-size: 9px;
@@ -190,7 +90,7 @@ PROFESSIONAL CAMERA INTERFACE
     letter-spacing: 1px;
 }
 
-/* 5. زوايا التركيز (Focus Brackets) */
+/* 6. Focus Brackets - Camera UI */
 .camera-focus-ui {
     position: absolute;
     top: 50%;
@@ -224,7 +124,7 @@ PROFESSIONAL CAMERA INTERFACE
     border-width: 0 2px 2px 0;
 }
 
-/* 6. وضع الماكرو (Macro Indicator) */
+/* 7. Macro Mode Indicator - Gold Pulse */
 .macro-active-dot {
     display: inline-block;
     width: 6px;
@@ -241,7 +141,9 @@ PROFESSIONAL CAMERA INTERFACE
     50% { opacity: 0.6; box-shadow: 0 0 4px #D4AF37; }
 }
 
-/* Mobile adjustments for camera interface */
+/* ============================================
+MOBILE ADJUSTMENTS
+============================================ */
 @media (max-width: 768px) {
     .global-visura-close {
         top: calc(env(safe-area-inset-top) + 10px) !important;
@@ -254,15 +156,11 @@ PROFESSIONAL CAMERA INTERFACE
         font-size: 18px !important;
     }
     
+    .counter-glass-box,
     .global-visura-counter {
         bottom: calc(env(safe-area-inset-bottom, 15px) + 15px) !important;
-        padding: 6px 20px !important;
+        padding: 5px 18px !important;
         font-size: 12px !important;
-    }
-    
-    .counter-glass-box {
-        padding: 5px 18px;
-        font-size: 12px;
     }
     
     .camera-focus-ui {
