@@ -62,6 +62,7 @@ export default function GalleryCard({ item, onBuy, type }: GalleryCardProps) {
         {item.encrypted && (
           <div
             style={{
+              opacity: 0,
               position: "absolute",
               top: "12px",
               left: "12px",
