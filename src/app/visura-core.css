@@ -33,6 +33,15 @@
     color: #000 !important;
 }
 
+/* Mobile - Notch/Camera Safe Area */
+@media (max-width: 768px) {
+    .global-visura-close {
+        top: env(safe-area-inset-top, 50px) !important;
+        right: 20px !important;
+        transform: scale(0.9);
+    }
+}
+
 /* VISURA OS - SOVEREIGN COUNTER */
 .global-visura-counter {
     position: fixed !important;
