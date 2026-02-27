@@ -20,6 +20,21 @@ SECURITY PULSE - BIOMETRIC UNLOCK EFFECT
 }
 
 /* ============================================
+SPECTRAL PULSE - BEHIND TRIANGLE (Z-INDEX 0)
+============================================ */
+
+@keyframes spectral-pulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+/* ============================================
 BIOMETRIC STEALTH PULSE - SILENT TOUCH AUTH
 ============================================ */
 
