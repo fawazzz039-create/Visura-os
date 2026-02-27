@@ -33,6 +33,19 @@ function VisuraAppContent() {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1200);
+  const [counter, setCounter] = useState(0);
+
+  // Sovereign Counter Animation - AES-256 encryption simulation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCounter(prev => {
+        // Simulate AES-256 key space - random large number
+        const randomNum = Math.floor(Math.random() * 900000000000) + 100000000000;
+        return randomNum;
+      });
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const updateTime = () => {
@@ -204,6 +217,11 @@ function VisuraAppContent() {
         item={paymentItem}
         onPaymentComplete={handlePaymentComplete}
       />
+
+      {/* Global Sovereign Counter - AES-256 Encryption Display */}
+      <div className="global-visura-counter">
+        🔒 AES-256: {counter.toLocaleString()}
+      </div>
     </div>
   );
 }
