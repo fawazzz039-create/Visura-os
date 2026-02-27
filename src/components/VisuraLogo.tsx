@@ -35,8 +35,9 @@ export default function VisuraLogo({ onClick }: VisuraLogoProps) {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          animation: "ring-expand 4s ease-in-out infinite",
+          animation: "ring-expand 4s cubic-bezier(0.4, 0, 0.2, 1) infinite",
           pointerEvents: "none",
+          willChange: "transform, opacity",
         }}
       />
 
@@ -61,9 +62,10 @@ export default function VisuraLogo({ onClick }: VisuraLogoProps) {
           boxShadow: hovered
             ? "0 0 80px rgba(255,255,255,0.18), 0 0 160px rgba(255,255,255,0.06), inset 0 0 60px rgba(255,255,255,0.04)"
             : "0 0 40px rgba(255,255,255,0.1), 0 0 80px rgba(255,255,255,0.03), inset 0 0 30px rgba(255,255,255,0.02)",
-          animation: "circle-breathe 5s ease-in-out infinite",
+          animation: "circle-breathe 4s cubic-bezier(0.4, 0, 0.2, 1) infinite",
           position: "relative",
           overflow: "hidden",
+          willChange: "transform, box-shadow",
         }}
       >
         {/* Inner shimmer */}
