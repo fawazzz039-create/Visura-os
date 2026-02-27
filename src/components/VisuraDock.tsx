@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import type { ModalType } from "./VisuraApp";
 import { useAuth } from "@/lib/auth-context";
 
@@ -9,6 +9,8 @@ interface DockItem {
   label: string;
   labelAr: string;
   icon: React.ReactNode;
+  isCamera?: boolean;
+  showMacro?: boolean;
 }
 
 interface VisuraDockProps {
@@ -100,45 +102,43 @@ function UserIcon({ size = 20 }: { size?: number }) {
 }
 
 export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile = false }: VisuraDockProps) {
-  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
-  const [clickedItem, setClickedItem] = useState<number | null>(null);
-  const dockRef = useRef<HTMLDivElement>(null);
-  const { user, logout } = useAuth();
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const { user } = useAuth();
 
   // Simplified items for mobile - only most important ones
   const mobileItems: DockItem[] = user
     ? [
-        { id: "home", label: "Home", labelAr: "🏠", icon: <HomeIcon size={18} /> },
-        { id: "photoGallery", label: "Photos", labelAr: "📷", icon: <PhotoGalleryIcon size={18} /> },
-        { id: "artGallery", label: "Art", labelAr: "🎨", icon: <ArtGalleryIcon size={18} /> },
-        { id: "camera", label: "Camera", labelAr: "📸", icon: <CameraIcon size={18} /> },
-        { id: "ai", label: "AI", labelAr: "🤖", icon: <AIIcon size={18} /> },
-        { id: "auth", label: "Profile", labelAr: "👤", icon: <UserIcon size={18} /> },
+        { id: "home", label: "Home", labelAr: "الرئيسية", icon: <HomeIcon size={18} /> },
+        { id: "photoGallery", label: "Photos", labelAr: "معرض التصوير", icon: <PhotoGalleryIcon size={18} /> },
+        { id: "artGallery", label: "Art", labelAr: "معرض الفن", icon: <ArtGalleryIcon size={18} /> },
+        { id: "camera", label: "Camera", labelAr: "الكاميرا", icon: <CameraIcon size={18} />, isCamera: true, showMacro: true },
+        { id: "ai", label: "AI", labelAr: "مساعد الذكاء", icon: <AIIcon size={18} /> },
+        { id: "auth", label: "Profile", labelAr: user.name || "الملف", icon: <UserIcon size={18} /> },
       ]
     : [
-        { id: "home", label: "Home", labelAr: "🏠", icon: <HomeIcon size={18} /> },
-        { id: "photoGallery", label: "Photos", labelAr: "📷", icon: <PhotoGalleryIcon size={18} /> },
-        { id: "artGallery", label: "Art", labelAr: "🎨", icon: <ArtGalleryIcon size={18} /> },
-        { id: "camera", label: "Camera", labelAr: "📸", icon: <CameraIcon size={18} /> },
-        { id: "ai", label: "AI", labelAr: "🤖", icon: <AIIcon size={18} /> },
-        { id: "auth", label: "Login", labelAr: "👤", icon: <UserIcon size={18} /> },
+        { id: "home", label: "Home", labelAr: "الرئيسية", icon: <HomeIcon size={18} /> },
+        { id: "photoGallery", label: "Photos", labelAr: "معرض التصوير", icon: <PhotoGalleryIcon size={18} /> },
+        { id: "artGallery", label: "Art", labelAr: "معرض الفن", icon: <ArtGalleryIcon size={18} /> },
+        { id: "camera", label: "Camera", labelAr: "الكاميرا", icon: <CameraIcon size={18} />, isCamera: true, showMacro: true },
+        { id: "ai", label: "AI", labelAr: "مساعد الذكاء", icon: <AIIcon size={18} /> },
+        { id: "auth", label: "Login", labelAr: "دخول", icon: <UserIcon size={18} /> },
       ];
 
   const desktopItems: DockItem[] = user
     ? [
         { id: "home", label: "Home", labelAr: "الرئيسية", icon: <HomeIcon /> },
         { id: "photoGallery", label: "Photography", labelAr: "معرض التصوير", icon: <PhotoGalleryIcon /> },
-        { id: "camera", label: "Camera", labelAr: "الكاميرا", icon: <CameraIcon /> },
+        { id: "camera", label: "Camera", labelAr: "الكاميرا", icon: <CameraIcon />, isCamera: true, showMacro: true },
         { id: "ai", label: "AI Assistant", labelAr: "مساعد الذكاء", icon: <AIIcon /> },
         { id: "artGallery", label: "Fine Art", labelAr: "معرض الفن", icon: <ArtGalleryIcon /> },
         { id: "canvas", label: "Canvas", labelAr: "لوحة الرسم", icon: <CanvasIcon /> },
         { id: "tracking", label: "Tracking", labelAr: "التتبع", icon: <TrackingIcon /> },
-        { id: "auth", label: "Profile", labelAr: user.name, icon: <UserIcon /> },
+        { id: "auth", label: "Profile", labelAr: user.name || "الملف", icon: <UserIcon /> },
       ]
     : [
         { id: "home", label: "Home", labelAr: "الرئيسية", icon: <HomeIcon /> },
         { id: "photoGallery", label: "Photography", labelAr: "معرض التصوير", icon: <PhotoGalleryIcon /> },
-        { id: "camera", label: "Camera", labelAr: "الكاميرا", icon: <CameraIcon /> },
+        { id: "camera", label: "Camera", labelAr: "الكاميرا", icon: <CameraIcon />, isCamera: true, showMacro: true },
         { id: "ai", label: "AI Assistant", labelAr: "مساعد الذكاء", icon: <AIIcon /> },
         { id: "artGallery", label: "Fine Art", labelAr: "معرض الفن", icon: <ArtGalleryIcon /> },
         { id: "canvas", label: "Canvas", labelAr: "لوحة الرسم", icon: <CanvasIcon /> },
@@ -147,14 +147,10 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
       ];
 
   const items = isMobile ? mobileItems : desktopItems;
+  const iconSize = isMobile ? 18 : 20;
+  const cameraIconSize = isMobile ? 20 : 24;
 
-  // Calculate indicator position directly (derived state)
-
-  const handleClick = (item: DockItem, index: number) => {
-    // Trigger bounce animation
-    setClickedItem(index);
-    setTimeout(() => setClickedItem(null), 400);
-    
+  const handleClick = (item: DockItem) => {
     if (item.id === "home") {
       onHome();
     } else if (item.id !== null) {
@@ -162,157 +158,44 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
     }
   };
 
-  // Mobile-specific styles - lifted more for floating effect
-  const iconSize = isMobile ? 40 : 52;
-  const iconInnerSize = isMobile ? 16 : 20;
-  const dockPadding = isMobile ? "10px 12px" : "12px 16px";
-  const dockGap = isMobile ? 6 : 8;
-  const dockBottom = isMobile ? 20 : 40; // More floating from bottom
-  const dockBorderRadius = isMobile ? 22 : 28;
+  // Find camera index for LED positioning
+  const cameraIndex = items.findIndex(item => item.isCamera);
+  const activeIndex = items.findIndex(item => item.id === activeModal);
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        bottom: dockBottom,
-        left: "50%",
-        transform: "translateX(-50%)",
-        zIndex: 1000,
-        width: isMobile ? "auto" : undefined,
-        maxWidth: isMobile ? "calc(100% - 32px)" : undefined,
-      }}
-    >
-      {/* Dock container */}
-      <div
-        ref={dockRef}
-        style={{
-          display: "flex",
-          gap: dockGap,
-          padding: dockPadding,
-          background: "rgba(255, 255, 255, 0.06)",
-          borderRadius: dockBorderRadius,
-          border: "1px solid rgba(255, 255, 255, 0.12)",
-          backdropFilter: "blur(40px) saturate(220%)",
-          WebkitBackdropFilter: "blur(40px) saturate(220%)",
-          boxShadow:
-            "0 20px 60px rgba(0,0,0,0.6), 0 4px 0 rgba(255,255,255,0.06) inset, 0 -2px 0 rgba(0,0,0,0.4) inset",
-          position: "relative",
-          justifyContent: "center",
-        }}
-      >
-        {/* Top highlight line */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 20,
-            right: 20,
-            height: "1px",
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-          }}
-        />
-
-        {/* Sliding Active Indicator - Smooth LED dot */}
-        {(() => {
-          const activeIndex = items.findIndex(item => item.id === activeModal);
-          if (activeIndex === -1) return null;
-          return (
-            <div
-              style={{
-                position: "absolute",
-                bottom: isMobile ? -6 : -8,
-                left: "50%",
-                width: isMobile ? 6 : 8,
-                height: isMobile ? 6 : 8,
-                borderRadius: "50%",
-                background: "rgba(255,255,255,0.95)",
-                transform: `translateX(calc(-50% + (${activeIndex} - ${Math.floor(items.length / 2)}) * ${isMobile ? 52 : 68}px))`,
-                transition: "transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                animation: "slow-pulse-dot 2.5s ease-in-out infinite",
-                boxShadow: "0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.2)",
-                zIndex: 10,
-                pointerEvents: "none",
-              }}
-            />
-          );
-        })()}
+    <div className="visura-dock-root">
+      <div className="visura-dock-container">
+        {/* Sliding Active LED Indicator */}
+        {activeIndex !== -1 && (
+          <div
+            className="visura-dock-led"
+            style={{
+              transform: `translateX(calc(-50% + (${activeIndex} - ${Math.floor(items.length / 2)}) * ${isMobile ? 52 : 68}px))`,
+            }}
+          />
+        )}
 
         {items.map((item, index) => (
           <div
             key={item.id}
-            onClick={() => handleClick(item, index)}
-            onMouseEnter={() => setHoveredItem(index)}
+            className={`visura-dock-item ${item.id === activeModal ? "active" : ""} ${item.isCamera ? "camera-item" : ""}`}
+            onClick={() => handleClick(item)}
+            onMouseEnter={() => setHoveredItem(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
-            style={{
-              width: iconSize,
-              height: iconSize,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: isMobile ? 12 : 14,
-              cursor: "pointer",
-              transition: "all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)",
-              background:
-                activeModal === item.id
-                  ? "rgba(255,255,255,0.15)"
-                  : hoveredItem === index
-                  ? "rgba(255,255,255,0.1)"
-                  : "transparent",
-              // Magnification effect - scale up prominently on hover
-              transform:
-                clickedItem === index
-                  ? `translateY(-4px) scale(0.95)`
-                  : hoveredItem === index
-                  ? `translateY(${isMobile ? -6 : -8}px) scale(${isMobile ? 1.18 : 1.22})`
-                  : activeModal === item.id
-                  ? `translateY(${isMobile ? -2 : -3}px) scale(1.05)`
-                  : "translateY(0) scale(1)",
-              boxShadow:
-                hoveredItem === index
-                  ? "0 12px 32px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.08)"
-                  : "none",
-              border:
-                activeModal === item.id
-                  ? "1px solid rgba(255,255,255,0.3)"
-                  : "1px solid transparent",
-              position: "relative",
-              // Bounce animation on click
-              animation: clickedItem === index ? "dock-bounce 0.4s ease-out" : "none",
-            }}
           >
-            {/* Icon color */}
-            <div
-              style={{
-                color:
-                  activeModal === item.id
-                    ? "rgba(255,255,255,0.95)"
-                    : "rgba(255,255,255,0.65)",
-                transition: "color 0.3s",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {item.icon}
+            {/* Icon */}
+            <div className={`visura-dock-icon ${item.id === activeModal ? "active" : ""}`}>
+              {item.isCamera ? <CameraIcon size={cameraIconSize} /> : item.icon}
             </div>
 
-            {/* Hover tooltip - hidden on mobile */}
-            {hoveredItem === index && !isMobile && (
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "calc(100% + 12px)",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  background: "rgba(0,0,0,0.85)",
-                  padding: "6px 12px",
-                  borderRadius: 8,
-                  fontSize: 12,
-                  whiteSpace: "nowrap",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  backdropFilter: "blur(10px)",
-                }}
-              >
+            {/* Macro Badge */}
+            {item.showMacro && (
+              <div className="visura-macro-badge">M</div>
+            )}
+
+            {/* Tooltip - Desktop only */}
+            {hoveredItem === item.id && !isMobile && (
+              <div className="visura-dock-tooltip">
                 {item.labelAr}
               </div>
             )}
