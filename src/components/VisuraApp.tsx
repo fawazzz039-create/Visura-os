@@ -34,6 +34,10 @@ function VisuraAppContent() {
   const [isTablet, setIsTablet] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1200);
   const [counter, setCounter] = useState(0);
+  
+  // Biometric Stealth System State
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [biometricPulse, setBiometricPulse] = useState(false);
 
   // Sovereign Counter Animation - AES-256 encryption simulation
   useEffect(() => {
@@ -72,6 +76,35 @@ function VisuraAppContent() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // VISURA BIOMETRIC STEALTH SYSTEM
+  // Silent biometric verification on screen touch
+  useEffect(() => {
+    const handleBiometricTouch = () => {
+      // Silent biometric scan (simulated - always succeeds)
+      const authStatus = "SUCCESS";
+      
+      if (authStatus === "SUCCESS") {
+        // Trigger golden pulse for 1 second
+        setBiometricPulse(true);
+        setTimeout(() => setBiometricPulse(false), 1000);
+        // Reveal vault content
+        setIsUnlocked(true);
+      } else {
+        // Keep content encrypted
+        setIsUnlocked(false);
+      }
+    };
+
+    // Add silent touch listener to entire app
+    document.addEventListener("touchstart", handleBiometricTouch, { passive: true });
+    document.addEventListener("click", handleBiometricTouch, { passive: true });
+    
+    return () => {
+      document.removeEventListener("touchstart", handleBiometricTouch);
+      document.removeEventListener("click", handleBiometricTouch);
+    };
+  }, []);
+
   const openModal = (modal: ModalType) => setActiveModal(modal);
   const closeModal = () => setActiveModal(null);
 
@@ -92,6 +125,7 @@ function VisuraAppContent() {
 
   return (
     <div
+      className={biometricPulse ? "biometric-pulse" : ""}
       style={{
         width: "100%",
         height: "100vh",
