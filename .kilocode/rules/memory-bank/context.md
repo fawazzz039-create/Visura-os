@@ -24,6 +24,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] v2.2 Final Force: Clean CSS (removed duplicates), added modal-visual-root & counter-glass-box classes to PhotoDetailModal
 - [x] v2.3 Professional Dock: Glassmorphism navigation with gold active icons, camera prominence, macro badge
 - [x] v2.4 Mobile Filter Fix: Horizontal scroll + 10px font for mobile + force display
+- [x] v2.5 Camera Resume: visibility change handler + golden reconnect button
 
 ## Current Structure
 
