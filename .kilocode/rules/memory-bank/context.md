@@ -27,6 +27,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] v2.5 Camera Resume: visibility change handler + golden reconnect button
 - [x] v2.6 Golden Velvet Dock: 5 icons, geometric spacing, pulse on touch
 - [x] Royal Stealth: Hide AES-256 lock icons completely from gallery cards, photos appear clean
+- [x] Royal Stealth v2: Hide white pyramid + VISURA text for pure logo
 
 ## Current Structure
 
@@ -115,3 +116,4 @@ export async function GET() {
 | 2026-02-27 | Add professional camera interface CSS (metadata, focus brackets, glass effects) |
 | 2026-02-27 | v2.6 Golden Velvet Dock: 5 icons, geometric spacing, pulse on touch |
 | 2026-02-27 | Royal Stealth: Hide AES-256 lock icons completely, photos appear clean |
+| 2026-02-27 | Royal Stealth v2: Hide white pyramid + VISURA text, pure logo |
