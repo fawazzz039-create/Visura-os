@@ -37,6 +37,63 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
   const [savedPhotos, setSavedPhotos] = useState<{ src: string; id: string; filter: string }[]>([]);
   const [showGallery, setShowGallery] = useState(false);
   const [zoom, setZoom] = useState(1);
+  const [isReconnecting, setIsReconnecting] = useState(false);
+  const [showReconnectButton, setShowReconnectButton] = useState(false);
+
+  // Silent camera reinitialize function
+  const reinitializeCamera = useCallback(async () => {
+    if (!videoRef.current) return;
+    
+    setIsReconnecting(true);
+    setShowReconnectButton(false);
+    
+    try {
+      // Stop existing stream
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((t) => t.stop());
+      }
+      
+      // Try to get new stream (silent - no new permission needed if already granted)
+      const s = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode,
+          width: { ideal: 3840 },
+          height: { ideal: 2160 },
+        },
+        audio: false,
+      });
+      
+      streamRef.current = s;
+      videoRef.current.srcObject = s;
+      setCameraError(null);
+      setShowReconnectButton(false);
+      console.log("📷 Camera resumed silently");
+    } catch (err) {
+      console.error("Camera resume failed:", err);
+      setShowReconnectButton(true);
+      setCameraError("انقطع الاتصال بالكاميرا");
+    } finally {
+      setIsReconnecting(false);
+    }
+  }, [facingMode]);
+
+  // Visibility change handler - resume camera when page becomes visible
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        // Camera was active before, try to resume
+        console.log("📷 Page visible - attempting silent camera resume...");
+        reinitializeCamera();
+      }
+    };
+    
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [isOpen, reinitializeCamera]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -249,20 +306,48 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
           >
             <div style={{ fontSize: 56 }}>📷</div>
             <div style={{ fontSize: 15 }}>{cameraError}</div>
-            <button
-              onClick={() => setFacingMode((f) => f)}
-              style={{
-                padding: "10px 24px",
-                background: "rgba(255,255,255,0.1)",
-                border: "1px solid rgba(255,255,255,0.3)",
-                color: "white",
-                borderRadius: 10,
-                cursor: "pointer",
-                fontSize: 14,
-              }}
-            >
-              إعادة المحاولة
-            </button>
+            {showReconnectButton ? (
+              <button
+                onClick={reinitializeCamera}
+                style={{
+                  padding: "14px 32px",
+                  background: "linear-gradient(135deg, #D4AF37 0%, #B8962F 100%)",
+                  border: "2px solid #E5C76B",
+                  color: "#000",
+                  borderRadius: 12,
+                  cursor: "pointer",
+                  fontSize: 15,
+                  fontWeight: 600,
+                  boxShadow: "0 4px 24px rgba(212, 175, 55, 0.4)",
+                  transition: "all 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.boxShadow = "0 6px 32px rgba(212, 175, 55, 0.6)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.boxShadow = "0 4px 24px rgba(212, 175, 55, 0.4)";
+                }}
+              >
+                ✦ إعادة تنشيط الكاميرا ✦
+              </button>
+            ) : (
+              <button
+                onClick={() => setFacingMode((f) => f)}
+                style={{
+                  padding: "10px 24px",
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  color: "white",
+                  borderRadius: 10,
+                  cursor: "pointer",
+                  fontSize: 14,
+                }}
+              >
+                إعادة المحاولة
+              </button>
+            )}
           </div>
         ) : (
           <video
@@ -364,9 +449,26 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
               color: "rgba(255,255,255,0.85)",
               backdropFilter: "blur(8px)",
               letterSpacing: "0.5px",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
             }}
           >
-            🔐 AES-256-GCM
+            {isReconnecting ? (
+              <>
+                <span style={{
+                  display: "inline-block",
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: "#D4AF37",
+                  animation: "pulse 1s infinite",
+                }} />
+                جاري الاتصال...
+              </>
+            ) : (
+              "🔐 AES-256-GCM"
+            )}
           </div>
 
           {/* Capture count */}
