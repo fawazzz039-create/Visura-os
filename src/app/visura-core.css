@@ -23,6 +23,11 @@
     background: #D4AF37 !important;
 }
 
+.global-visura-close:active {
+    transform: scale(0.8) rotate(90deg) !important;
+    transition: 0.2s ease-in-out !important;
+}
+
 .global-visura-close span {
     color: #D4AF37 !important;
     font-size: 26px !important;
