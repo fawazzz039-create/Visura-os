@@ -489,37 +489,12 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
 
         {/* Filters panel */}
         {showFilters && (
-          <div
-            style={{
-              position: "absolute",
-              bottom: 90,
-              left: "50%",
-              transform: "translateX(-50%)",
-              display: "flex",
-              gap: 10,
-              background: "rgba(0,0,0,0.8)",
-              padding: "12px 16px",
-              borderRadius: 16,
-              border: "1px solid rgba(255,255,255,0.15)",
-              backdropFilter: "blur(16px)",
-              animation: "fadeIn 0.2s ease",
-            }}
-          >
+          <div className="visura-filter-panel">
             {FILTERS.map((f) => (
               <button
                 key={f.id}
                 onClick={() => { setActiveFilter(f.id); setShowFilters(false); }}
-                style={{
-                  padding: "6px 14px",
-                  background: activeFilter === f.id ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.06)",
-                  border: `1px solid ${activeFilter === f.id ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.15)"}`,
-                  color: "white",
-                  borderRadius: 8,
-                  cursor: "pointer",
-                  fontSize: 12,
-                  transition: "all 0.2s",
-                  whiteSpace: "nowrap",
-                }}
+                className={`visura-filter-btn ${activeFilter === f.id ? 'active' : ''}`}
               >
                 {f.label}
               </button>
