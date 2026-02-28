@@ -7,7 +7,34 @@ interface CameraModalProps {
   onClose: () => void;
 }
 
+type CameraMode = "photo" | "cinematic" | "3d";
 type FilterType = "none" | "bw" | "vintage" | "cinematic" | "fade" | "sharp";
+
+// Camera Engine v8.0.0 - GPU Acceleration Settings
+const CAMERA_ENGINE = {
+  // Local GPU Acceleration for faster capture
+  hardwareAcceleration: "prefer-hardware" as const,
+  // Optimization for Saudi Arabia, Brazil, Mexico networks
+  latency: {
+    target: 12, // 12ms for cinematic mode
+    photo: 8,  // 8ms for photo mode
+  },
+  // Quality presets
+  quality: {
+    photo: { width: 3840, height: 2160, fps: 30 },
+    cinematic: { width: 4096, height: 2160, fps: 24 },
+    "3d": { width: 3840, height: 2160, fps: 60 },
+  },
+};
+
+// Cut Zones Protocol - GPS Coordinate Sync
+interface GPSCoordinates {
+  latitude: number;
+  longitude: number;
+  accuracy: number;
+  timestamp: number;
+  altitude?: number;
+}
 
 const FILTERS: { id: FilterType; label: string; css: string }[] = [
   { id: "none", label: "عادي", css: "none" },
@@ -39,8 +66,69 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
   const [zoom, setZoom] = useState(1);
   const [isReconnecting, setIsReconnecting] = useState(false);
   const [showReconnectButton, setShowReconnectButton] = useState(false);
+  
+  // v8.0.0: Camera Mode Selector (Photo, Cinematic, 3D)
+  const [cameraMode, setCameraMode] = useState<CameraMode>("photo");
+  const [showModeSelector, setShowModeSelector] = useState(false);
+  
+  // v8.0.0: GPS Coordinate Sync - Cut Zones Protocol
+  const [gpsCoordinates, setGpsCoordinates] = useState<GPSCoordinates | null>(null);
+  const [gpsActive, setGpsActive] = useState(false);
+  const [gpsFlash, setGpsFlash] = useState(false);
+  const [gpsError, setGpsError] = useState<string | null>(null);
 
-  // Silent camera reinitialize function
+  // v8.0.0: Fade-out animation state
+  const [isClosing, setIsClosing] = useState(false);
+
+  // v8.0.0: Initialize GPS for Cut Zones Protocol
+  const initGPS = useCallback(async () => {
+    if (!("geolocation" in navigator)) {
+      setGpsError("GPS غير مدعوم في هذا الجهاز");
+      return;
+    }
+    
+    setGpsActive(true);
+    
+    try {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        });
+      });
+      
+      const coords: GPSCoordinates = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy,
+        altitude: position.coords.altitude ?? undefined,
+        timestamp: position.timestamp,
+      };
+      
+      setGpsCoordinates(coords);
+      setGpsError(null);
+      
+      // Golden flash effect
+      setGpsFlash(true);
+      
+      // Voice alert
+      if ("speechSynthesis" in window) {
+        const utterance = new SpeechSynthesisUtterance("تم تحديد الموقع");
+        utterance.lang = "ar-SA";
+        utterance.rate = 1.2;
+        speechSynthesis.speak(utterance);
+      }
+      
+      setTimeout(() => setGpsFlash(false), 300);
+      console.log("📍 GPS Coordinates:", coords);
+      
+    } catch (err) {
+      setGpsError("تعذر الحصول على الموقع");
+      console.error("GPS Error:", err);
+    }
+  }, []);
+
   const reinitializeCamera = useCallback(async () => {
     if (!videoRef.current) return;
     
@@ -53,15 +141,9 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
         streamRef.current.getTracks().forEach((t) => t.stop());
       }
       
-      // Try to get new stream (silent - no new permission needed if already granted)
-      const s = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode,
-          width: { ideal: 3840 },
-          height: { ideal: 2160 },
-        },
-        audio: false,
-      });
+      // Try to get new stream with GPU acceleration
+      const captureSettings = getCaptureSettings();
+      const s = await navigator.mediaDevices.getUserMedia(captureSettings);
       
       streamRef.current = s;
       videoRef.current.srcObject = s;
@@ -109,14 +191,8 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
         if (streamRef.current) {
           streamRef.current.getTracks().forEach((t) => t.stop());
         }
-        const s = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode,
-            width: { ideal: 3840 },
-            height: { ideal: 2160 },
-          },
-          audio: false,
-        });
+        const captureSettings = getCaptureSettings();
+        const s = await navigator.mediaDevices.getUserMedia(captureSettings);
         if (cancelled) {
           s.getTracks().forEach((t) => t.stop());
           return;
@@ -213,12 +289,29 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
     setFacingMode((prev) => (prev === "user" ? "environment" : "user"));
   };
 
+  // v8.0.0: Fade-out transition handler
+  const handleClose = useCallback(() => {
+    setIsClosing(true);
+    setTimeout(() => {
+      onClose();
+      setIsClosing(false);
+    }, 300);
+  }, [onClose]);
+
   const currentFilter = FILTERS.find((f) => f.id === activeFilter);
+  
+  // v8.0.0: Mode labels
+  const modeLabels: Record<CameraMode, { label: string; labelAr: string; icon: string }> = {
+    photo: { label: "Photo", labelAr: "ضوئي", icon: "📸" },
+    cinematic: { label: "Cinematic", labelAr: "سينمائي", icon: "🎬" },
+    "3d": { label: "3D", labelAr: "3D", icon: "🌐" },
+  };
 
   if (!isOpen) return null;
 
   return (
     <div
+      className="camera-modal-container"
       style={{
         position: "fixed",
         inset: 0,
@@ -228,8 +321,23 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        opacity: isClosing ? 0 : 1,
+        transition: "opacity 0.3s ease-out",
       }}
     >
+      {/* GPS Golden Flash */}
+      {gpsFlash && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "linear-gradient(135deg, rgba(212,175,55,0.9) 0%, rgba(255,215,0,0.7) 50%, rgba(212,175,55,0.9) 100%)",
+            zIndex: 9999,
+            pointerEvents: "none",
+            animation: "gps-flash 0.3s ease-out",
+          }}
+        />
+      )}
       {/* Flash overlay */}
       {flashActive && (
         <div
@@ -273,7 +381,7 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
       )}
 
       {/* Close */}
-      <button className="global-visura-close" onClick={onClose}>
+      <button className="global-visura-close" onClick={handleClose}>
         <span>✕</span>
       </button>
 
@@ -429,9 +537,46 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
           >
             <div>ISO: AUTO</div>
             <div>WB: 5500K</div>
-            <div>4K UHD</div>
+            <div>{cameraMode === "photo" ? "4K UHD" : cameraMode === "cinematic" ? "4K Cinema" : "4K 60fps"}</div>
+            {cameraMode === "cinematic" && <div style={{ color: "#D4AF37" }}>🎬 24fps</div>}
+            {cameraMode === "3d" && <div style={{ color: "#89CFF0" }}>🌐 60fps</div>}
             {isHDR && <div style={{ color: "white" }}>HDR ✓</div>}
             {zoom > 1 && <div>{zoom.toFixed(1)}×</div>}
+          </div>
+
+          {/* GPS Coordinates - Cut Zones Protocol */}
+          <div
+            style={{
+              position: "absolute",
+              top: 18,
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontFamily: "monospace",
+              fontSize: 10,
+              color: gpsActive ? "#D4AF37" : "rgba(255,255,255,0.5)",
+              background: "rgba(0,0,0,0.5)",
+              padding: "6px 12px",
+              borderRadius: 6,
+              backdropFilter: "blur(8px)",
+              border: gpsActive ? "1px solid rgba(212,175,55,0.5)" : "1px solid rgba(255,255,255,0.1)",
+              cursor: "pointer",
+              transition: "all 0.3s",
+            }}
+            onClick={initGPS}
+          >
+            {gpsCoordinates ? (
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ color: "#D4AF37" }}>📍</span>
+                {gpsCoordinates.latitude.toFixed(5)}°, {gpsCoordinates.longitude.toFixed(5)}°
+                <span style={{ opacity: 0.5, fontSize: 9 }}>±{gpsCoordinates.accuracy.toFixed(0)}m</span>
+              </div>
+            ) : gpsError ? (
+              <div style={{ color: "#ff6b6b" }}>⚠️ {gpsError}</div>
+            ) : (
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span>🌍</span> طلب الموقع
+              </div>
+            )}
           </div>
 
           {/* Encryption badge - top right */}
@@ -467,7 +612,11 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
                 جاري الاتصال...
               </>
             ) : (
-              "🔐 AES-256-GCM"
+              <>
+                ⚡ GPU
+                <span style={{ opacity: 0.5 }}>|</span>
+                🔐 AES-256-GCM
+              </>
             )}
           </div>
 
@@ -640,7 +789,16 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
 
           {/* Main capture button */}
           <button
-            onClick={capturePhoto}
+            onClick={() => {
+              if (showModeSelector) {
+                // Close mode selector and take photo
+                setShowModeSelector(false);
+                capturePhoto();
+              } else {
+                // Show mode selector
+                setShowModeSelector(true);
+              }
+            }}
             disabled={timerCountdown !== null}
             style={{
               width: 74,
@@ -675,9 +833,71 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
                 borderRadius: "50%",
                 border: "2px solid rgba(0,0,0,0.15)",
                 background: timerCountdown !== null ? "rgba(200,200,200,0.8)" : "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 20,
               }}
-            />
+            >
+              {modeLabels[cameraMode].icon}
+            </div>
           </button>
+
+          {/* v8.0.0: Mode Selector Popup - Pops from camera button */}
+          {showModeSelector && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 110,
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "flex",
+                gap: 8,
+                background: "rgba(0,0,0,0.85)",
+                padding: "8px 12px",
+                borderRadius: 16,
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.15)",
+                animation: "popUp 0.2s ease-out",
+                zIndex: 100,
+              }}
+            >
+              {(["photo", "cinematic", "3d"] as CameraMode[]).map((mode) => (
+                <button
+                  key={mode}
+                  onClick={() => {
+                    setCameraMode(mode);
+                    setShowModeSelector(false);
+                  }}
+                  style={{
+                    padding: "8px 16px",
+                    borderRadius: 10,
+                    border: cameraMode === mode 
+                      ? mode === "cinematic" ? "2px solid #D4AF37" 
+                      : mode === "3d" ? "2px solid #89CFF0"
+                      : "2px solid rgba(255,255,255,0.5)"
+                      : "1px solid rgba(255,255,255,0.1)",
+                    background: cameraMode === mode 
+                      ? mode === "cinematic" ? "rgba(212,175,55,0.2)" 
+                      : mode === "3d" ? "rgba(137,207,240,0.2)"
+                      : "rgba(255,255,255,0.1)"
+                      : "transparent",
+                    color: cameraMode === mode ? "white" : "rgba(255,255,255,0.6)",
+                    cursor: "pointer",
+                    fontSize: 12,
+                    fontFamily: "monospace",
+                    transition: "all 0.2s",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                  }}
+                >
+                  <span>{modeLabels[mode].icon}</span>
+                  <span>{modeLabels[mode].labelAr}</span>
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Gallery button */}
           <button

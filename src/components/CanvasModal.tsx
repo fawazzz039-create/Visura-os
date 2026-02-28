@@ -14,6 +14,9 @@ export default function CanvasModal({ isOpen, onClose }: CanvasModalProps) {
   const [brushSize, setBrushSize] = useState(5);
   const [tool, setTool] = useState<"brush" | "eraser">("brush");
   const lastPos = useRef<{ x: number; y: number } | null>(null);
+  
+  // v8.0.0: Fade-out animation state
+  const [isClosing, setIsClosing] = useState(false);
 
   const getPos = (e: React.MouseEvent | React.TouchEvent, canvas: HTMLCanvasElement) => {
     const rect = canvas.getBoundingClientRect();
@@ -120,10 +123,12 @@ export default function CanvasModal({ isOpen, onClose }: CanvasModalProps) {
         padding: "40px 40px 120px",
         boxSizing: "border-box",
         overflowY: "auto",
+        opacity: isClosing ? 0 : 1,
+        transition: "opacity 0.3s ease-out",
       }}
     >
       {/* Close */}
-      <button className="global-visura-close" onClick={onClose}>
+      <button className="global-visura-close" onClick={() => { setIsClosing(true); setTimeout(() => { onClose(); setIsClosing(false); }, 300); }}>
         <span>✕</span>
       </button>
 
