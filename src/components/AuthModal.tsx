@@ -96,29 +96,29 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
           onClick={onClose}
           style={{
             position: "absolute",
-            top: 12,
-            right: 12,
-            width: 36,
-            height: 36,
-            background: "rgba(255, 255, 255, 0.06)",
-            border: "1px solid rgba(255, 255, 255, 0.15)",
+            top: 20,
+            right: 20,
+            width: 44,
+            height: 44,
+            background: "rgba(255, 255, 255, 0.08)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
             borderRadius: "50%",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
             zIndex: 10,
-            backdropFilter: "blur(10px) saturate(150%)",
-            boxShadow: "0 0 12px rgba(255, 255, 255, 0.1), inset 0 0 8px rgba(255, 255, 255, 0.06)",
+            backdropFilter: "blur(12px) saturate(180%)",
+            boxShadow: "0 0 16px rgba(255, 255, 255, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.08)",
             transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
           <span style={{
             color: "#ffffff",
-            fontSize: 16,
+            fontSize: 24,
             fontWeight: 300,
-            filter: "drop-shadow(0 0 6px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 10px rgba(165, 216, 255, 0.4))",
-            textShadow: "0 0 8px rgba(255, 255, 255, 0.6), 0 0 15px rgba(165, 216, 255, 0.3)",
+            filter: "drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 14px rgba(165, 216, 255, 0.5))",
+            textShadow: "0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(165, 216, 255, 0.4)",
           }}>✕</span>
         </button>
 
