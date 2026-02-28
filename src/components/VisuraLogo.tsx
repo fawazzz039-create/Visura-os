@@ -4,60 +4,52 @@ import { useState, useEffect } from "react";
 
 export default function VisuraLogo({ onClick }: { onClick?: () => void }) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    // Trigger entrance animation after mount
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <div 
-      className={`visura-premium-logo ${isLoaded ? "visura-logo-visible" : ""}`}
+      className={`visura-ultimate-logo ${isLoaded ? "visura-logo-loaded" : ""}`}
       onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       style={{
         cursor: "pointer",
         position: "relative",
-        width: "280px",
-        height: "280px",
+        width: "300px",
+        height: "300px",
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
-      {/* Crystal Circle Container */}
-      <div className="visura-crystal-circle">
-        {/* Crystal Frame - Outer Ring */}
-        <div className="visura-crystal-frame">
-          {/* Crystal Surface - Main Circle */}
-          <div className="visura-crystal-surface">
-            {/* Internal Light Refraction Effect */}
-            <div className="visura-crystal-reflection" />
-            <div className="visura-crystal-reflection-2" />
-            
-            {/* Subtle Inner Glow */}
-            <div className="visura-crystal-inner-glow" />
-          </div>
-        </div>
-
-        {/* Text Container - Centered inside circle */}
-        <div className="visura-text-container">
-          {/* Main Brand Name */}
-          <div className="visura-brand-name">VISURA</div>
-          
-          {/* Subtitle */}
-          <div className="visura-brand-subtitle">THE CREATIVE VAULT</div>
-        </div>
+      {/* Background Circle - Subtle Crystal Glass */}
+      <div className="visura-bg-circle">
+        {/* Soft reflections for depth */}
+        <div className="visura-bg-reflection-1" />
+        <div className="visura-bg-reflection-2" />
       </div>
 
-      {/* Animated Entrance Particles */}
-      <div className="visura-logo-particles">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+      {/* Main Circle - Bright Crystal with Rim Light */}
+      <div className={`visura-main-circle ${isHovered ? "visura-main-hovered" : ""}`}>
+        {/* Ice-blue glow animation overlay */}
+        <div className="visura-ice-glow" />
+        
+        {/* Crystal surface with subtle reflections */}
+        <div className="visura-main-surface">
+          <div className="visura-main-reflection-1" />
+          <div className="visura-main-reflection-2" />
+        </div>
+
+        {/* Text Container - Centered */}
+        <div className="visura-text-wrapper">
+          <div className="visura-text-main">VISURA</div>
+          <div className="visura-text-sub">THE CREATIVE VAULT</div>
+        </div>
       </div>
     </div>
   );

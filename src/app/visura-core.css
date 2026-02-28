@@ -2,219 +2,223 @@
  * ============================================================ */
 
 /* ============================================
- PREMIUM VISURA LOGO - Crystal Minimal
+ ULTIMATE VISURA LOGO - Crystal Minimal Refined
  ============================================ */
 
-.visura-premium-logo {
+.visura-ultimate-logo {
     opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: scale(0.85);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.visura-premium-logo.visura-logo-visible {
+.visura-ultimate-logo.visura-logo-loaded {
     opacity: 1;
     transform: scale(1);
 }
 
-/* Crystal Circle Container */
-.visura-crystal-circle {
-    position: relative;
-    width: 260px;
-    height: 260px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Background Circle - Subtle Crystal Glass */
+.visura-bg-circle {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: linear-gradient(
+        145deg,
+        rgba(165, 216, 255, 0.06) 0%,
+        rgba(137, 207, 240, 0.03) 30%,
+        rgba(100, 150, 200, 0.02) 60%,
+        rgba(60, 100, 150, 0.03) 100%
+    );
+    box-shadow:
+        0 0 60px rgba(137, 207, 240, 0.08),
+        0 0 120px rgba(137, 207, 240, 0.04),
+        inset 0 0 40px rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(137, 207, 240, 0.08);
 }
 
-/* Crystal Frame - Outer Ring with Rim Light */
-.visura-crystal-frame {
+/* Background Circle - Soft Reflections */
+.visura-bg-reflection-1 {
+    position: absolute;
+    top: 8%;
+    left: 12%;
+    width: 30%;
+    height: 20%;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        transparent 60%
+    );
+    border-radius: 50%;
+    transform: rotate(-25deg);
+    filter: blur(10px);
+}
+
+.visura-bg-reflection-2 {
+    position: absolute;
+    bottom: 18%;
+    right: 15%;
+    width: 18%;
+    height: 12%;
+    background: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.06) 0%,
+        transparent 100%
+    );
+    border-radius: 50%;
+    transform: rotate(20deg);
+    filter: blur(8px);
+}
+
+/* Main Circle - Bright Crystal with Rim Light */
+.visura-main-circle {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: linear-gradient(
+        150deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(200, 220, 255, 0.08) 25%,
+        rgba(137, 207, 240, 0.04) 50%,
+        rgba(100, 180, 230, 0.06) 75%,
+        rgba(165, 216, 255, 0.12) 100%
+    );
+    box-shadow:
+        /* Subtle rim light - outer edge only */
+        0 0 15px rgba(165, 216, 255, 0.2),
+        0 0 30px rgba(137, 207, 240, 0.12),
+        0 0 50px rgba(137, 207, 240, 0.06),
+        /* Inner depth */
+        inset 0 0 30px rgba(0, 0, 0, 0.15),
+        inset 0 0 60px rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(165, 216, 255, 0.15);
+    transition: all 0.4s ease-in-out;
+    overflow: hidden;
+}
+
+/* Main Circle Hover - Ice Blue Glow Animation */
+.visura-main-circle.visura-main-hovered {
+    box-shadow:
+        0 0 20px rgba(165, 216, 255, 0.35),
+        0 0 40px rgba(137, 207, 240, 0.25),
+        0 0 60px rgba(137, 207, 240, 0.15),
+        inset 0 0 30px rgba(0, 0, 0, 0.15),
+        inset 0 0 60px rgba(255, 255, 255, 0.04);
+    border-color: rgba(165, 216, 255, 0.3);
+}
+
+/* Ice Blue Glow Animation - Slides around rim */
+.visura-ice-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        rgba(165, 216, 255, 0) 60deg,
+        rgba(165, 216, 255, 0.4) 120deg,
+        rgba(137, 207, 240, 0.6) 180deg,
+        rgba(165, 216, 255, 0.4) 240deg,
+        rgba(165, 216, 255, 0) 300deg,
+        transparent 360deg
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    animation: visura-ice-rotate 3s linear infinite;
+    filter: blur(3px);
+}
+
+.visura-main-hovered .visura-ice-glow {
+    opacity: 1;
+}
+
+@keyframes visura-ice-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Main Circle Surface */
+.visura-main-surface {
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.12) 0%,
-        rgba(255, 255, 255, 0.05) 30%,
-        rgba(255, 255, 255, 0.02) 50%,
-        rgba(255, 255, 255, 0.05) 70%,
-        rgba(255, 255, 255, 0.12) 100%
-    );
-    box-shadow:
-        /* Outer Rim Light - Subtle Golden Glow */
-        0 0 20px rgba(217, 166, 11, 0.15),
-        0 0 40px rgba(217, 166, 11, 0.08),
-        0 0 60px rgba(217, 166, 11, 0.04),
-        /* Deep dark edge */
-        inset 0 0 30px rgba(0, 0, 0, 0.5),
-        inset 0 0 60px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Crystal Surface - Main Circle */
-.visura-crystal-surface {
-    position: absolute;
-    width: 88%;
-    height: 88%;
-    border-radius: 50%;
-    background: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.08) 0%,
-        rgba(200, 200, 220, 0.04) 40%,
-        rgba(100, 100, 130, 0.02) 60%,
-        rgba(60, 60, 80, 0.04) 100%
-    );
-    box-shadow:
-        inset 0 2px 10px rgba(255, 255, 255, 0.1),
-        inset 0 -5px 20px rgba(0, 0, 0, 0.2),
-        inset 0 0 40px rgba(217, 166, 11, 0.05);
     overflow: hidden;
 }
 
-/* Internal Light Refraction - Crystal Reflections */
-.visura-crystal-reflection {
+/* Main Circle Reflections - Crystal 3D Effect */
+.visura-main-reflection-1 {
     position: absolute;
-    top: 8%;
-    left: 15%;
+    top: 6%;
+    left: 10%;
     width: 35%;
-    height: 25%;
+    height: 22%;
     background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0.05) 50%,
-        transparent 100%
-    );
-    border-radius: 50%;
-    transform: rotate(-30deg);
-    filter: blur(8px);
-}
-
-.visura-crystal-reflection-2 {
-    position: absolute;
-    bottom: 15%;
-    right: 20%;
-    width: 20%;
-    height: 15%;
-    background: linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        transparent 100%
-    );
-    border-radius: 50%;
-    transform: rotate(15deg);
-    filter: blur(6px);
-}
-
-/* Subtle Inner Glow */
-.visura-crystal-inner-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
-    height: 60%;
-    background: radial-gradient(
-        ellipse at center,
-        rgba(217, 166, 11, 0.03) 0%,
+        140deg,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.08) 40%,
         transparent 70%
     );
     border-radius: 50%;
+    transform: rotate(-20deg);
+    filter: blur(6px);
 }
 
-/* Text Container - Centered inside circle */
-.visura-text-container {
-    position: relative;
-    z-index: 10;
+.visura-main-reflection-2 {
+    position: absolute;
+    bottom: 12%;
+    right: 18%;
+    width: 20%;
+    height: 14%;
+    background: linear-gradient(
+        50deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        transparent 60%
+    );
+    border-radius: 50%;
+    transform: rotate(15deg);
+    filter: blur(5px);
+}
+
+/* Text Container */
+.visura-text-wrapper {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 20px;
+    padding: 35px;
+    z-index: 10;
 }
 
-/* Main Brand Name */
-.visura-brand-name {
+/* Main Brand Text */
+.visura-text-main {
     font-family: 'SF Pro Display', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 42px;
-    font-weight: 300;
-    letter-spacing: 8px;
+    font-size: 48px;
+    font-weight: 200;
+    letter-spacing: 10px;
     color: rgba(255, 255, 255, 0.95);
     text-shadow:
-        0 0 30px rgba(217, 166, 11, 0.3),
-        0 2px 4px rgba(0, 0, 0, 0.5);
-    margin-bottom: 8px;
+        0 0 40px rgba(165, 216, 255, 0.3),
+        0 0 80px rgba(137, 207, 240, 0.15),
+        0 2px 4px rgba(0, 0, 0, 0.4);
+    margin-bottom: 12px;
 }
 
-/* Subtitle */
-.visura-brand-subtitle {
+/* Subtitle Text */
+.visura-text-sub {
     font-family: 'SF Pro Display', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 300;
-    letter-spacing: 3px;
-    color: rgba(217, 166, 11, 0.8);
+    letter-spacing: 4px;
+    color: rgba(165, 216, 255, 0.75);
     text-transform: uppercase;
-}
-
-/* Logo Entrance Particles */
-.visura-logo-particles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    overflow: visible;
-}
-
-.visura-logo-particles span {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: rgba(217, 166, 11, 0.6);
-    border-radius: 50%;
-    animation: visura-particle-float 3s ease-in-out infinite;
-}
-
-.visura-logo-particles span:nth-child(1) {
-    top: 10%;
-    left: 50%;
-    animation-delay: 0s;
-}
-
-.visura-logo-particles span:nth-child(2) {
-    top: 30%;
-    left: 15%;
-    animation-delay: 0.5s;
-}
-
-.visura-logo-particles span:nth-child(3) {
-    top: 70%;
-    left: 85%;
-    animation-delay: 1s;
-}
-
-.visura-logo-particles span:nth-child(4) {
-    top: 85%;
-    left: 40%;
-    animation-delay: 1.5s;
-}
-
-.visura-logo-particles span:nth-child(5) {
-    top: 50%;
-    left: 90%;
-    animation-delay: 2s;
-}
-
-@keyframes visura-particle-float {
-    0%, 100% {
-        opacity: 0;
-        transform: translateY(0) scale(0.5);
-    }
-    50% {
-        opacity: 1;
-        transform: translateY(-20px) scale(1);
-    }
+    text-shadow: 0 0 20px rgba(137, 207, 240, 0.3);
 }
 
 /* ============================================
