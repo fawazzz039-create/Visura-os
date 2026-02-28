@@ -155,13 +155,23 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
   // Determine selected index based on active modal
   const activeIndex = getIndexFromModal(activeModal);
 
-  // Ice crystal color constants - no gold
-  const CRYSTAL_WHITE = "rgba(255, 255, 255, 0.95)";
-  const ICE_BLUE = "#A5D8FF";
-  const ICE_GLOW = "rgba(165, 216, 255, 0.6)";
-  const INACTIVE_ICON = "rgba(255, 255, 255, 0.35)";
-  const GLASS_BG = "rgba(10, 20, 40, 0.65)";
-  const NAVY_DARK = "rgba(5, 15, 35, 0.85)";
+  // Apple Vision Pro style lighting constants
+const VISION_PRO = {
+  CRYSTAL_WHITE: "rgba(255, 255, 255, 0.98)",
+  SOFT_WHITE: "rgba(255, 255, 255, 0.85)",
+  ICE_BLUE: "#A5D8FF",
+  AMBIENT_CYAN: "#89CFF0",
+  FROST_GLASS: "rgba(255, 255, 255, 0.12)",
+  INACTIVE_ICON: "rgba(255, 255, 255, 0.3)",
+  INACTIVE_DIM: "rgba(255, 255, 255, 0.18)",
+  GLASS_BG: "rgba(10, 20, 40, 0.65)",
+  NAVY_DARK: "rgba(5, 15, 35, 0.85)",
+  AMBIENT_GLOW: "rgba(137, 207, 240, 0.25)",
+  AMBIENT_GLOW_STRONG: "rgba(165, 216, 255, 0.4)",
+  EDGE_HIGHLIGHT: "rgba(255, 255, 255, 0.18)",
+  REFLECTION: "rgba(255, 255, 255, 0.08)",
+  DEPTH_SHADOW: "rgba(0, 0, 0, 0.6)",
+};
 
   // 5 dock items - Ice Crystal Glassmorphism design
   const dockItems: DockItem[] = [
@@ -197,15 +207,18 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
   };
 
   return (
-    <div className="ice-crystal-dock">
-      <div className="ice-crystal-dock-inner">
-        {/* Light streak that slides across */}
+    <div className="vision-dock">
+      <div className="vision-dock-inner">
+        {/* Vision Pro: Ambient light streak */}
         <div 
-          className="ice-crystal-streak"
+          className="vision-ambient-streak"
           style={{
             transform: `translateX(calc(${streakPosition * 100}% + ${streakPosition * 16}px))`,
           }}
         />
+        
+        {/* Vision Pro: Glass surface reflection overlay */}
+        <div className="vision-glass-overlay" />
         
         {dockItems.map((item, index) => {
           const isActive = activeIndex === index || selectedIndex === index;
@@ -215,23 +228,31 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
           return (
             <button
               key={item.id}
-              className={`ice-crystal-item ${isActive ? "active" : ""} ${isCamera ? "camera" : ""} ${isPressed === index ? "pressed" : ""}`}
+              className={`vision-dock-item ${isActive ? "active" : ""} ${isCamera ? "camera" : ""} ${isPressed === index ? "pressed" : ""}`}
               onClick={() => handleClick(item, index)}
               onTouchStart={() => handleTouchStart(index)}
               onTouchEnd={handleTouchEnd}
               style={{
-                ["--glow-color" as string]: isActive ? ICE_GLOW : "transparent",
+                ["--ambient-glow" as string]: isActive ? VISION_PRO.AMBIENT_GLOW : "transparent",
+                ["--ambient-glow-strong" as string]: isActive ? VISION_PRO.AMBIENT_GLOW_STRONG : "transparent",
               }}
             >
-              {/* Ice blue glow when active */}
-              {isActive && <div className="ice-glow" />}
+              {/* Vision Pro: Ambient light layer */}
+              {isActive && <div className="vision-ambient-glow" />}
+              
+              {/* Vision Pro: Glass reflection layer */}
+              <div className="vision-glass-reflection" />
+              
+              {/* Vision Pro: Edge highlight */}
+              <div className="vision-edge-highlight" />
               
               <div 
-                className="ice-crystal-icon"
+                className="vision-icon"
                 style={{
-                  color: isActive ? CRYSTAL_WHITE : INACTIVE_ICON,
+                  color: isActive ? VISION_PRO.CRYSTAL_WHITE : (isPressed === index ? VISION_PRO.SOFT_WHITE : VISION_PRO.INACTIVE_ICON),
                   transform: isActive ? "scale(1)" : "scale(0.88)",
-                  opacity: isActive ? 1 : 0.5,
+                  opacity: isActive ? 1 : 0.55,
+                  textShadow: isActive ? "0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(137,207,240,0.3)" : "none",
                 }}
               >
                 {item.isCamera ? <CameraIcon size={iconSize} active={isActive} /> : 
@@ -241,9 +262,9 @@ export default function VisuraDock({ activeModal, onOpenModal, onHome, isMobile 
                    <ProfileIcon size={iconSize} active={isActive} />)}
               </div>
               
-              {/* Crystal indicator below active icon */}
+              {/* Vision Pro: Cinematic depth indicator */}
               {isActive && (
-                <div className="ice-crystal-dot" />
+                <div className="vision-depth-indicator" />
               )}
             </button>
           );
