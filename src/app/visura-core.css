@@ -1,361 +1,10 @@
-/* VISURA OS v4 - ULTRA PREMIUM CRYSTAL LOGO */
-/* ============================================================ */
+/* VISURA OS - Core Styles
+ * ============================================================ */
 
 /* ============================================
-ULTRA PREMIUM CRYSTAL LOGO v4 - CINEMATIC 3D
-============================================ */
+ ROYAL GRID - VERTICAL TIMELINE LAYOUT
+ ============================================ */
 
-/* Crystal Logo Container */
-.crystal-logo-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 0;
-    z-index: 100;
-}
-
-/* Crystal Glass Frame - Main circular frame with balanced brightness */
-.crystal-glass-frame {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 260px;
-    height: 260px;
-    background: radial-gradient(ellipse at center,
-        rgba(15, 30, 55, 0.85) 0%,
-        rgba(8, 20, 45, 0.8) 50%,
-        rgba(3, 10, 30, 0.75) 100%);
-    border-radius: 50%;
-    z-index: 0;
-}
-
-/* Crystal Rim Light v2 - Subtle edge lighting only */
-.crystal-rim-light-v2 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 264px;
-    height: 264px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 
-        0 0 12px rgba(255, 255, 255, 0.08),
-        0 0 24px rgba(200, 220, 255, 0.04),
-        inset 0 0 15px rgba(255, 255, 255, 0.03);
-    z-index: 1;
-    animation: crystal-rim-v2 8s ease-in-out infinite;
-}
-
-@keyframes crystal-rim-v2 {
-    0%, 100% {
-        border-color: rgba(255, 255, 255, 0.18);
-        box-shadow: 
-            0 0 10px rgba(255, 255, 255, 0.06),
-            0 0 20px rgba(200, 220, 255, 0.03),
-            inset 0 0 12px rgba(255, 255, 255, 0.02);
-    }
-    50% {
-        border-color: rgba(255, 255, 255, 0.25);
-        box-shadow: 
-            0 0 14px rgba(255, 255, 255, 0.1),
-            0 0 28px rgba(200, 220, 255, 0.05),
-            inset 0 0 18px rgba(255, 255, 255, 0.04);
-    }
-}
-
-/* Crystal Emblem SVG */
-.crystal-emblem {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    z-index: 2;
-}
-
-/* Crystal Brand Name v2 - Inside circle */
-.crystal-brand-name-v2 {
-    font-family: var(--font-outfit), 'Outfit', 'Segoe UI', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 300;
-    color: #FFFFFF;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    margin: -10px 0 8px 0;
-    text-shadow: 
-        0 0 6px rgba(255, 255, 255, 0.15),
-        1px 1px 20px rgba(0, 0, 0, 0.9);
-    z-index: 3;
-    position: relative;
-}
-
-/* Crystal Subtitle v2 - Inside circle, below main text */
-.crystal-subtitle-v2 {
-    font-family: var(--font-outfit), 'Outfit', 'Segoe UI', sans-serif;
-    font-size: 0.52rem;
-    font-weight: 300;
-    color: rgba(180, 195, 220, 0.7);
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    margin: 0;
-    text-shadow: 1px 1px 15px rgba(0, 0, 0, 0.85);
-    z-index: 3;
-    position: relative;
-}
-
-/* ============================================
-CRYSTAL GLASS FRAME v3 - SINGLE CIRCLE
-=========================================== */
-
-.crystal-glass-frame-v3 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 260px;
-    height: 260px;
-    background: radial-gradient(ellipse at center,
-        rgba(20, 45, 75, 0.65) 0%,
-        rgba(15, 35, 65, 0.7) 50%,
-        rgba(10, 30, 60, 0.75) 100%);
-    border-radius: 50%;
-    z-index: 0;
-    box-shadow: 
-        0 0 20px rgba(255, 255, 255, 0.08),
-        0 0 40px rgba(200, 220, 255, 0.05);
-}
-
-/* ============================================
-ULTRA PREMIUM CRYSTAL GLASS FRAME v4 - CINEMATIC 3D
-============================================ */
-
-.crystal-glass-frame-v4 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 260px;
-    height: 260px;
-    background: radial-gradient(ellipse at center,
-        rgba(40, 65, 100, 0.8) 0%,
-        rgba(25, 50, 85, 0.75) 40%,
-        rgba(15, 38, 68, 0.78) 70%,
-        rgba(12, 32, 62, 0.82) 100%);
-    border-radius: 50%;
-    z-index: 0;
-    box-shadow: 
-        0 0 30px rgba(255, 255, 255, 0.12),
-        0 0 60px rgba(200, 220, 255, 0.08),
-        0 0 90px rgba(150, 180, 255, 0.04),
-        inset 0 0 40px rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-/* Crystal Brand Name v4 - Ultra Premium Cinematic */
-.crystal-brand-name-v4 {
-    font-family: var(--font-outfit), 'Outfit', 'Segoe UI', sans-serif;
-    font-size: 1.85rem;
-    font-weight: 300;
-    color: #FFFFFF;
-    letter-spacing: 0.42em;
-    text-transform: uppercase;
-    margin: -8px 0 6px 0;
-    text-shadow: 
-        0 0 10px rgba(255, 255, 255, 0.25),
-        1px 1px 30px rgba(0, 0, 0, 0.92);
-    z-index: 3;
-    position: relative;
-}
-
-/* Crystal Subtitle v4 - Ultra Premium Cinematic */
-.crystal-subtitle-v4 {
-    font-family: var(--font-outfit), 'Outfit', 'Segoe UI', sans-serif;
-    font-size: 0.56rem;
-    font-weight: 300;
-    color: rgba(190, 205, 230, 0.85);
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    margin: 0;
-    text-shadow: 
-        0 0 6px rgba(255, 255, 255, 0.1),
-        1px 1px 20px rgba(0, 0, 0, 0.88);
-    z-index: 3;
-    position: relative;
-}
-
-/* Override old stealth styles */
-.visura-logo-container {
-    display: flex !important;
-}
-
-/* ============================================
-SECURITY PULSE - BIOMETRIC UNLOCK EFFECT
-=========================================== */
-
-@keyframes security-pulse {
-    0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0.5);
-    }
-    20% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(1.5);
-    }
-}
-
-/* ============================================
-SPECTRAL PULSE - BEHIND TRIANGLE (Z-INDEX 0)
-============================================ */
-
-@keyframes spectral-pulse {
-    0%, 100% {
-        opacity: 0.5;
-        transform: translate(-50%, -50%) scale(1);
-    }
-    50% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.1);
-    }
-}
-
-/* ============================================
-VISURA FINAL LOGO: THE STATIC PRISM & SPECTRAL SPIRIT
-==================================================== */
-
-/* 1. Logo container */
-.visura-logo-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 0;
-    z-index: 100;
-}
-
-/* 2. The Static Prism (Triangle) - Frozen like a mountain */
-.prism-shield {
-    position: relative;
-    width: 100px;
-    height: auto;
-    animation: none !important;
-    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
-    z-index: 2;
-}
-
-/* 3. Spectral Spirit (Pulsing background) */
-.spectral-spirit {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle,
-        rgba(0, 255, 255, 0.15) 0%,
-        rgba(255, 215, 0, 0.1) 40%,
-        transparent 70%);
-    border-radius: 50%;
-    filter: blur(25px);
-    animation: spirit-pulse 6s ease-in-out infinite;
-    z-index: 1;
-}
-
-/* 4. Brand Name */
-.visura-brand-name {
-    font-family: 'Cinzel', serif;
-    font-size: 2.5rem;
-    color: #FFFFFF;
-    letter-spacing: 10px;
-    text-transform: uppercase;
-    margin: 15px 0 0 0;
-    text-shadow: 2px 2px 20px rgba(0,0,0,0.8);
-    z-index: 3;
-}
-
-/* Royal Stealth: Hide white pyramid (explicit prism) */
-.prism-shield {
-    display: none !important;
-}
-
-/* Royal Stealth: Hide brand name */
-.visura-brand-name {
-    display: none !important;
-}
-
-/* Royal Stealth: Make logo container transparent */
-.visura-logo-container {
-    background: transparent !important;
-    box-shadow: none !important;
-}
-
-/* Hide spectral spirit for pure stealth */
-.spectral-spirit {
-    display: none !important;
-}
-
-/* Spectral Spirit pulse animation */
-@keyframes spirit-pulse {
-    0%, 100% {
-        opacity: 0.3;
-        transform: translate(-50%, -50%) scale(1);
-    }
-    50% {
-        opacity: 0.7;
-        transform: translate(-50%, -50%) scale(1.2);
-    }
-}
-
-/* ============================================
-BIOMETRIC STEALTH PULSE - SILENT TOUCH AUTH
-============================================ */
-
-.biometric-pulse {
-    animation: biometric-stealth-pulse 1s ease-out forwards;
-}
-
-@keyframes biometric-stealth-pulse {
-    0% {
-        box-shadow: inset 0 0 0 0 rgba(217, 166, 11, 0);
-    }
-    15% {
-        box-shadow: inset 0 0 60px 20px rgba(217, 166, 11, 0.4);
-    }
-    50% {
-        box-shadow: inset 0 0 80px 30px rgba(217, 166, 11, 0.2);
-    }
-    100% {
-        box-shadow: inset 0 0 0 0 rgba(217, 166, 11, 0);
-    }
-}
-
-/* Vault Content - Hidden by default */
-.vault-locked {
-    filter: blur(8px) brightness(0.5);
-    pointer-events: none;
-    user-select: none;
-}
-
-/* ============================================
-LOCK ICON - COMPLETELY HIDDEN
-Royal Stealth: Encryption is background logic only
-============================================ */
-
-.lock-icon {
-    display: none !important;
-}
-
-.vault-unlocked {
-    filter: none;
-    pointer-events: auto;
-    user-select: auto;
-}
-
-/* Royal Grid - Vertical Timeline Layout */
 .royal-grid-container {
     display: flex;
     flex-direction: column;
@@ -369,7 +18,7 @@ Royal Stealth: Encryption is background logic only
     border-radius: 20px;
     overflow: hidden;
     border: 1px solid rgba(217, 166, 11, 0.15);
-    box-shadow: 
+    box-shadow:
         0 4px 20px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(217, 166, 11, 0.05) inset;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -379,7 +28,7 @@ Royal Stealth: Encryption is background logic only
 .royal-grid-item:hover {
     transform: translateX(8px);
     border-color: rgba(217, 166, 11, 0.35);
-    box-shadow: 
+    box-shadow:
         0 12px 40px rgba(0, 0, 0, 0.5),
         0 0 30px rgba(217, 166, 11, 0.1),
         0 0 0 1px rgba(217, 166, 11, 0.1) inset;
@@ -426,12 +75,9 @@ Royal Stealth: Encryption is background logic only
     pointer-events: none;
 }
 
-/* VISURA OS v3.0 - ICE CRYSTAL GLASSMORPHISM DOCK */
-/* ============================================================ */
-
 /* ============================================
-ICE CRYSTAL DOCK - FUTURISTIC GLASSMORPHISM
-============================================ */
+ ICE CRYSTAL DOCK - FUTURISTIC GLASSMORPHISM
+ ============================================ */
 
 /* Vision Pro Dock Container */
 .vision-dock {
@@ -448,15 +94,15 @@ ICE CRYSTAL DOCK - FUTURISTIC GLASSMORPHISM
     justify-content: center;
     gap: 0;
     padding: 14px 20px;
-    background: linear-gradient(180deg, 
-        rgba(15, 30, 55, 0.72) 0%, 
+    background: linear-gradient(180deg,
+        rgba(15, 30, 55, 0.72) 0%,
         rgba(10, 22, 42, 0.78) 50%,
         rgba(8, 18, 38, 0.82) 100%);
     border-radius: 32px;
     border: 0.5px solid rgba(255, 255, 255, 0.12);
     border-top-color: rgba(255, 255, 255, 0.18);
     border-bottom-color: rgba(255, 255, 255, 0.06);
-    box-shadow: 
+    box-shadow:
         0 30px 80px rgba(0, 0, 0, 0.65),
         0 15px 40px rgba(0, 0, 0, 0.5),
         0 -1px 2px rgba(255, 255, 255, 0.05) inset,
@@ -472,8 +118,8 @@ ICE CRYSTAL DOCK - FUTURISTIC GLASSMORPHISM
 .vision-glass-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.06) 0%, 
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.06) 0%,
         transparent 30%,
         transparent 70%,
         rgba(255, 255, 255, 0.03) 100%);
@@ -489,8 +135,8 @@ ICE CRYSTAL DOCK - FUTURISTIC GLASSMORPHISM
     left: 3px;
     width: 56px;
     height: calc(100% - 6px);
-    background: linear-gradient(90deg, 
-        transparent 0%, 
+    background: linear-gradient(90deg,
+        transparent 0%,
         rgba(137, 207, 240, 0.12) 20%,
         rgba(255, 255, 255, 0.18) 50%,
         rgba(137, 207, 240, 0.12) 80%,
@@ -525,8 +171,8 @@ ICE CRYSTAL DOCK - FUTURISTIC GLASSMORPHISM
 .vision-glass-reflection {
     position: absolute;
     inset: 0;
-    background: linear-gradient(160deg, 
-        rgba(255, 255, 255, 0.1) 0%, 
+    background: linear-gradient(160deg,
+        rgba(255, 255, 255, 0.1) 0%,
         transparent 50%);
     border-radius: inherit;
     pointer-events: none;
@@ -582,7 +228,7 @@ ICE CRYSTAL DOCK - FUTURISTIC GLASSMORPHISM
 
 /* Active State - Vision Pro depth and glow */
 .vision-dock-item.active .vision-icon {
-    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4)) 
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4))
             drop-shadow(0 0 24px rgba(137, 207, 240, 0.25));
 }
 
@@ -622,7 +268,7 @@ ICE CRYSTAL DOCK - FUTURISTIC GLASSMORPHISM
     background: linear-gradient(180deg, #ffffff 0%, #89CFF0 100%);
     border-radius: 50%;
     margin-top: 4px;
-    box-shadow: 
+    box-shadow:
         0 0 10px rgba(255, 255, 255, 0.9),
         0 0 20px rgba(137, 207, 240, 0.5),
         0 0 30px rgba(137, 207, 240, 0.25);
@@ -639,152 +285,31 @@ ICE CRYSTAL DOCK - FUTURISTIC GLASSMORPHISM
     .vision-dock {
         bottom: 24px;
     }
-    
+
     .vision-dock-inner {
         padding: 10px 14px;
         border-radius: 26px;
     }
-    
+
     .vision-dock-item {
         width: 42px;
         height: 42px;
         margin: 0 6px;
     }
-    
+
     .vision-dock-item.camera {
         width: 50px;
         height: 50px;
     }
-    
+
     .vision-ambient-streak {
         width: 42px;
     }
 }
 
 /* ============================================
-OLD GOLDEN VELVET DOCK (DEPRECATED - kept for reference)
-=================================================== */
-/*
-.golden-velvet-dock {
-    position: fixed;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-}
-
-.golden-velvet-dock-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    padding: 16px 24px;
-    background: rgba(13, 13, 13, 0.95);
-    border-radius: 30px;
-    border: 0.5px solid rgba(217, 166, 11, 0.1);
-    box-shadow: 
-        0 20px 60px rgba(0,0,0,0.8),
-        0 -4px 20px rgba(0,0,0,0.5) inset,
-        0 0 40px rgba(217, 166, 11, 0.03);
-    position: relative;
-}
-
-.golden-velvet-item {
-    width: 56px;
-    height: 56px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    padding: 0;
-    position: relative;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    margin: 0 8px;
-}
-
-.golden-velvet-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: drop-shadow(0 0 0 var(--glow-color));
-}
-
-.golden-velvet-item.active .golden-velvet-icon {
-    filter: drop-shadow(0 0 10px rgba(217, 166, 11, 0.5));
-}
-
-.golden-velvet-item.camera {
-    width: 64px;
-    height: 64px;
-}
-
-.golden-velvet-item.camera .golden-velvet-icon {
-    transform: scale(1.1);
-}
-
-.golden-velvet-item.pressed {
-    transform: scale(0.92);
-}
-
-.golden-velvet-item.pressed .golden-velvet-icon {
-    animation: icon-pulse 0.3s ease-out;
-}
-
-@keyframes icon-pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1); }
-}
-
-.golden-velvet-dot {
-    width: 4px;
-    height: 4px;
-    background: #D9A60B;
-    border-radius: 50%;
-    margin-top: 4px;
-    box-shadow: 0 0 8px rgba(217, 166, 11, 0.8);
-    animation: dot-appear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes dot-appear {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-@media (max-width: 768px) {
-    .golden-velvet-dock {
-        bottom: 24px;
-    }
-    
-    .golden-velvet-dock-inner {
-        padding: 12px 16px;
-        border-radius: 24px;
-    }
-    
-    .golden-velvet-item {
-        width: 44px;
-        height: 44px;
-        margin: 0 6px;
-    }
-    
-    .golden-velvet-item.camera {
-        width: 52px;
-        height: 52px;
-    }
-}
-*/
-
-/* VISURA OS v2.2 - PROFESSIONAL CAMERA INTERFACE + DOCK */
-/* ============================================================ */
-
-/* ============================================
-DOCK GLASSMORPHISM - PROFESSIONAL NAVIGATION
-============================================ */
+ DOCK GLASSMORPHISM - PROFESSIONAL NAVIGATION
+ ============================================ */
 
 /* Dock Container - Premium Glass Effect */
 .visura-dock-root {
@@ -804,9 +329,9 @@ DOCK GLASSMORPHISM - PROFESSIONAL NAVIGATION
     border: 1px solid rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(40px) saturate(220%);
     -webkit-backdropFilter: blur(40px) saturate(220%);
-    box-shadow: 
-        0 20px 60px rgba(0,0,0,0.6), 
-        0 4px 0 rgba(255,255,255,0.06) inset, 
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.6),
+        0 4px 0 rgba(255,255,255,0.06) inset,
         0 -2px 0 rgba(0,0,0,0.4) inset;
     position: relative;
     justify-content: center;
@@ -944,38 +469,42 @@ DOCK GLASSMORPHISM - PROFESSIONAL NAVIGATION
     .visura-dock-root {
         bottom: 20px;
     }
-    
+
     .visura-dock-container {
         padding: 10px 12px;
         gap: 6px;
         border-radius: 22px;
     }
-    
+
     .visura-dock-item {
         width: 40px;
         height: 40px;
         border-radius: 12px;
     }
-    
+
     .visura-dock-item:hover {
         transform: translateY(-6px) scale(1.18);
     }
-    
+
     .visura-dock-item.camera-item {
         width: 48px;
         height: 48px;
     }
-    
+
     .visura-dock-item.camera-item:hover {
         transform: translateY(-8px) scale(1.22);
     }
-    
+
     .visura-dock-led {
         width: 6px;
         height: 6px;
         bottom: -6px;
     }
 }
+
+/* ============================================
+ MODAL STYLES
+ ============================================ */
 
 /* 1. Modal Root Container - Safe Area for Mobile */
 .modal-visual-root {
@@ -1039,7 +568,7 @@ DOCK GLASSMORPHISM - PROFESSIONAL NAVIGATION
     z-index: 100;
 }
 
-/* 4. Glass Counter Box - The Gold Counter (v2.2) */
+/* 4. Glass Counter Box - The Gold Counter */
 .counter-glass-box,
 .global-visura-counter {
     background: rgba(255, 255, 255, 0.07) !important;
@@ -1118,8 +647,8 @@ DOCK GLASSMORPHISM - PROFESSIONAL NAVIGATION
 }
 
 /* ============================================
-MOBILE FILTER PANEL FIXES v2.4
-=========================================== */
+ MOBILE FILTER PANEL FIXES
+ ============================================ */
 
 /* Filter Panel Container - Horizontal Scroll */
 .visura-filter-panel {
@@ -1180,8 +709,8 @@ MOBILE FILTER PANEL FIXES v2.4
 }
 
 /* ============================================
-MOBILE ADJUSTMENTS
-============================================ */
+ MOBILE ADJUSTMENTS
+ ============================================ */
 @media (max-width: 768px) {
     .global-visura-close {
         top: calc(env(safe-area-inset-top) + 10px) !important;
@@ -1189,20 +718,42 @@ MOBILE ADJUSTMENTS
         width: 40px !important;
         height: 40px !important;
     }
-    
+
     .global-visura-close span {
         font-size: 18px !important;
     }
-    
+
     .counter-glass-box,
     .global-visura-counter {
         bottom: calc(env(safe-area-inset-bottom, 15px) + 15px) !important;
         padding: 5px 18px !important;
         font-size: 12px !important;
     }
-    
+
     .camera-focus-ui {
         width: 100px;
         height: 100px;
     }
+}
+
+/* ============================================
+ VAULT & LOCK STYLES
+ ============================================ */
+
+/* Vault Content - Hidden by default */
+.vault-locked {
+    filter: blur(8px) brightness(0.5);
+    pointer-events: none;
+    user-select: none;
+}
+
+.vault-unlocked {
+    filter: none;
+    pointer-events: auto;
+    user-select: auto;
+}
+
+/* Lock Icon - Completely Hidden */
+.lock-icon {
+    display: none !important;
 }

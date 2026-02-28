@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
-import VisuraLogo from "./VisuraLogo";
 import VisuraDock from "./VisuraDock";
 import VisuraSidebar from "./VisuraSidebar";
 import CameraModal from "./CameraModal";
@@ -129,7 +128,6 @@ function VisuraAppContent() {
   const headerPadding = isMobile ? "20px 20px" : isTablet ? "25px 35px" : "30px 50px";
   
   const clockSize = isMobile ? 36 : isTablet ? 44 : 52;
-  const logoScale = isMobile ? 0.75 : isTablet ? 0.85 : 1;
 
   return (
     <div
@@ -207,7 +205,7 @@ function VisuraAppContent() {
       {/* Sidebar - Pass windowWidth for responsive width */}
       <VisuraSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} windowWidth={windowWidth} isMobile={isMobile} />
 
-      {/* Center Logo - Responsive */}
+      {/* Center Area - Clean canvas for logo placement */}
       <div
         style={{
           width: "100%",
@@ -220,9 +218,18 @@ function VisuraAppContent() {
           padding: isMobile ? "0 20px" : "0",
         }}
       >
-        <div style={{ transform: `scale(${logoScale})`, transformOrigin: "center" }}>
-          <VisuraLogo onClick={() => setSidebarOpen(true)} />
-        </div>
+        {/* Logo placeholder - clean canvas ready for fresh logo */}
+        <div 
+          onClick={() => setSidebarOpen(true)}
+          style={{
+            cursor: "pointer",
+            width: "200px",
+            height: "200px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        />
       </div>
 
       {/* Dock - Mobile optimized */}
