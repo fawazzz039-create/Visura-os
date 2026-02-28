@@ -48,7 +48,6 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
       
       if (success) {
         onClose();
-        // Reset form
         setEmail("");
         setPassword("");
         setName("");
@@ -77,89 +76,133 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
       }}
       onClick={onClose}
     >
+      {/* Main Modal Container - Flexbox */}
       <div
         style={{
           width: "100%",
           maxWidth: 420,
-          background: "rgba(20, 25, 35, 0.95)",
-          borderRadius: 24,
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          padding: 40,
-          paddingTop: 45,
+          background: "linear-gradient(145deg, rgba(25, 30, 45, 0.98), rgba(18, 22, 35, 0.98))",
+          borderRadius: 28,
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          boxShadow: "0 30px 70px rgba(0, 0, 0, 0.7), 0 0 1px rgba(255, 255, 255, 0.1) inset",
           position: "relative",
-          boxShadow: "0 25px 60px rgba(0,0,0,0.6)",
+          overflow: "hidden",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button - inside the modal frame, positioned within padding */}
-        <button
-          onClick={onClose}
+        {/* Header Section - Flexbox column */}
+        <div
           style={{
-            position: "absolute",
-            top: 12,
-            right: 12,
-            width: 40,
-            height: 40,
-            background: "rgba(255, 255, 255, 0.12)",
-            border: "1px solid rgba(255, 255, 255, 0.25)",
-            borderRadius: "50%",
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            zIndex: 10,
-            backdropFilter: "blur(16px) saturate(200%)",
-            boxShadow: "0 0 20px rgba(255, 255, 255, 0.2), inset 0 0 12px rgba(255, 255, 255, 0.1)",
-            transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+            padding: "36px 40px 24px",
+            position: "relative",
           }}
         >
-          <span style={{
-            color: "#ffffff",
-            fontSize: 22,
-            fontWeight: 300,
-            filter: "drop-shadow(0 0 10px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 18px rgba(165, 216, 255, 0.6))",
-            textShadow: "0 0 12px rgba(255, 255, 255, 0.8), 0 0 24px rgba(165, 216, 255, 0.5)",
-          }}>✕</span>
-        </button>
-
-        {/* Header with crystal glowing user icon */}
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <div
+          {/* X Button - Inside the modal, part of flex layout */}
+          <button
+            onClick={onClose}
+            aria-label="إغلاق"
             style={{
-              width: 70,
-              height: 70,
+              position: "absolute",
+              top: 16,
+              right: 16,
+              width: 36,
+              height: 36,
+              background: "rgba(255, 255, 255, 0.06)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
               borderRadius: "50%",
-              border: "none",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              margin: "0 auto 20px",
-              background: "rgba(255,255,255,0.03)",
-              animation: "crystalPulse 3s ease-in-out infinite",
-              boxShadow: "0 0 30px rgba(255, 255, 255, 0.15), 0 0 60px rgba(165, 216, 255, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.05)",
+              cursor: "pointer",
+              color: "rgba(255, 255, 255, 0.6)",
+              fontSize: 16,
+              fontWeight: 300,
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255, 255, 255, 0.12)";
+              e.currentTarget.style.color = "white";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255, 255, 255, 0.06)";
+              e.currentTarget.style.color = "rgba(255, 255, 255, 0.6)";
             }}
           >
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" strokeWidth="1.5" style={{ filter: "drop-shadow(0 0 8px rgba(255,255,255,0.5))" }}>
+            ✕
+          </button>
+
+          {/* User Icon - Crystal glow, no border/counter */}
+          <div
+            style={{
+              width: 64,
+              height: 64,
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 16,
+              background: "linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
+              boxShadow: "0 0 40px rgba(255, 255, 255, 0.08), 0 0 80px rgba(165, 216, 255, 0.04)",
+              animation: "crystalPulse 4s ease-in-out infinite",
+            }}
+          >
+            <svg 
+              viewBox="0 0 24 24" 
+              width="28" 
+              height="28" 
+              fill="none" 
+              stroke="white" 
+              strokeWidth="1.5"
+              style={{
+              filter: "drop-shadow(0 0 12px rgba(255,255,255,0.5))",
+              opacity: 0.9,
+            }}
+            >
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
           </div>
-          <h2 style={{ margin: 0, fontSize: 26, fontWeight: 300, color: "white", letterSpacing: "1px" }}>
+
+          {/* Title */}
+          <h2 style={{ 
+            margin: 0, 
+            fontSize: 24, 
+            fontWeight: 400, 
+            color: "white", 
+            letterSpacing: "0.5px",
+            textAlign: "center",
+          }}>
             {mode === "login" ? "تسجيل الدخول" : "إنشاء حساب"}
           </h2>
-          <p style={{ margin: "10px 0 0", fontSize: 13, color: "rgba(255,255,255,0.5)" }}>
+          <p style={{ 
+            margin: "8px 0 0", 
+            fontSize: 13, 
+            color: "rgba(255,255,255,0.45)",
+            textAlign: "center",
+          }}>
             {mode === "login" 
               ? "سجل دخولك للوصول إلى عالم الفن" 
               : "انضم إلى مجتمع الفنانين والمصورين"}
           </p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit}>
+        {/* Form Section - Flexbox with proper spacing */}
+        <form 
+          onSubmit={handleSubmit}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "0 40px 32px",
+            gap: 16,
+          }}
+        >
           {mode === "register" && (
             <>
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ display: "block", marginBottom: 8, fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <label style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>
                   الاسم الكامل
                 </label>
                 <input
@@ -171,19 +214,27 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
                     width: "100%",
                     padding: "14px 18px",
                     background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    borderRadius: 12,
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: 14,
                     color: "white",
                     fontSize: 15,
                     outline: "none",
                     boxSizing: "border-box",
-                    transition: "border-color 0.2s",
+                    transition: "all 0.2s",
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "rgba(255,255,255,0.25)";
+                    e.target.style.background = "rgba(255,255,255,0.06)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "rgba(255,255,255,0.1)";
+                    e.target.style.background = "rgba(255,255,255,0.04)";
                   }}
                 />
               </div>
 
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ display: "block", marginBottom: 8, fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <label style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>
                   رقم الجوال
                 </label>
                 <input
@@ -196,21 +247,29 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
                     width: "100%",
                     padding: "14px 18px",
                     background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    borderRadius: 12,
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: 14,
                     color: "white",
                     fontSize: 15,
                     outline: "none",
                     boxSizing: "border-box",
-                    transition: "border-color 0.2s",
+                    transition: "all 0.2s",
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "rgba(255,255,255,0.25)";
+                    e.target.style.background = "rgba(255,255,255,0.06)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "rgba(255,255,255,0.1)";
+                    e.target.style.background = "rgba(255,255,255,0.04)";
                   }}
                 />
               </div>
             </>
           )}
 
-          <div style={{ marginBottom: 20 }}>
-            <label style={{ display: "block", marginBottom: 8, fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>
               البريد الإلكتروني
             </label>
             <input
@@ -222,19 +281,27 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
                 width: "100%",
                 padding: "14px 18px",
                 background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                borderRadius: 12,
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 14,
                 color: "white",
                 fontSize: 15,
                 outline: "none",
                 boxSizing: "border-box",
-                transition: "border-color 0.2s",
+                transition: "all 0.2s",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "rgba(255,255,255,0.25)";
+                e.target.style.background = "rgba(255,255,255,0.06)";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "rgba(255,255,255,0.1)";
+                e.target.style.background = "rgba(255,255,255,0.04)";
               }}
             />
           </div>
 
-          <div style={{ marginBottom: 24 }}>
-            <label style={{ display: "block", marginBottom: 8, fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>
               كلمة المرور
             </label>
             <input
@@ -246,13 +313,21 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
                 width: "100%",
                 padding: "14px 18px",
                 background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                borderRadius: 12,
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 14,
                 color: "white",
                 fontSize: 15,
                 outline: "none",
                 boxSizing: "border-box",
-                transition: "border-color 0.2s",
+                transition: "all 0.2s",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "rgba(255,255,255,0.25)";
+                e.target.style.background = "rgba(255,255,255,0.06)";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "rgba(255,255,255,0.1)";
+                e.target.style.background = "rgba(255,255,255,0.04)";
               }}
             />
           </div>
@@ -261,10 +336,9 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
             <div
               style={{
                 padding: "12px 16px",
-                background: "rgba(255,80,80,0.1)",
-                border: "1px solid rgba(255,80,80,0.3)",
-                borderRadius: 10,
-                marginBottom: 20,
+                background: "rgba(255,80,80,0.08)",
+                border: "1px solid rgba(255,80,80,0.25)",
+                borderRadius: 12,
                 color: "#ff6b6b",
                 fontSize: 13,
                 textAlign: "center",
@@ -282,13 +356,24 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
               padding: "16px",
               background: "white",
               border: "none",
-              borderRadius: 12,
-              color: "black",
+              borderRadius: 14,
+              color: "#1a1a2e",
               fontSize: 15,
               fontWeight: 600,
               cursor: isLoading ? "not-allowed" : "pointer",
               opacity: isLoading ? 0.7 : 1,
               transition: "all 0.2s",
+              marginTop: 8,
+            }}
+            onMouseEnter={(e) => {
+              if (!isLoading) {
+                e.currentTarget.style.transform = "translateY(-1px)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(255,255,255,0.15)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "none";
+              e.currentTarget.style.boxShadow = "none";
             }}
           >
             {isLoading ? "جاري المعالجة..." : mode === "login" ? "دخول" : "إنشاء حساب"}
@@ -296,9 +381,15 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
         </form>
 
         {/* Toggle mode */}
-        <div style={{ marginTop: 28, textAlign: "center" }}>
-          <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 14 }}>
-            {mode === "login" ? "ليس لديك حساب؟ " : "لديك حساب بالفعل؟ "}
+        <div style={{ 
+          padding: "0 40px 28px", 
+          textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+          gap: 6,
+        }}>
+          <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 14 }}>
+            {mode === "login" ? "ليس لديك حساب؟" : "لديك حساب بالفعل؟"}
           </span>
           <button
             onClick={() => {
@@ -312,29 +403,32 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
               fontSize: 14,
               fontWeight: 600,
               cursor: "pointer",
-              textDecoration: "underline",
+              padding: 0,
+              transition: "opacity 0.2s",
             }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = "0.7"}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
           >
             {mode === "login" ? "سجل الآن" : "سجل دخول"}
           </button>
         </div>
 
         {/* Divider */}
-        <div style={{ marginTop: 28, display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.1)" }} />
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 12 }}>أو</span>
-          <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.1)" }} />
+        <div style={{ padding: "0 40px", display: "flex", alignItems: "center", gap: 16 }}>
+          <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
+          <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 12 }}>أو</span>
+          <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
         </div>
 
         {/* Social login */}
-        <div style={{ marginTop: 20, display: "flex", gap: 12 }}>
+        <div style={{ padding: "20px 40px 36px", display: "flex", gap: 12 }}>
           <button
             style={{
               flex: 1,
               padding: "14px",
               background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 14,
               color: "white",
               fontSize: 14,
               cursor: "pointer",
@@ -342,6 +436,15 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
               alignItems: "center",
               justifyContent: "center",
               gap: 8,
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
             }}
           >
             <svg viewBox="0 0 24 24" width="18" height="18">
@@ -357,8 +460,8 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
               flex: 1,
               padding: "14px",
               background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 14,
               color: "white",
               fontSize: 14,
               cursor: "pointer",
@@ -366,6 +469,15 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
               alignItems: "center",
               justifyContent: "center",
               gap: 8,
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
             }}
           >
             <svg viewBox="0 0 24 24" width="18" height="18" fill="white">
