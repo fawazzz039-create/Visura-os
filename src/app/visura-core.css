@@ -213,12 +213,14 @@
 /* Subtitle Text */
 .visura-text-sub {
     font-family: 'SF Pro Display', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 300;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
     color: rgba(165, 216, 255, 0.75);
     text-transform: uppercase;
     text-shadow: 0 0 20px rgba(137, 207, 240, 0.3);
+    white-space: nowrap;
+    line-height: 1.2;
 }
 
 /* ============================================
