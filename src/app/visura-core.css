@@ -192,16 +192,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 35px;
+    padding: 45px;
     z-index: 10;
 }
 
 /* Main Brand Text */
 .visura-text-main {
     font-family: 'SF Pro Display', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 48px;
+    font-size: 42px;
     font-weight: 200;
-    letter-spacing: 10px;
+    letter-spacing: 8px;
     color: rgba(255, 255, 255, 0.95);
     text-shadow:
         0 0 40px rgba(165, 216, 255, 0.3),
