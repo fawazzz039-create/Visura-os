@@ -204,8 +204,12 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
         setCameraError(null);
       } catch (err) {
         if (!cancelled) {
-          setCameraError("تعذر الوصول للكاميرا. يرجى السماح بالوصول.");
-          console.error(err);
+          // More descriptive error message for iframe/platform constraints
+          const errorMsg = (err as Error)?.name === "NotAllowedError" 
+            ? "المتصفح يمنع الوصول للكاميرا - يرجى فتح التطبيق في نافذة مستقلة"
+            : "تعذر الوصول للكاميرا - تحقق من صلاحيات المتصفح";
+          setCameraError(errorMsg);
+          console.error("Camera Error:", err);
         }
       }
     };
@@ -409,48 +413,119 @@ export default function CameraModal({ isOpen, onClose }: CameraModalProps) {
               justifyContent: "center",
               flexDirection: "column",
               gap: 16,
-              color: "rgba(255,255,255,0.5)",
+              color: "rgba(255,255,255,0.9)",
+              padding: 32,
+              textAlign: "center",
             }}
           >
-            <div style={{ fontSize: 56 }}>📷</div>
-            <div style={{ fontSize: 15 }}>{cameraError}</div>
+            <div style={{ fontSize: 64, marginBottom: 8 }}>🔒</div>
+            <div style={{ 
+              fontSize: 18, 
+              fontWeight: 600, 
+              color: "#fff",
+              marginBottom: 4,
+              textShadow: "0 2px 8px rgba(0,0,0,0.5)"
+            }}>
+              الكاميرا محمية
+            </div>
+            <div style={{ 
+              fontSize: 14, 
+              color: "rgba(255,255,255,0.7)",
+              maxWidth: 320,
+              lineHeight: 1.6
+            }}>
+              {cameraError.includes("allow") 
+                ? "المتصفح يمنع الوصول للكاميرا داخل الإطار المضمّن. افتح التطبيق في نافذة مستقلة."
+                : cameraError}
+            </div>
+            
+            {/* Open in New Tab Button */}
+            <a
+              href={typeof window !== 'undefined' ? window.location.href : '/'}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => {
+                // Open current URL in new tab
+                e.preventDefault();
+                const url = window.location.href.split('?')[0];
+                window.open(url, '_blank', 'noopener,noreferrer');
+              }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "14px 28px",
+                background: "linear-gradient(135deg, #D4AF37 0%, #B8962F 100%)",
+                border: "2px solid #E5C76B",
+                color: "#000",
+                borderRadius: 12,
+                cursor: "pointer",
+                fontSize: 15,
+                fontWeight: 700,
+                textDecoration: "none",
+                boxShadow: "0 4px 24px rgba(212, 175, 55, 0.5)",
+                transition: "all 0.25s ease",
+                marginTop: 8,
+                pointerEvents: "auto",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 8px 32px rgba(212, 175, 55, 0.7)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "0 4px 24px rgba(212, 175, 55, 0.5)";
+              }}
+            >
+              <span style={{ fontSize: 18 }}>🌐</span>
+              فتح في نافذة مستقلة
+            </a>
+            
+            {/* HTTPS Note */}
+            <div style={{
+              marginTop: 20,
+              padding: "12px 20px",
+              background: "rgba(255,255,255,0.08)",
+              borderRadius: 10,
+              border: "1px solid rgba(255,255,255,0.15)",
+            }}>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 4 }}>
+                ℹ️ متطلبات التشغيل:
+              </div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>
+                • يجب أن يكون الرابط يبدأ بـ <strong style={{color: '#D4AF37'}}>https://</strong><br/>
+                • الكاميرا تعمل بشكل أفضل في النافذة المستقلة
+              </div>
+            </div>
+            
             {showReconnectButton ? (
               <button
                 onClick={reinitializeCamera}
                 style={{
-                  padding: "14px 32px",
-                  background: "linear-gradient(135deg, #D4AF37 0%, #B8962F 100%)",
-                  border: "2px solid #E5C76B",
-                  color: "#000",
-                  borderRadius: 12,
-                  cursor: "pointer",
-                  fontSize: 15,
-                  fontWeight: 600,
-                  boxShadow: "0 4px 24px rgba(212, 175, 55, 0.4)",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.05)";
-                  e.currentTarget.style.boxShadow = "0 6px 32px rgba(212, 175, 55, 0.6)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.boxShadow = "0 4px 24px rgba(212, 175, 55, 0.4)";
-                }}
-              >
-                ✦ إعادة تنشيط الكاميرا ✦
-              </button>
-            ) : (
-              <button
-                onClick={() => setFacingMode((f) => f)}
-                style={{
-                  padding: "10px 24px",
+                  padding: "12px 24px",
                   background: "rgba(255,255,255,0.1)",
                   border: "1px solid rgba(255,255,255,0.3)",
                   color: "white",
                   borderRadius: 10,
                   cursor: "pointer",
                   fontSize: 14,
+                  marginTop: 16,
+                }}
+              >
+                ✦ إعادة المحاولة ✦
+              </button>
+            ) : (
+              <button
+                onClick={() => setFacingMode((f) => f)}
+                style={{
+                  padding: "10px 20px",
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  color: "rgba(255,255,255,0.6)",
+                  borderRadius: 8,
+                  cursor: "pointer",
+                  fontSize: 13,
+                  marginTop: 16,
                 }}
               >
                 إعادة المحاولة
