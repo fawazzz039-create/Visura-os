@@ -20,51 +20,49 @@ export default function VisuraLogo({ onClick }: VisuraLogoProps) {
         userSelect: "none",
       }}
     >
-      {/* Crystal Glass Frame - Main circular frame */}
-      <div className="crystal-glass-frame" />
+      {/* Single Crystal Glass Frame - Full visibility */}
+      <div className="crystal-glass-frame-v3" />
       
-      {/* Crystal Rim Light - Only on outer edge */}
-      <div className="crystal-rim-light-v2" />
-      
-      {/* 3D Crystal Emblem */}
+      {/* Single Crystal Circle with Rim Light */}
       <svg
         className="crystal-emblem"
         viewBox="0 0 200 200"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          {/* Crystal Glass Body - Visible but subtle */}
-          <radialGradient id="crystalGlass" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="rgba(200,220,255,0.08)" />
-            <stop offset="40%" stopColor="rgba(150,175,210,0.06)" />
-            <stop offset="70%" stopColor="rgba(100,130,180,0.04)" />
-            <stop offset="100%" stopColor="rgba(80,100,150,0.02)" />
+          {/* Crystal Glass Body - Full visibility, balanced brightness */}
+          <radialGradient id="crystalGlassV3" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(30, 50, 80, 0.5)" />
+            <stop offset="40%" stopColor="rgba(20, 40, 70, 0.6)" />
+            <stop offset="70%" stopColor="rgba(15, 35, 65, 0.7)" />
+            <stop offset="100%" stopColor="rgba(10, 30, 60, 0.75)" />
           </radialGradient>
           
-          {/* Rim Light - Edge only */}
-          <linearGradient id="rimLightV2" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.45)" />
-            <stop offset="40%" stopColor="rgba(200,225,255,0.3)" />
-            <stop offset="100%" stopColor="rgba(150,180,230,0.1)" />
+          {/* Rim Light - Outer edge only */}
+          <linearGradient id="rimLightV3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.5)" />
+            <stop offset="35%" stopColor="rgba(220,240,255,0.35)" />
+            <stop offset="65%" stopColor="rgba(180,210,255,0.2)" />
+            <stop offset="100%" stopColor="rgba(150,190,255,0.1)" />
           </linearGradient>
           
-          {/* Glass Reflection - Soft top */}
-          <linearGradient id="glassReflect" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.2)" />
-            <stop offset="50%" stopColor="rgba(255,255,255,0.05)" />
+          {/* Soft Reflection - Top surface */}
+          <linearGradient id="glassReflectV3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.25)" />
+            <stop offset="40%" stopColor="rgba(255,255,255,0.08)" />
             <stop offset="100%" stopColor="rgba(255,255,255,0)" />
           </linearGradient>
           
-          {/* Subtle Light Refraction */}
-          <linearGradient id="subtleRefraction" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.06)" />
-            <stop offset="50%" stopColor="rgba(200,220,255,0.03)" />
-            <stop offset="100%" stopColor="rgba(150,180,255,0)" />
+          {/* Subtle Refraction - Bottom right for depth */}
+          <linearGradient id="glassRefractionV3" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.1)" />
+            <stop offset="50%" stopColor="rgba(200,225,255,0.05)" />
+            <stop offset="100%" stopColor="rgba(180,210,255,0)" />
           </linearGradient>
           
           {/* Glass Edge Filter */}
-          <filter id="glassEdge" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="0.5" result="blur"/>
+          <filter id="glassEdgeV3" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="0.8" result="blur"/>
             <feMerge>
               <feMergeNode in="blur"/>
               <feMergeNode in="SourceGraphic"/>
@@ -77,49 +75,39 @@ export default function VisuraLogo({ onClick }: VisuraLogoProps) {
           cx="100"
           cy="100"
           r="78"
-          fill="url(#crystalGlass)"
-          stroke="url(#rimLightV2)"
-          strokeWidth="1"
-          filter="url(#glassEdge)"
+          fill="url(#crystalGlassV3)"
+          stroke="url(#rimLightV3)"
+          strokeWidth="1.5"
+          filter="url(#glassEdgeV3)"
         />
         
-        {/* Glass Reflection - Top half */}
+        {/* Soft Reflection - Top half for 3D depth */}
         <ellipse
           cx="100"
-          cy="65"
+          cy="60"
           rx="55"
-          ry="28"
-          fill="url(#glassReflect)"
-          opacity="0.5"
+          ry="30"
+          fill="url(#glassReflectV3)"
+          opacity="0.6"
         />
         
-        {/* Subtle Light Refraction - Bottom right */}
+        {/* Subtle Refraction - Bottom right for depth */}
         <ellipse
-          cx="130"
-          cy="130"
-          rx="35"
-          ry="25"
-          fill="url(#subtleRefraction)"
-          opacity="0.35"
-        />
-        
-        {/* Subtle inner edge highlight */}
-        <circle
-          cx="100"
-          cy="100"
-          r="77"
-          fill="none"
-          stroke="rgba(255,255,255,0.08)"
-          strokeWidth="0.3"
+          cx="135"
+          cy="135"
+          rx="30"
+          ry="20"
+          fill="url(#glassRefractionV3)"
+          opacity="0.4"
         />
       </svg>
       
       {/* Brand Name - Centered inside circle */}
       <div
-        className="crystal-brand-name-v2"
+        className="crystal-brand-name-v3"
         style={{
-          fontSize: hovered ? "1.85rem" : "1.8rem",
-          letterSpacing: hovered ? "0.42em" : "0.4em",
+          fontSize: hovered ? "1.9rem" : "1.85rem",
+          letterSpacing: hovered ? "0.44em" : "0.42em",
           transition: "all 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
         }}
       >
@@ -128,9 +116,9 @@ export default function VisuraLogo({ onClick }: VisuraLogoProps) {
       
       {/* Subtitle - Centered below main text, inside circle */}
       <div
-        className="crystal-subtitle-v2"
+        className="crystal-subtitle-v3"
         style={{
-          opacity: hovered ? 0.85 : 0.7,
+          opacity: hovered ? 0.9 : 0.8,
           transition: "all 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
         }}
       >
