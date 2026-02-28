@@ -36,6 +36,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] v4 Ultra Premium Crystal: Cinematic 3D effects, enhanced rim light, internal facets, animated entrance, premium shadows
 - [x] Premium Minimal Crystal Logo: Single crystal circle frame, rim light only on outer edge, VISURA + THE CREATIVE VAULT centered inside, thin elegant typography, animated entrance particles
 - [x] Ultimate Crystal Logo: Background circle with crystal glass + soft reflections, main circle with rim light only on outer edge, ice-blue glow animation on hover (0.4s ease-in-out), matches dock crystal style
+- [x] v7 Clean Flexbox AuthModal: Complete rebuild with Flexbox layout, X button inside modal frame (top:16, right:16), removed gray counter from user icon, crystal breathing glow animation, proper spacing between form fields
 
 ## Current Structure
 
