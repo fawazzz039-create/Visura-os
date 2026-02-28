@@ -30,6 +30,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Royal Stealth v2: Hide white pyramid + VISURA text for pure logo
 - [x] v3.2 Crystal Logo: 3D glass crystal emblem with neon ring, volumetric lighting
 - [x] v3.3 Crystal Refine: Elegant minimal luxury - reduced glow, subtle surface, thin rim light
+- [x] v3.4 Ultra Premium Crystal: Glass reflections, realistic rim light, transparent glossy crystal
 
 ## Current Structure
 
