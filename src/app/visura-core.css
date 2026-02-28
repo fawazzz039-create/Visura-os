@@ -237,14 +237,196 @@ Royal Stealth: Encryption is background logic only
     pointer-events: none;
 }
 
-/* VISURA OS v2.3 - GOLDEN VELVET DOCK */
+/* VISURA OS v3.0 - ICE CRYSTAL GLASSMORPHISM DOCK */
 /* ============================================================ */
 
 /* ============================================
-GOLDEN VELVET DOCK - THE GOLDEN VELVET SYSTEM
+ICE CRYSTAL DOCK - FUTURISTIC GLASSMORPHISM
 ============================================ */
 
-/* Golden Velvet Dock Container */
+/* Ice Crystal Dock Container */
+.ice-crystal-dock {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.ice-crystal-dock-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 14px 20px;
+    /* Frosted transparent glass background with navy gradient */
+    background: linear-gradient(135deg, 
+        rgba(10, 25, 50, 0.75) 0%, 
+        rgba(20, 35, 65, 0.65) 50%,
+        rgba(10, 25, 50, 0.75) 100%);
+    border-radius: 32px;
+    /* Thin white subtle glowing border */
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 25px 70px rgba(0, 0, 0, 0.7),
+        0 0 40px rgba(165, 216, 255, 0.05),
+        0 8px 32px rgba(0, 0, 0, 0.5) inset,
+        0 -2px 12px rgba(165, 216, 255, 0.03) inset;
+    /* Soft blur effect */
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Light streak that slides across the dock */
+.ice-crystal-streak {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 56px;
+    height: calc(100% - 8px);
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(165, 216, 255, 0.15) 30%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(165, 216, 255, 0.15) 70%,
+        transparent 100%);
+    border-radius: 14px;
+    pointer-events: none;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+/* Ice Crystal Dock Item */
+.ice-crystal-item {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 0 8px;
+    z-index: 2;
+}
+
+/* Ice Glow Effect - appears when active */
+.ice-glow {
+    position: absolute;
+    inset: -2px;
+    background: radial-gradient(ellipse at center,
+        rgba(165, 216, 255, 0.25) 0%,
+        rgba(165, 216, 255, 0.1) 40%,
+        transparent 70%);
+    border-radius: 16px;
+    pointer-events: none;
+    animation: ice-glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ice-glow-pulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* Ice Crystal Icon */
+.ice-crystal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 0 var(--glow-color));
+}
+
+/* Active State - soft inner white glow */
+.ice-crystal-item.active .ice-crystal-icon {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+}
+
+/* Camera Item - Slightly prominent but not gold */
+.ice-crystal-item.camera {
+    width: 60px;
+    height: 60px;
+}
+
+.ice-crystal-item.camera .ice-crystal-icon {
+    transform: scale(1.08);
+}
+
+/* Pressed State - Smooth scale effect */
+.ice-crystal-item.pressed {
+    transform: scale(0.92);
+}
+
+.ice-crystal-item.pressed .ice-crystal-icon {
+    animation: crystal-pulse 0.3s ease-out;
+}
+
+@keyframes crystal-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+/* Crystal Indicator Dot - Ice blue instead of gold */
+.ice-crystal-dot {
+    width: 3px;
+    height: 3px;
+    background: #A5D8FF;
+    border-radius: 50%;
+    margin-top: 4px;
+    box-shadow: 0 0 8px rgba(165, 216, 255, 0.8), 0 0 12px rgba(165, 216, 255, 0.4);
+    animation: crystal-dot-appear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes crystal-dot-appear {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Mobile Ice Crystal Dock */
+@media (max-width: 768px) {
+    .ice-crystal-dock {
+        bottom: 24px;
+    }
+    
+    .ice-crystal-dock-inner {
+        padding: 10px 14px;
+        border-radius: 26px;
+    }
+    
+    .ice-crystal-item {
+        width: 42px;
+        height: 42px;
+        margin: 0 6px;
+    }
+    
+    .ice-crystal-item.camera {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .ice-crystal-streak {
+        width: 42px;
+    }
+}
+
+/* ============================================
+OLD GOLDEN VELVET DOCK (DEPRECATED - kept for reference)
+=================================================== */
+/*
 .golden-velvet-dock {
     position: fixed;
     bottom: 40px;
@@ -269,7 +451,6 @@ GOLDEN VELVET DOCK - THE GOLDEN VELVET SYSTEM
     position: relative;
 }
 
-/* Golden Velvet Dock Item */
 .golden-velvet-item {
     width: 56px;
     height: 56px;
@@ -287,7 +468,6 @@ GOLDEN VELVET DOCK - THE GOLDEN VELVET SYSTEM
     margin: 0 8px;
 }
 
-/* Golden Velvet Icon */
 .golden-velvet-icon {
     display: flex;
     align-items: center;
@@ -296,12 +476,10 @@ GOLDEN VELVET DOCK - THE GOLDEN VELVET SYSTEM
     filter: drop-shadow(0 0 0 var(--glow-color));
 }
 
-/* Active State */
 .golden-velvet-item.active .golden-velvet-icon {
     filter: drop-shadow(0 0 10px rgba(217, 166, 11, 0.5));
 }
 
-/* Camera Item - Prominent */
 .golden-velvet-item.camera {
     width: 64px;
     height: 64px;
@@ -311,7 +489,6 @@ GOLDEN VELVET DOCK - THE GOLDEN VELVET SYSTEM
     transform: scale(1.1);
 }
 
-/* Pressed State - Pulse Effect */
 .golden-velvet-item.pressed {
     transform: scale(0.92);
 }
@@ -326,7 +503,6 @@ GOLDEN VELVET DOCK - THE GOLDEN VELVET SYSTEM
     100% { transform: scale(1); }
 }
 
-/* Gold Dot Indicator */
 .golden-velvet-dot {
     width: 4px;
     height: 4px;
@@ -342,7 +518,6 @@ GOLDEN VELVET DOCK - THE GOLDEN VELVET SYSTEM
     100% { transform: scale(1); opacity: 1; }
 }
 
-/* Mobile Golden Velvet Dock */
 @media (max-width: 768px) {
     .golden-velvet-dock {
         bottom: 24px;
@@ -364,6 +539,7 @@ GOLDEN VELVET DOCK - THE GOLDEN VELVET SYSTEM
         height: 52px;
     }
 }
+*/
 
 /* VISURA OS v2.2 - PROFESSIONAL CAMERA INTERFACE + DOCK */
 /* ============================================================ */
