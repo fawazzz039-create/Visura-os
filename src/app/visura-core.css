@@ -1,8 +1,8 @@
-/* VISURA OS v3.2 - 3D CRYSTAL LOGO & VAULT SECURITY */
+/* VISURA OS v3.4 - ULTRA-PREMIUM CRYSTAL LOGO */
 /* ============================================================ */
 
 /* ============================================
-CRYSTAL LOGO v3.2 - 3D CRYSTAL STYLE
+ULTRA-PREMIUM CRYSTAL LOGO v3.4
 =========================================== */
 
 /* Crystal Logo Container */
@@ -33,38 +33,41 @@ CRYSTAL LOGO v3.2 - 3D CRYSTAL STYLE
     z-index: 0;
 }
 
-/* Outer Neon Ring Light - Thin & Elegant */
-.crystal-outer-ring {
+/* Crystal Rim Light Ring - Elegant edge lighting */
+.crystal-rim-light {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 260px;
-    height: 260px;
+    width: 268px;
+    height: 268px;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: 
-        0 0 12px rgba(255, 255, 255, 0.2),
-        0 0 25px rgba(200, 220, 255, 0.12),
-        inset 0 0 15px rgba(255, 255, 255, 0.05);
+        0 0 15px rgba(255, 255, 255, 0.12),
+        0 0 30px rgba(200, 220, 255, 0.06),
+        inset 0 0 20px rgba(255, 255, 255, 0.04),
+        inset 0 0 40px rgba(180, 200, 230, 0.03);
     z-index: 1;
-    animation: crystal-ring-pulse 5s ease-in-out infinite;
+    animation: crystal-rim-pulse 6s ease-in-out infinite;
 }
 
-@keyframes crystal-ring-pulse {
+@keyframes crystal-rim-pulse {
     0%, 100% {
-        border-color: rgba(255, 255, 255, 0.28);
+        border-color: rgba(255, 255, 255, 0.2);
         box-shadow: 
-            0 0 10px rgba(255, 255, 255, 0.15),
-            0 0 20px rgba(200, 220, 255, 0.08),
-            inset 0 0 12px rgba(255, 255, 255, 0.04);
+            0 0 12px rgba(255, 255, 255, 0.1),
+            0 0 25px rgba(200, 220, 255, 0.05),
+            inset 0 0 18px rgba(255, 255, 255, 0.03),
+            inset 0 0 35px rgba(180, 200, 230, 0.02);
     }
     50% {
-        border-color: rgba(255, 255, 255, 0.45);
+        border-color: rgba(255, 255, 255, 0.32);
         box-shadow: 
-            0 0 16px rgba(255, 255, 255, 0.25),
-            0 0 30px rgba(200, 220, 255, 0.15),
-            inset 0 0 20px rgba(255, 255, 255, 0.06);
+            0 0 18px rgba(255, 255, 255, 0.15),
+            0 0 35px rgba(200, 220, 255, 0.08),
+            inset 0 0 25px rgba(255, 255, 255, 0.05),
+            inset 0 0 50px rgba(180, 200, 230, 0.04);
     }
 }
 
@@ -74,68 +77,61 @@ CRYSTAL LOGO v3.2 - 3D CRYSTAL STYLE
     width: 200px;
     height: 200px;
     z-index: 2;
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.15));
 }
 
-/* Volumetric Light Animation - Subtle */
-.volumetric-light {
-    animation: volumetric-shift 10s ease-in-out infinite;
-}
-
-@keyframes volumetric-shift {
-    0%, 100% {
-        opacity: 0.3;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.5;
-        transform: scale(1.02);
-    }
-}
-
-/* Neon Outer Ring - Minimal */
-.neon-ring {
+/* Ambient Glow Ring - Very subtle */
+.ambient-glow-ring {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 240px;
-    height: 240px;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
-    border: 0.5px solid rgba(255, 255, 255, 0.12);
+    border: 0.3px solid rgba(255, 255, 255, 0.06);
     box-shadow: 
-        0 0 5px rgba(255, 255, 255, 0.08),
-        inset 0 0 10px rgba(150, 180, 255, 0.04);
+        0 0 8px rgba(255, 255, 255, 0.04),
+        inset 0 0 15px rgba(180, 200, 230, 0.02);
     z-index: 0;
     pointer-events: none;
+    animation: ambient-glow 8s ease-in-out infinite;
 }
 
-/* Crystal Brand Name - Elegant */
+@keyframes ambient-glow {
+    0%, 100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Crystal Brand Name - Ultra Premium */
 .crystal-brand-name {
     font-family: var(--font-outfit), 'Outfit', 'Segoe UI', sans-serif;
-    font-size: 2.25rem;
+    font-size: 2.3rem;
     font-weight: 300;
     color: #FFFFFF;
-    letter-spacing: 0.42em;
+    letter-spacing: 0.48em;
     text-transform: uppercase;
-    margin: 25px 0 8px 0;
+    margin: 28px 0 10px 0;
     text-shadow: 
-        0 0 10px rgba(255, 255, 255, 0.25),
-        2px 2px 20px rgba(0, 0, 0, 0.9);
+        0 0 8px rgba(255, 255, 255, 0.2),
+        2px 2px 25px rgba(0, 0, 0, 0.95);
     z-index: 3;
     position: relative;
 }
 
-/* Crystal Subtitle - Elegant */
+/* Crystal Subtitle - Ultra Premium */
 .crystal-subtitle {
     font-family: var(--font-outfit), 'Outfit', 'Segoe UI', sans-serif;
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 300;
-    color: rgba(200, 220, 255, 0.7);
-    letter-spacing: 0.32em;
+    color: rgba(180, 200, 235, 0.65);
+    letter-spacing: 0.35em;
     text-transform: uppercase;
     margin: 0;
-    text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 12px rgba(0, 0, 0, 0.85);
     z-index: 3;
     position: relative;
 }
