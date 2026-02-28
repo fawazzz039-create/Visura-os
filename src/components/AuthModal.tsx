@@ -85,7 +85,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
           borderRadius: 24,
           border: "1px solid rgba(255, 255, 255, 0.1)",
           padding: 40,
-          paddingTop: 48,
+          paddingTop: 50,
           position: "relative",
           boxShadow: "0 25px 60px rgba(0,0,0,0.6)",
         }}
@@ -97,8 +97,8 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
           onClick={onClose}
           style={{
             position: "absolute",
-            top: 16,
-            right: 16,
+            top: 10,
+            right: 10,
             zIndex: 10,
           }}
         >
