@@ -1,9 +1,9 @@
-/* VISURA OS v3.4 - ULTRA-PREMIUM CRYSTAL LOGO */
+/* VISURA OS v3.5 - REFINED CRYSTAL LOGO */
 /* ============================================================ */
 
 /* ============================================
-ULTRA-PREMIUM CRYSTAL LOGO v3.4
-=========================================== */
+REFINED CRYSTAL LOGO v3.5 - MINIMAL CRYSTAL GLASS
+============================================ */
 
 /* Crystal Logo Container */
 .crystal-logo-container {
@@ -16,58 +16,54 @@ ULTRA-PREMIUM CRYSTAL LOGO v3.4
     z-index: 100;
 }
 
-/* Dark Navy Blue Gradient Background */
-.crystal-bg-gradient {
+/* Crystal Glass Frame - Main circular frame with balanced brightness */
+.crystal-glass-frame {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 280px;
-    height: 280px;
+    width: 260px;
+    height: 260px;
     background: radial-gradient(ellipse at center,
-        rgba(10, 25, 60, 0.95) 0%,
-        rgba(5, 15, 40, 0.9) 40%,
-        rgba(0, 5, 20, 0.85) 70%,
-        rgba(0, 0, 10, 0.8) 100%);
+        rgba(15, 30, 55, 0.85) 0%,
+        rgba(8, 20, 45, 0.8) 50%,
+        rgba(3, 10, 30, 0.75) 100%);
     border-radius: 50%;
     z-index: 0;
 }
 
-/* Crystal Rim Light Ring - Elegant edge lighting */
-.crystal-rim-light {
+/* Crystal Rim Light v2 - Subtle edge lighting only */
+.crystal-rim-light-v2 {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 268px;
-    height: 268px;
+    width: 264px;
+    height: 264px;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 
-        0 0 15px rgba(255, 255, 255, 0.12),
-        0 0 30px rgba(200, 220, 255, 0.06),
-        inset 0 0 20px rgba(255, 255, 255, 0.04),
-        inset 0 0 40px rgba(180, 200, 230, 0.03);
+        0 0 12px rgba(255, 255, 255, 0.08),
+        0 0 24px rgba(200, 220, 255, 0.04),
+        inset 0 0 15px rgba(255, 255, 255, 0.03);
     z-index: 1;
-    animation: crystal-rim-pulse 6s ease-in-out infinite;
+    animation: crystal-rim-v2 8s ease-in-out infinite;
 }
 
-@keyframes crystal-rim-pulse {
+@keyframes crystal-rim-v2 {
     0%, 100% {
-        border-color: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.18);
         box-shadow: 
-            0 0 12px rgba(255, 255, 255, 0.1),
-            0 0 25px rgba(200, 220, 255, 0.05),
-            inset 0 0 18px rgba(255, 255, 255, 0.03),
-            inset 0 0 35px rgba(180, 200, 230, 0.02);
+            0 0 10px rgba(255, 255, 255, 0.06),
+            0 0 20px rgba(200, 220, 255, 0.03),
+            inset 0 0 12px rgba(255, 255, 255, 0.02);
     }
     50% {
-        border-color: rgba(255, 255, 255, 0.32);
+        border-color: rgba(255, 255, 255, 0.25);
         box-shadow: 
-            0 0 18px rgba(255, 255, 255, 0.15),
-            0 0 35px rgba(200, 220, 255, 0.08),
-            inset 0 0 25px rgba(255, 255, 255, 0.05),
-            inset 0 0 50px rgba(180, 200, 230, 0.04);
+            0 0 14px rgba(255, 255, 255, 0.1),
+            0 0 28px rgba(200, 220, 255, 0.05),
+            inset 0 0 18px rgba(255, 255, 255, 0.04);
     }
 }
 
@@ -79,59 +75,32 @@ ULTRA-PREMIUM CRYSTAL LOGO v3.4
     z-index: 2;
 }
 
-/* Ambient Glow Ring - Very subtle */
-.ambient-glow-ring {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    border: 0.3px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 
-        0 0 8px rgba(255, 255, 255, 0.04),
-        inset 0 0 15px rgba(180, 200, 230, 0.02);
-    z-index: 0;
-    pointer-events: none;
-    animation: ambient-glow 8s ease-in-out infinite;
-}
-
-@keyframes ambient-glow {
-    0%, 100% {
-        opacity: 0.4;
-    }
-    50% {
-        opacity: 0.7;
-    }
-}
-
-/* Crystal Brand Name - Ultra Premium */
-.crystal-brand-name {
+/* Crystal Brand Name v2 - Inside circle */
+.crystal-brand-name-v2 {
     font-family: var(--font-outfit), 'Outfit', 'Segoe UI', sans-serif;
-    font-size: 2.3rem;
+    font-size: 1.8rem;
     font-weight: 300;
     color: #FFFFFF;
-    letter-spacing: 0.48em;
+    letter-spacing: 0.4em;
     text-transform: uppercase;
-    margin: 28px 0 10px 0;
+    margin: -10px 0 8px 0;
     text-shadow: 
-        0 0 8px rgba(255, 255, 255, 0.2),
-        2px 2px 25px rgba(0, 0, 0, 0.95);
+        0 0 6px rgba(255, 255, 255, 0.15),
+        1px 1px 20px rgba(0, 0, 0, 0.9);
     z-index: 3;
     position: relative;
 }
 
-/* Crystal Subtitle - Ultra Premium */
-.crystal-subtitle {
+/* Crystal Subtitle v2 - Inside circle, below main text */
+.crystal-subtitle-v2 {
     font-family: var(--font-outfit), 'Outfit', 'Segoe UI', sans-serif;
-    font-size: 0.62rem;
+    font-size: 0.52rem;
     font-weight: 300;
-    color: rgba(180, 200, 235, 0.65);
-    letter-spacing: 0.35em;
+    color: rgba(180, 195, 220, 0.7);
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     margin: 0;
-    text-shadow: 1px 1px 12px rgba(0, 0, 0, 0.85);
+    text-shadow: 1px 1px 15px rgba(0, 0, 0, 0.85);
     z-index: 3;
     position: relative;
 }
