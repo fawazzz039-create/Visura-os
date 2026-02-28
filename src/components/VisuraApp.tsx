@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import VisuraDock from "./VisuraDock";
 import VisuraSidebar from "./VisuraSidebar";
+import VisuraLogo from "./VisuraLogo";
 import CameraModal from "./CameraModal";
 import PhotoGalleryModal from "./PhotoGalleryModal";
 import ArtGalleryModal from "./ArtGalleryModal";
@@ -205,7 +206,7 @@ function VisuraAppContent() {
       {/* Sidebar - Pass windowWidth for responsive width */}
       <VisuraSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} windowWidth={windowWidth} isMobile={isMobile} />
 
-      {/* Center Area - Clean canvas for logo placement */}
+      {/* Center Area - Premium Logo */}
       <div
         style={{
           width: "100%",
@@ -218,18 +219,7 @@ function VisuraAppContent() {
           padding: isMobile ? "0 20px" : "0",
         }}
       >
-        {/* Logo placeholder - clean canvas ready for fresh logo */}
-        <div 
-          onClick={() => setSidebarOpen(true)}
-          style={{
-            cursor: "pointer",
-            width: "200px",
-            height: "200px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        />
+        <VisuraLogo onClick={() => setSidebarOpen(true)} />
       </div>
 
       {/* Dock - Mobile optimized */}
