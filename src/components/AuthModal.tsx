@@ -91,53 +91,55 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }: Au
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button - inline styles to force position inside modal frame */}
+        {/* Close button - inside the modal frame, positioned within padding */}
         <button
           onClick={onClose}
           style={{
             position: "absolute",
-            top: 20,
-            right: 20,
-            width: 44,
-            height: 44,
-            background: "rgba(255, 255, 255, 0.08)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
+            top: 12,
+            right: 12,
+            width: 40,
+            height: 40,
+            background: "rgba(255, 255, 255, 0.12)",
+            border: "1px solid rgba(255, 255, 255, 0.25)",
             borderRadius: "50%",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
             zIndex: 10,
-            backdropFilter: "blur(12px) saturate(180%)",
-            boxShadow: "0 0 16px rgba(255, 255, 255, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.08)",
-            transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+            backdropFilter: "blur(16px) saturate(200%)",
+            boxShadow: "0 0 20px rgba(255, 255, 255, 0.2), inset 0 0 12px rgba(255, 255, 255, 0.1)",
+            transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
           <span style={{
             color: "#ffffff",
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: 300,
-            filter: "drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 14px rgba(165, 216, 255, 0.5))",
-            textShadow: "0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(165, 216, 255, 0.4)",
+            filter: "drop-shadow(0 0 10px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 18px rgba(165, 216, 255, 0.6))",
+            textShadow: "0 0 12px rgba(255, 255, 255, 0.8), 0 0 24px rgba(165, 216, 255, 0.5)",
           }}>✕</span>
         </button>
 
-        {/* Header */}
+        {/* Header with crystal glowing user icon */}
         <div style={{ textAlign: "center", marginBottom: 32 }}>
           <div
             style={{
               width: 70,
               height: 70,
               borderRadius: "50%",
-              border: "2px solid rgba(255,255,255,0.2)",
+              border: "none",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               margin: "0 auto 20px",
               background: "rgba(255,255,255,0.03)",
+              animation: "crystalPulse 3s ease-in-out infinite",
+              boxShadow: "0 0 30px rgba(255, 255, 255, 0.15), 0 0 60px rgba(165, 216, 255, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.05)",
             }}
           >
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" strokeWidth="1.5">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" strokeWidth="1.5" style={{ filter: "drop-shadow(0 0 8px rgba(255,255,255,0.5))" }}>
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
