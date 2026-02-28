@@ -1,8 +1,8 @@
-/* VISURA OS v3.5 - REFINED CRYSTAL LOGO */
+/* VISURA OS v4 - ULTRA PREMIUM CRYSTAL LOGO */
 /* ============================================================ */
 
 /* ============================================
-REFINED CRYSTAL LOGO v3.5 - MINIMAL CRYSTAL GLASS
+ULTRA PREMIUM CRYSTAL LOGO v4 - CINEMATIC 3D
 ============================================ */
 
 /* Crystal Logo Container */
@@ -127,16 +127,34 @@ CRYSTAL GLASS FRAME v3 - SINGLE CIRCLE
         0 0 40px rgba(200, 220, 255, 0.05);
 }
 
-/* Crystal Emblem SVG v3 */
-.crystal-emblem {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    z-index: 2;
+/* ============================================
+ULTRA PREMIUM CRYSTAL GLASS FRAME v4 - CINEMATIC 3D
+============================================ */
+
+.crystal-glass-frame-v4 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(ellipse at center,
+        rgba(40, 65, 100, 0.8) 0%,
+        rgba(25, 50, 85, 0.75) 40%,
+        rgba(15, 38, 68, 0.78) 70%,
+        rgba(12, 32, 62, 0.82) 100%);
+    border-radius: 50%;
+    z-index: 0;
+    box-shadow: 
+        0 0 30px rgba(255, 255, 255, 0.12),
+        0 0 60px rgba(200, 220, 255, 0.08),
+        0 0 90px rgba(150, 180, 255, 0.04),
+        inset 0 0 40px rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Crystal Brand Name v3 - Centered inside circle */
-.crystal-brand-name-v3 {
+/* Crystal Brand Name v4 - Ultra Premium Cinematic */
+.crystal-brand-name-v4 {
     font-family: var(--font-outfit), 'Outfit', 'Segoe UI', sans-serif;
     font-size: 1.85rem;
     font-weight: 300;
@@ -145,22 +163,24 @@ CRYSTAL GLASS FRAME v3 - SINGLE CIRCLE
     text-transform: uppercase;
     margin: -8px 0 6px 0;
     text-shadow: 
-        0 0 8px rgba(255, 255, 255, 0.2),
-        1px 1px 25px rgba(0, 0, 0, 0.9);
+        0 0 10px rgba(255, 255, 255, 0.25),
+        1px 1px 30px rgba(0, 0, 0, 0.92);
     z-index: 3;
     position: relative;
 }
 
-/* Crystal Subtitle v3 - Centered below main text, inside circle */
-.crystal-subtitle-v3 {
+/* Crystal Subtitle v4 - Ultra Premium Cinematic */
+.crystal-subtitle-v4 {
     font-family: var(--font-outfit), 'Outfit', 'Segoe UI', sans-serif;
-    font-size: 0.54rem;
+    font-size: 0.56rem;
     font-weight: 300;
-    color: rgba(200, 215, 240, 0.8);
-    letter-spacing: 0.26em;
+    color: rgba(190, 205, 230, 0.85);
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     margin: 0;
-    text-shadow: 1px 1px 15px rgba(0, 0, 0, 0.85);
+    text-shadow: 
+        0 0 6px rgba(255, 255, 255, 0.1),
+        1px 1px 20px rgba(0, 0, 0, 0.88);
     z-index: 3;
     position: relative;
 }
