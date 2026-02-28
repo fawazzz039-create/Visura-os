@@ -28,6 +28,8 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] v2.6 Golden Velvet Dock: 5 icons, geometric spacing, pulse on touch
 - [x] Royal Stealth: Hide AES-256 lock icons completely from gallery cards, photos appear clean
 - [x] Royal Stealth v2: Hide white pyramid + VISURA text for pure logo
+- [x] v3.2 Crystal Logo: 3D glass crystal emblem with neon ring, volumetric lighting
+- [x] v3.3 Crystal Refine: Elegant minimal luxury - reduced glow, subtle surface, thin rim light
 
 ## Current Structure
 
