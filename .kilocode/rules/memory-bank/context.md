@@ -33,6 +33,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] v3.4 Ultra Premium Crystal: Glass reflections, realistic rim light, transparent glossy crystal
 - [x] v3.5 Refined Crystal Logo: Minimal crystal glass, centered text inside circle, rim light only on outer edge
 - [x] v3.6 Single Crystal Circle: Removed all inner/secondary circles, full visibility circle, rim light only on outer edge, centered text inside circle
+- [x] v4 Ultra Premium Crystal: Cinematic 3D effects, enhanced rim light, internal facets, animated entrance, premium shadows
 
 ## Current Structure
 
